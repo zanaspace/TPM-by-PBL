@@ -6,6 +6,8 @@
    - Each week opens on its start date and needs that week's code.
    - The facilitator code unlocks every week on this device, at any time.
    - Unlocks, the learner's name and quiz answers are saved in localStorage.
+   - Every finished quiz try is also sent to the PBA Quiz Results Google Form
+     (see RESULTS_FORM below), which fills the PBA Google Sheet.
 
    Note: this runs in the browser, so it keeps casual visitors out — it is not
    real security. Anyone technical can read or bypass it.
@@ -30,7 +32,7 @@
     { n: 12, start: '2027-02-01', title: 'Career Readiness and Demo Day', path: '12-career-readiness-and-demo-day', code: '6ed6bbd4' }
   ];
   const MASTER = '3e57a658';
-  const KEYS = { access: 'tpm_access', learner: 'tpm_learner', quiz: n => 'tpm_quiz_w' + n };
+  const KEYS = { access: 'tpm_access', learner: 'tpm_learner', quiz: n => 'tpm_quiz_w' + n, outbox: 'tpm_outbox', sent: 'tpm_sent' };
 
   /* ---------- storage (can throw in private windows) ---------- */
   const store = {
@@ -81,26 +83,125 @@
   const learner = () => store.get(KEYS.learner, '') || '';
   const setLearner = name => store.set(KEYS.learner, String(name || '').trim().slice(0, 40));
 
-  /* ---------- quiz results ---------- */
-  // Saved as { answers: { questionIndex: optionIndex }, right: { questionIndex: true|false }, total, updatedAt }
-  const quizData = n => store.get(KEYS.quiz(n), { answers: {}, right: {}, total: 0 });
+  /* ---------- quiz results ----------
+     Each quiz allows MAX_ATTEMPTS tries (the first try + 1 retry). The best try is kept.
+     A quiz is passed when the best try reaches PASS_MARK %.
+     Saved as { answers: {q: option}, right: {q: bool}, total, attempts, best: {correct, total}, updatedAt } */
+  const PASS_MARK = 90;
+  const MAX_ATTEMPTS = 2;
+  const pctOf = (correct, total) => total ? Math.round(correct / total * 100) : 0;
+  const passes = (correct, total) => total > 0 && correct / total * 100 >= PASS_MARK;
+
+  function quizData(n) {
+    const d = store.get(KEYS.quiz(n), { answers: {}, right: {}, total: 0, attempts: 0, best: null });
+    d.answers = d.answers || {}; d.right = d.right || {}; d.attempts = d.attempts || 0;
+    // Answers saved before attempts were counted: treat a finished set as attempt 1
+    if (!d.attempts && d.total && Object.keys(d.answers).length >= d.total) {
+      d.attempts = 1;
+      d.best = { correct: Object.values(d.right).filter(Boolean).length, total: d.total };
+    }
+    return d;
+  }
+
+  // Progress on the current try, plus the best finished try
   function quizScore(n) {
     const d = quizData(n);
     const answered = Object.keys(d.answers).length;
     const correct = Object.values(d.right).filter(Boolean).length;
-    return { answered, correct, total: d.total, pct: answered ? Math.round(correct / answered * 100) : null };
-  }
-  function overallScore() {
-    let answered = 0, correct = 0, quizzes = 0;
-    WEEKS.forEach(w => { const s = quizScore(w.n); if (s.answered) { quizzes++; answered += s.answered; correct += s.correct; } });
-    return { answered, correct, quizzes, pct: answered ? Math.round(correct / answered * 100) : null };
+    const best = d.best ? { correct: d.best.correct, total: d.best.total, pct: pctOf(d.best.correct, d.best.total) } : null;
+    const passed = !!best && passes(best.correct, best.total);
+    return {
+      answered, correct, total: d.total, pct: answered ? pctOf(correct, answered) : null,
+      attempts: d.attempts, best, passed,
+      finished: passed || d.attempts >= MAX_ATTEMPTS,
+      canRetry: d.attempts >= 1 && d.attempts < MAX_ATTEMPTS && !passed
+    };
   }
 
-  function resetDevice() {
+  // Across all quizzes: best tries only
+  function overallScore() {
+    let correct = 0, total = 0, quizzes = 0, passed = 0, answered = 0;
+    WEEKS.forEach(w => {
+      const s = quizScore(w.n);
+      answered += s.answered;
+      if (s.best) { quizzes++; correct += s.best.correct; total += s.best.total; if (s.passed) passed++; }
+    });
+    return { correct, total, quizzes, passed, answered, pct: total ? pctOf(correct, total) : null };
+  }
+
+  /* ---------- facilitator-only resets ----------
+     Both need the facilitator code every time — being in facilitator mode isn't enough,
+     because a learner's device may have been unlocked with that code earlier. */
+  const isFacilitatorCode = code => fingerprint('master', code) === MASTER;
+
+  // Unsent results (the outbox) are kept on purpose, so PBA still receives them
+  function resetDevice(code) {
+    if (!isFacilitatorCode(code)) return false;
     store.remove(KEYS.access);
     store.remove(KEYS.learner);
+    store.remove(KEYS.sent);
     WEEKS.forEach(w => store.remove(KEYS.quiz(w.n)));
+    return true;
   }
+
+  // Clears one week's quiz so the learner gets fresh tries
+  function resetQuiz(code, n) {
+    if (!isFacilitatorCode(code) || !weekInfo(n)) return false;
+    store.remove(KEYS.quiz(n));
+    const sent = store.get(KEYS.sent, {});
+    delete sent[n];
+    store.set(KEYS.sent, sent);
+    return true;
+  }
+
+  /* ---------- sending results to PBA (Google Form → Google Sheet) ----------
+     Every finished try is posted to the PBA Quiz Results form. Results wait in
+     an outbox until they go through, so a learner who is offline is sent later. */
+  const RESULTS_FORM = 'https://docs.google.com/forms/d/e/1FAIpQLScuXaqPPAoHYEi329X2CemMi4BQ30_AWxUc2ZrOAebTnsPi1g/formResponse';
+  const RESULTS_FIELDS = {
+    name: 'entry.2066575960', week: 'entry.367445470', score: 'entry.679432702', total: 'entry.9064557',
+    percent: 'entry.858985425', attempt: 'entry.705600062', passed: 'entry.426362219'
+  };
+  let sending = false, sentHandler = null;
+
+  function queueResult(r) {
+    const box = store.get(KEYS.outbox, []);
+    box.push(Object.assign({ id: r.week + '-' + r.attempt + '-' + Date.now() }, r));
+    store.set(KEYS.outbox, box);
+    return sendResults();
+  }
+
+  // Google doesn't let the page read its reply (no-cors), so "sent" means the request
+  // left the device. It only fails when there is no connection.
+  async function sendResults() {
+    if (sending) return;
+    sending = true;
+    try {
+      for (const r of store.get(KEYS.outbox, [])) {
+        const body = new URLSearchParams();
+        Object.keys(RESULTS_FIELDS).forEach(k => body.append(RESULTS_FIELDS[k], String(r[k])));
+        try {
+          await fetch(RESULTS_FORM, { method: 'POST', mode: 'no-cors', body });
+        } catch (e) { break; }
+        store.set(KEYS.outbox, store.get(KEYS.outbox, []).filter(x => x.id !== r.id));
+        const sent = store.get(KEYS.sent, {});
+        sent[r.week] = (sent[r.week] || []).concat(r.attempt);
+        store.set(KEYS.sent, sent);
+      }
+    } finally {
+      sending = false;
+      document.dispatchEvent(new CustomEvent('tpm-results-sent'));
+    }
+  }
+
+  // 'sent' | 'pending' | null for one try of one week
+  function resultStatus(n, attempt) {
+    if (store.get(KEYS.outbox, []).some(r => r.week === n && r.attempt === attempt)) return 'pending';
+    return (store.get(KEYS.sent, {})[n] || []).includes(attempt) ? 'sent' : null;
+  }
+
+  window.addEventListener('online', sendResults);
+  if (store.get(KEYS.outbox, []).length) setTimeout(sendResults, 1500);
 
   /* ---------- shared styles for the lock screen, card locks and score bar ---------- */
   const CSS = `
@@ -137,6 +238,12 @@ html.tpm-locked body > *:not(#tpmLock) { display: none !important; }
 .tpm-scorebar .who button { margin-left: .4rem; background: none; border: none; color: var(--accent-secondary, #38bdf8); font: inherit; font-size: .82rem; font-weight: 600; cursor: pointer; text-decoration: underline; }
 .tpm-scorebar .score { font-family: var(--font-mono, monospace); font-weight: 700; }
 .tpm-scorebar .tpm-form { margin-top: 0; flex: 1 1 260px; }
+.tpm-scorebar.tpm-need-name { border-color: var(--accent-amber, #f59e0b); box-shadow: 0 0 0 3px rgba(245,158,11,.25); }
+.tpm-sent { flex-basis: 100%; width: 100%; margin: .6rem 0 0; font-size: .88rem; font-weight: 600; }
+.tpm-sent.sent { color: var(--accent-emerald, #10b981); }
+.tpm-sent.pending { color: var(--accent-amber, #f59e0b); }
+[data-theme="light"] .tpm-sent.sent { color: #047857; }
+[data-theme="light"] .tpm-sent.pending { color: #b45309; }
 .tpm-saved { font-size: .82rem; color: var(--text-muted, #a3acb9); }
 .tpm-progress { background: var(--bg-card, #111827); border: 1px solid var(--border-color, rgba(255,255,255,.1)); border-radius: 20px; padding: 1.4rem 1.5rem; margin-bottom: 2rem; display: grid; gap: 1rem; }
 .tpm-progress-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .6rem 1rem; }
@@ -148,6 +255,18 @@ html.tpm-locked body > *:not(#tpmLock) { display: none !important; }
 .tpm-week-scores { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: .4rem; }
 .tpm-week-scores div { display: flex; justify-content: space-between; gap: .5rem; font-size: .85rem; padding: .4rem .65rem; border-radius: 8px; background: var(--bg-secondary, #0f172a); border: 1px solid var(--border-color, rgba(255,255,255,.08)); }
 .tpm-week-scores em { font-style: normal; color: var(--text-dim, #64748b); }
+.tpm-week-scores .ws-pass { color: var(--accent-emerald, #10b981); }
+.tpm-week-scores .ws-fail { color: var(--accent-rose, #f43f5e); }
+.tpm-chip.fail { background: rgba(244,63,94,.15); color: var(--accent-rose, #f43f5e); }
+.tpm-tools { border: 1px dashed var(--border-color, rgba(255,255,255,.15)); border-radius: 12px; padding: .85rem 1rem; display: grid; gap: .5rem; }
+.tpm-tools p { margin: 0; font-size: .85rem; color: var(--text-muted, #94a3b8); }
+.tpm-tools-form { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) auto; gap: .4rem; }
+.tpm-tools-form select { text-transform: none; letter-spacing: 0; }
+.tpm-tools .tpm-msg { margin-top: 0; }
+@media (max-width: 600px) { .tpm-tools-form { grid-template-columns: 1fr; } }
+.tpm-rule { margin: 0; font-size: .85rem; color: var(--text-muted, #94a3b8); }
+[data-theme="light"] .tpm-week-scores .ws-pass { color: #047857; }
+[data-theme="light"] .tpm-week-scores .ws-fail, [data-theme="light"] .tpm-chip.fail { color: #be123c; }
 .tpm-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem; font-size: .8rem; color: var(--text-dim, #64748b); }
 .tpm-foot button { background: none; border: none; color: var(--text-dim, #64748b); font: inherit; text-decoration: underline; cursor: pointer; }
 [data-theme="light"] .tpm-opens { color: #b45309; background: rgba(245,158,11,.16); }
@@ -234,16 +353,22 @@ html.tpm-locked body > *:not(#tpmLock) { display: none !important; }
       const name = learner();
       bar.innerHTML = '';
       if (!name) {
-        bar.innerHTML = '<span class="who">👤 Who is answering?</span>';
+        bar.innerHTML = '<span class="who">👤 Type your full name to start — your result is sent to PBA.</span>';
         const f = document.createElement('form');
         f.className = 'tpm-form';
         f.innerHTML = '<input class="tpm-input name" type="text" placeholder="Type your name" maxlength="40" aria-label="Your name"><button class="tpm-btn" type="submit">Save</button>';
         f.addEventListener('submit', e => { e.preventDefault(); const v = f.querySelector('input').value.trim(); if (v) { setLearner(v); renderBar(); } });
         bar.appendChild(f);
       } else {
+        // A completed set of answers belongs to the try just finished; otherwise we're on the next try
+        const tryNo = Math.max(1, Math.min(MAX_ATTEMPTS, s.answered === QUIZ.length || s.finished ? s.attempts : s.attempts + 1));
         bar.innerHTML = '<span class="who">👤 ' + esc(name) + '<button type="button" data-act="rename">change</button></span>' +
-          '<span class="score">Score: ' + s.correct + ' / ' + s.answered + ' answered' + (s.pct !== null ? ' (' + s.pct + '%)' : '') + '</span>' +
-          '<span class="tpm-saved">' + s.answered + ' of ' + QUIZ.length + ' questions done • saved on this device</span>';
+          '<span class="score">' + (s.finished
+            ? 'Best: ' + s.best.correct + ' / ' + s.best.total + ' (' + s.best.pct + '%)'
+            : 'This try: ' + s.correct + ' / ' + s.answered + ' answered' + (s.pct !== null ? ' (' + s.pct + '%)' : '')) + '</span>' +
+          '<span class="tpm-saved">Try ' + tryNo + ' of ' + MAX_ATTEMPTS +
+          (s.best && !s.finished ? ' • best so far ' + s.best.correct + '/' + s.best.total + ' (' + s.best.pct + '%)' : '') +
+          ' • pass mark ' + PASS_MARK + '%' + (s.passed ? ' • ✅ passed' : '') + '</span>';
         bar.querySelector('[data-act=rename]').addEventListener('click', () => { setLearner(''); renderBar(); });
       }
     }
@@ -260,16 +385,58 @@ html.tpm-locked body > *:not(#tpmLock) { display: none !important; }
       fb.textContent = (ok ? '✅ Correct! ' : '❌ Not quite. ') + item.why;
     }
 
+    // A try is finished when every question is answered: count it and keep the best
+    function finishAttempt() {
+      const correct = Object.values(d.right).filter(Boolean).length;
+      d.attempts += 1;
+      if (!d.best || correct > d.best.correct) d.best = { correct, total: QUIZ.length };
+      save();
+      queueResult({
+        name: learner(), week: n, score: correct, total: QUIZ.length, percent: pctOf(correct, QUIZ.length),
+        attempt: d.attempts, passed: passes(correct, QUIZ.length) ? 'yes' : 'no'
+      });
+    }
+
+    // Line under the result saying whether PBA has this try
+    function sentLine() {
+      const el = document.getElementById('tpmSent');
+      if (!el) return;
+      const st = resultStatus(n, d.attempts);
+      el.hidden = !st;
+      el.className = 'tpm-sent ' + (st || '');
+      el.textContent = st === 'sent' ? '✅ Result sent to PBA.'
+        : '⏳ Result saved — it will be sent to PBA when you are back online.';
+    }
+    // A retry re-renders the quiz: swap the old listener for this one
+    if (sentHandler) document.removeEventListener('tpm-results-sent', sentHandler);
+    sentHandler = sentLine;
+    document.addEventListener('tpm-results-sent', sentLine);
+
     function showResult() {
       const s = quizScore(n);
+      const who = learner() ? esc(learner()) + ', you' : 'You';
+      const best = s.best.correct + ' / ' + s.best.total + ' (' + s.best.pct + '%)';
+      const thisTry = s.answered === QUIZ.length ? s.correct + ' / ' + QUIZ.length + ' (' + pctOf(s.correct, QUIZ.length) + '%)' : best;
       result.hidden = false;
-      const msg = s.correct === QUIZ.length ? 'Perfect score! You are ready for the assignment. 🎉'
-        : s.pct >= 70 ? 'Great job! Review the ones you missed, then start your assignment.'
-        : low;
-      result.innerHTML = '<strong>' + (learner() ? esc(learner()) + ', you' : 'You') + ' scored ' + s.correct + ' / ' + QUIZ.length + '.</strong> ' + msg +
-        ' <button class="ghost-btn" id="quizRetry">↺ Try again</button>';
-      document.getElementById('quizRetry').addEventListener('click', () => {
-        store.remove(KEYS.quiz(n));
+      let html;
+      if (s.passed) {
+        html = '<strong>✅ Passed! ' + who + ' scored ' + thisTry + '.</strong> ' +
+          (s.attempts > 1 && s.best.correct !== s.correct ? 'Your best score, ' + best + ', is kept. ' : '') +
+          'You reached the ' + PASS_MARK + '% pass mark — you are ready for the assignment. 🎉';
+      } else if (s.canRetry) {
+        html = '<strong>' + who + ' scored ' + thisTry + '.</strong> The pass mark is ' + PASS_MARK + '%. ' + low +
+          ' You have <strong>1 retry left</strong> — your best score will be kept.' +
+          ' <button class="ghost-btn" id="quizRetry">↺ Use my retry</button>';
+      } else {
+        html = '<strong>' + who + ' scored ' + thisTry + ' on your last try.</strong> Best score kept: <strong>' + best + '</strong>. ' +
+          'That is below the ' + PASS_MARK + '% pass mark and no retries are left — please speak to your facilitator.';
+      }
+      result.innerHTML = html + '<p class="tpm-sent" id="tpmSent" hidden></p>';
+      sentLine();
+      const retry = document.getElementById('quizRetry');
+      if (retry) retry.addEventListener('click', () => {
+        d.answers = {}; d.right = {};
+        save();
         renderQuiz(QUIZ, opts);
       });
     }
@@ -289,13 +456,20 @@ html.tpm-locked body > *:not(#tpmLock) { display: none !important; }
         b.className = 'quiz-opt';
         b.textContent = opt;
         b.addEventListener('click', () => {
-          if (card.dataset.done) return;
+          if (card.dataset.done || quizScore(n).finished) return;
+          // Results go to PBA with the learner's name, so ask for it first
+          if (!learner()) {
+            const input = bar.querySelector('input');
+            bar.classList.add('tpm-need-name');
+            if (input) { input.focus(); bar.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
+            return;
+          }
           d.answers[qi] = oi;
           d.right[qi] = oi === item.answer;
           save();
           markAnswered(card, optsEl, fb, item, oi);
+          if (Object.keys(d.answers).length === QUIZ.length) { finishAttempt(); showResult(); }
           renderBar();
-          if (Object.keys(d.answers).length === QUIZ.length) showResult();
         });
         optsEl.appendChild(b);
       });
@@ -307,6 +481,11 @@ html.tpm-locked body > *:not(#tpmLock) { display: none !important; }
     save();
     renderBar();
     if (Object.keys(d.answers).length === QUIZ.length) showResult();
+    // No tries left (or already passed) but between tries: show the result and lock the questions
+    else if (quizScore(n).finished) {
+      box.querySelectorAll('.quiz-opt').forEach(b => { b.disabled = true; });
+      showResult();
+    }
   }
 
   /* ---------- portal: lock states on cards + progress panel ---------- */
@@ -321,7 +500,10 @@ html.tpm-locked body > *:not(#tpmLock) { display: none !important; }
         const s = quizScore(n);
         const chips = document.createElement('div');
         chips.className = 'tpm-chips';
-        chips.innerHTML = '<span class="tpm-chip">✅ Unlocked</span>' + (s.answered ? '<span class="tpm-chip quiz">📝 Quiz: ' + s.correct + ' / ' + s.answered + ' answered</span>' : '');
+        const quizChip = s.passed ? '<span class="tpm-chip">🏅 Quiz passed: ' + s.best.correct + '/' + s.best.total + ' (' + s.best.pct + '%)</span>'
+          : s.best ? '<span class="tpm-chip ' + (s.finished ? 'fail' : 'quiz') + '">📝 Best: ' + s.best.correct + '/' + s.best.total + ' (' + s.best.pct + '%)' + (s.finished ? ' — no retries left' : ' — 1 retry left') + '</span>'
+          : s.answered ? '<span class="tpm-chip quiz">📝 Quiz in progress: ' + s.answered + '/' + s.total + '</span>' : '';
+        chips.innerHTML = '<span class="tpm-chip">✅ Unlocked</span>' + quizChip;
         card.querySelector('.card-header').after(chips);
         return;
       }
@@ -343,24 +525,60 @@ html.tpm-locked body > *:not(#tpmLock) { display: none !important; }
     panel.innerHTML =
       '<div class="tpm-progress-head"><h2>📈 ' + (name ? esc(name) + '\'s progress' : 'My progress') + '</h2><div class="tpm-name-slot"></div></div>' +
       '<div class="tpm-progress-stats"><div><span>🔓 Weeks unlocked</span><strong>' + unlockedCount + ' / ' + WEEKS.length + '</strong></div>' +
-      '<div><span>📝 Quiz questions answered</span><strong>' + o.answered + '</strong></div>' +
-      '<div><span>🎯 Overall quiz score</span><strong>' + (o.pct === null ? '—' : o.correct + ' / ' + o.answered + ' (' + o.pct + '%)') + '</strong></div></div>' +
+      '<div><span>🏅 Quizzes passed (' + PASS_MARK + '%+)</span><strong>' + o.passed + ' / ' + o.quizzes + ' taken</strong></div>' +
+      '<div><span>🎯 Overall quiz score (best tries)</span><strong>' + (o.pct === null ? '—' : o.correct + ' / ' + o.total + ' (' + o.pct + '%)') + '</strong></div></div>' +
       '<div class="tpm-week-scores">' + WEEKS.map(w => {
         const s = quizScore(w.n);
-        return '<div><span>Week ' + w.n + '</span>' + (s.answered ? '<strong>' + s.correct + '/' + s.answered + '</strong>' : '<em>' + (isUnlocked(w.n) ? 'not started' : '🔒') + '</em>') + '</div>';
+        const val = s.best ? '<strong class="' + (s.passed ? 'ws-pass' : s.finished ? 'ws-fail' : '') + '">' + (s.passed ? '✅ ' : '') + s.best.pct + '%</strong>'
+          : s.answered ? '<em>in progress</em>' : '<em>' + (isUnlocked(w.n) ? 'not started' : '🔒') + '</em>';
+        return '<div><span>Week ' + w.n + '</span>' + val + '</div>';
       }).join('') + '</div>' +
-      '<div class="tpm-foot"><span>' + (isMaster() ? '🧑🏽‍🏫 Facilitator mode: all weeks unlocked on this device.' : 'Your unlocks and quiz answers are saved on this device only.') + '</span><button type="button" id="tpmReset">Reset this device</button></div>';
+      '<p class="tpm-rule">📏 Each quiz: 1 try + 1 retry. Your best try counts, and ' + PASS_MARK + '% or more is a pass.</p>' +
+      '<div class="tpm-foot"><span>' + (isMaster() ? '🧑🏽‍🏫 Facilitator mode: all weeks unlocked on this device.' : 'Your unlocks and quiz answers are saved on this device only.') + '</span><button type="button" id="tpmToolsToggle">🧑🏽‍🏫 Facilitator tools</button></div>' +
+      '<div class="tpm-tools" id="tpmTools" hidden>' +
+        '<p><strong>Facilitator tools</strong> — for PBA facilitators only. The facilitator code is needed every time.</p>' +
+        '<form class="tpm-tools-form" autocomplete="off">' +
+          '<select class="tpm-input name" aria-label="What to reset"><option value="device">Reset the whole device (unlocks, name, all quizzes)</option>' +
+          WEEKS.map(w => '<option value="' + w.n + '">Reset Week ' + w.n + ' quiz only (fresh tries)</option>').join('') + '</select>' +
+          '<input class="tpm-input" type="password" aria-label="Facilitator code" placeholder="Facilitator code">' +
+          '<button class="tpm-btn" type="submit">Reset</button>' +
+        '</form><div class="tpm-msg" aria-live="polite"></div>' +
+      '</div>';
     const slot = panel.querySelector('.tpm-name-slot');
     const f = document.createElement('form');
     f.className = 'tpm-form';
     f.innerHTML = '<input class="tpm-input name" type="text" maxlength="40" placeholder="Your name" aria-label="Your name" value="' + esc(name) + '"><button class="tpm-btn ghost" type="submit">' + (name ? 'Update name' : 'Save name') + '</button>';
     f.addEventListener('submit', e => { e.preventDefault(); setLearner(f.querySelector('input').value); renderPortal(); });
     slot.appendChild(f);
-    panel.querySelector('#tpmReset').addEventListener('click', () => {
-      if (confirm('Remove all unlocks, the saved name and every quiz answer from this device?')) { resetDevice(); renderPortal(); }
+    const tools = panel.querySelector('#tpmTools');
+    panel.querySelector('#tpmToolsToggle').addEventListener('click', () => { tools.hidden = !tools.hidden; });
+    const toolsForm = tools.querySelector('form');
+    toolsForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const what = toolsForm.querySelector('select').value;
+      const codeInput = toolsForm.querySelector('input');
+      const msg = tools.querySelector('.tpm-msg');
+      if (!isFacilitatorCode(codeInput.value)) {
+        msg.textContent = 'Only PBA facilitators can reset. That code isn\'t right.';
+        msg.className = 'tpm-msg bad';
+        codeInput.value = '';
+        return;
+      }
+      const label = what === 'device' ? 'everything on this device' : 'the Week ' + what + ' quiz';
+      if (!confirm('Reset ' + label + '? This cannot be undone.')) return;
+      const ok = what === 'device' ? resetDevice(codeInput.value) : resetQuiz(codeInput.value, Number(what));
+      codeInput.value = '';
+      if (ok) {
+        renderPortal();
+        const fresh = document.getElementById('tpmTools');
+        fresh.hidden = false;
+        fresh.querySelector('.tpm-msg').textContent = '✅ Reset done: ' + label + '.';
+        fresh.querySelector('.tpm-msg').className = 'tpm-msg good';
+      }
     });
   }
 
-  window.TPMAccess = { WEEKS, isOpen, isUnlocked, isMaster, tryCode, openLabel, fingerprint, learner, setLearner, quizScore, overallScore, resetDevice, renderPortal };
+  // Resets are deliberately not exposed here without the facilitator code
+  window.TPMAccess = { WEEKS, isOpen, isUnlocked, isMaster, tryCode, openLabel, fingerprint, learner, setLearner, quizScore, overallScore, renderPortal };
   window.TPMQuiz = { render: renderQuiz };
 })();
