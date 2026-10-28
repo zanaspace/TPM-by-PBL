@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 01: Introduction to Technical Product Management | PCIP TPM Track</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Navigation Header -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand-group">
+        <a href="../index.html" class="back-portal-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Master Portal
+        </a>
+        <span class="divider">/</span>
+        <span class="badge-week">Week 01 of 12</span>
+      </div>
+      <div class="nav-title">Technical Product Management Track</div>
+      <div class="nav-actions">
+        <button id="themeToggle" class="icon-btn" title="Toggle Dark/Light Mode">🌓</button>
+        <a href="../02-systems-thinking-and-architecture/index.html" class="nav-next-btn">
+          Next: Week 2
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="meta-pill-group">
+        <span class="meta-pill date-pill">📅 Nov 2 – 8, 2026</span>
+        <span class="meta-pill live-pill">🔴 Masterclass: Sat 7:00 PM WAT</span>
+        <span class="meta-pill review-pill">🎯 Project Review: Sun 6:00 PM WAT</span>
+      </div>
+      <h1 class="hero-title">Introduction to Technical Product Management</h1>
+      <p class="hero-subtitle">
+        Bridge the gap between product strategy and engineering execution. Learn how modern software products work under the hood, dissect the 3-tier architecture, and analyze real-world systems like <strong>Uber</strong> and <strong>Spotify</strong>.
+      </p>
+      <div class="hero-quick-stats">
+        <div class="stat-box">
+          <span class="stat-num">3-Tier</span>
+          <span class="stat-label">Architecture Anatomy</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">Uber & Spotify</span>
+          <span class="stat-label">Public Product Case Studies</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">10 Marks</span>
+          <span class="stat-label">Individual Deliverable #1</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">Capstone</span>
+          <span class="stat-label">Problem & Scope Definition</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Topic Navigation -->
+  <nav class="sub-nav">
+    <div class="sub-nav-container">
+      <a href="#core-concepts" class="sub-link active">1. Core Concepts</a>
+      <a href="#tpm-trio" class="sub-link">2. TPM vs PM vs EM</a>
+      <a href="#product-anatomy" class="sub-link">3. Anatomy of a Tech Product</a>
+      <a href="#case-studies" class="sub-link">4. Real-World Case Studies (Uber & Spotify)</a>
+      <a href="#interactive-simulator" class="sub-link">5. Architecture Simulator</a>
+      <a href="#student-deliverables" class="sub-link">6. Weekly Assignment & Rubric</a>
+    </div>
+  </nav>
+
+  <main class="main-container">
+
+    <!-- 1. Core Concepts -->
+    <section id="core-concepts" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 1.1</span>
+        <h2>Why Technical Product Management?</h2>
+      </div>
+      <p class="lead-text">
+        In non-technical product management, you focus on <em>"What problem to solve and why"</em>. In Technical Product Management (TPM), you must also deeply understand <em>"How the system operates, where technical constraints exist, and how data moves across services"</em>.
+      </p>
+
+      <div class="grid-2-col">
+        <div class="info-callout primary">
+          <h3>🎯 The TPM Mission in PCIP</h3>
+          <p>As a Technical PM, you don't write production code all day, but you must be able to:</p>
+          <ul class="bullet-list">
+            <li><strong>Speak fluent engineering:</strong> Understand APIs, databases, latency, caching, and CI/CD.</li>
+            <li><strong>Identify technical risks early:</strong> Anticipate database bottlenecks and API rate limits before launch.</li>
+            <li><strong>Evaluate trade-offs:</strong> Balance technical debt vs speed-to-market.</li>
+            <li><strong>Write technical PRDs:</strong> Specify data models, error handling, and API payloads with precision.</li>
+          </ul>
+        </div>
+        <div class="info-callout secondary">
+          <h3>💡 Key Mindset Shift</h3>
+          <p>A user says: <em>"The app feels slow when I search for songs."</em></p>
+          <div class="comparison-card">
+            <div class="comp-col">
+              <strong>Generalist PM View:</strong>
+              <p>"Let's add a loading spinner and tell users it's searching."</p>
+            </div>
+            <div class="comp-col highlight">
+              <strong>Technical PM View:</strong>
+              <p>"Is the search hitting Postgres with an unindexed <code>LIKE %query%</code> query? Should we introduce an Elasticsearch cluster or edge-cache frequent queries with Redis?"</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. TPM vs PM vs EM -->
+    <section id="tpm-trio" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 1.2</span>
+        <h2>The Triad: TPM vs. Generalist PM vs. Engineering Manager (EM)</h2>
+      </div>
+      <p>Understanding where your role starts and ends is essential for seamless team collaboration.</p>
+
+      <div class="table-responsive">
+        <table class="tpm-table">
+          <thead>
+            <tr>
+              <th>Dimension</th>
+              <th>Generalist Product Manager (PM)</th>
+              <th>Technical Product Manager (TPM)</th>
+              <th>Engineering Manager (EM) / Tech Lead</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Primary Focus</strong></td>
+              <td>User experience, market fit, business model, go-to-market.</td>
+              <td>System capabilities, platform scale, API contracts, technical feasibility.</td>
+              <td>Code quality, system architecture implementation, team hiring & mentoring.</td>
+            </tr>
+            <tr>
+              <td><strong>Key Question</strong></td>
+              <td><em>"What should we build and why?"</em></td>
+              <td><em>"How will the system support this at scale and what are the dependencies?"</em></td>
+              <td><em>"How do we write clean code and ship this sprint on time?"</em></td>
+            </tr>
+            <tr>
+              <td><strong>Primary Artifact</strong></td>
+              <td>Feature PRD, User Personas, Wireframes, Business Canvas.</td>
+              <td>Technical PRD, API Specifications, Data Flow Diagrams, Non-functional specs.</td>
+              <td>Architecture Design Document (RFC), Pull Requests, Sprint Tasks.</td>
+            </tr>
+            <tr>
+              <td><strong>Key Stakeholders</strong></td>
+              <td>Marketing, Sales, Design, Executive leadership.</td>
+              <td>Core Engineers, Data Engineers, DevOps, 3rd Party API Partners.</td>
+              <td>Software Developers, QA Engineers, SREs.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 3. Anatomy of a Tech Product -->
+    <section id="product-anatomy" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 1.3</span>
+        <h2>Anatomy of Modern Tech Products: The 3-Tier Architecture</h2>
+      </div>
+      <p>Every digital product—from Uber to Airbnb—consists of three foundational layers plus external integrations.</p>
+
+      <div class="diagram-card">
+        <div class="architecture-diagram">
+          <div class="arch-box client-box">
+            <div class="arch-icon">📱 💻</div>
+            <div class="arch-title">1. Presentation Tier (Client / Frontend)</div>
+            <div class="arch-desc">iOS, Android, React/Next.js Web, Smart TV App</div>
+            <span class="arch-pill">Captures user gestures & renders JSON data</span>
+          </div>
+          <div class="arch-connector">
+            <span>HTTPS / REST / WebSockets / JSON</span>
+            <div class="arrow">↓ ↑</div>
+          </div>
+          <div class="arch-box server-box">
+            <div class="arch-icon">⚙️ 🔌</div>
+            <div class="arch-title">2. Logic Tier (Backend / Application Server)</div>
+            <div class="arch-desc">Node.js, Python FastAPI, Go, Java Spring Boot, Microservices</div>
+            <span class="arch-pill">Authenticates, computes rules, coordinates workflows</span>
+          </div>
+          <div class="arch-connector">
+            <span>SQL Queries / TCP / ORM</span>
+            <div class="arrow">↓ ↑</div>
+          </div>
+          <div class="arch-box data-box">
+            <div class="arch-icon">🗄️ ⚡</div>
+            <div class="arch-title">3. Data Tier (Database & In-Memory Store)</div>
+            <div class="arch-desc">PostgreSQL, MongoDB, Redis, Amazon S3 (Object Storage)</div>
+            <span class="arch-pill">Persists users, transactions, session tokens, media</span>
+          </div>
+        </div>
+
+        <div class="external-deps-container">
+          <h4>External Third-Party Dependencies (Crucial for TPMs)</h4>
+          <div class="deps-grid">
+            <div class="dep-item">
+              <span class="dep-badge auth">Auth</span>
+              <strong>Auth0 / Firebase</strong>
+              <p>User sign-up, MFA, SSO tokens</p>
+            </div>
+            <div class="dep-item">
+              <span class="dep-badge pay">Payments</span>
+              <strong>Stripe / Paystack</strong>
+              <p>Card checkout, split payouts, webhooks</p>
+            </div>
+            <div class="dep-item">
+              <span class="dep-badge comms">Comms</span>
+              <strong>Twilio / SendGrid</strong>
+              <p>SMS verification, transactional emails</p>
+            </div>
+            <div class="dep-item">
+              <span class="dep-badge maps">Location</span>
+              <strong>Google Maps API</strong>
+              <p>Geocoding, route matrix, address autocomplete</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Public Product Case Studies -->
+    <section id="case-studies" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 1.4: Real-World Public Product Case Studies</span>
+        <h2>Case Studies: Uber & Spotify Technical Breakdown</h2>
+      </div>
+
+      <!-- Tab Buttons -->
+      <div class="tab-control">
+        <button class="tab-btn active" data-tab="uber-case">🚗 Case Study 1: Uber (Ride-Hailing System)</button>
+        <button class="tab-btn" data-tab="spotify-case">🎧 Case Study 2: Spotify (Audio Streaming Platform)</button>
+      </div>
+
+      <!-- Uber Tab -->
+      <div id="uber-case" class="tab-pane active">
+        <div class="case-header">
+          <div class="case-badge">Uber Technologies</div>
+          <h3>How Uber Works Under The Hood (TPM Breakdown)</h3>
+          <p>Uber is not just an app; it is a real-time distributed geospatial dispatch platform handling millions of concurrent trips.</p>
+        </div>
+
+        <div class="breakdown-grid">
+          <div class="breakdown-card">
+            <div class="card-tag frontend">Frontend (Clients)</div>
+            <h4>Rider & Driver Mobile Apps</h4>
+            <ul class="clean-list">
+              <li><strong>Rider App:</strong> Native iOS/Android with lightweight Mapbox/Google Maps rendering.</li>
+              <li><strong>Driver App:</strong> Emits high-frequency GPS ping every 4 seconds over persistent WebSockets.</li>
+              <li><strong>TPM Consideration:</strong> Network drops in tunnels or elevators must not crash the active trip state.</li>
+            </ul>
+          </div>
+
+          <div class="breakdown-card">
+            <div class="card-tag backend">Backend Services</div>
+            <h4>Dispatch & Geolocation Engine</h4>
+            <ul class="clean-list">
+              <li><strong>Geospatial Index (H3):</strong> Uber partitions earth into hexagonal cells (H3 index) to compute proximity in microseconds.</li>
+              <li><strong>Trip Dispatch Service:</strong> Matches closest rated drivers using Dijkstra routing algorithms.</li>
+              <li><strong>Surge Pricing Engine:</strong> Reads demand-to-supply ratio in hexagonal cells.</li>
+            </ul>
+          </div>
+
+          <div class="breakdown-card">
+            <div class="card-tag database">Data Stores</div>
+            <h4>High-Throughput Storage</h4>
+            <ul class="clean-list">
+              <li><strong>Redis:</strong> Keeps transient driver locations with 10-second TTL.</li>
+              <li><strong>Docstore (MySQL on steroids) & Schemaless:</strong> Stores trips, rider profiles, receipts.</li>
+              <li><strong>Apache Kafka:</strong> Streams every tap, location ping, and payment event for real-time analytics.</li>
+            </ul>
+          </div>
+
+          <div class="breakdown-card">
+            <div class="card-tag apis">External APIs</div>
+            <h4>Third-Party Ecosystem</h4>
+            <ul class="clean-list">
+              <li><strong>Google Maps / Mapbox API:</strong> Road traffic speed and turn-by-turn guidance.</li>
+              <li><strong>Stripe / Braintree / Apple Pay:</strong> Pre-authorizing funds and capturing payment on trip end.</li>
+              <li><strong>Twilio:</strong> Masked phone numbers so rider and driver talk safely.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="tpm-takeaway">
+          <strong>🎓 TPM Lesson from Uber:</strong> When an Uber passenger requests a ride, the system does not poll every car worldwide. The TPM designs around geospatial boundaries (hex cells), fails gracefully if SMS providers lag, and monitors API latency strictly below 200ms.
+        </div>
+      </div>
+
+      <!-- Spotify Tab -->
+      <div id="spotify-case" class="tab-pane">
+        <div class="case-header">
+          <div class="case-badge">Spotify AB</div>
+          <h3>How Spotify Streams Music Instantly (TPM Breakdown)</h3>
+          <p>When you press "Play", how does music start in under 200 milliseconds without buffering?</p>
+        </div>
+
+        <div class="breakdown-grid">
+          <div class="breakdown-card">
+            <div class="card-tag frontend">Frontend (Playback)</div>
+            <h4>Spotify Desktop, Mobile & Web Players</h4>
+            <ul class="clean-list">
+              <li><strong>Local Cache:</strong> Spotify stores recently played audio chunks encrypted on your phone disk.</li>
+              <li><strong>Predictive Buffering:</strong> Starts loading the next song in your playlist 10 seconds before the current song finishes.</li>
+            </ul>
+          </div>
+
+          <div class="breakdown-card">
+            <div class="card-tag backend">Backend Services</div>
+            <h4>Audio Transcoding & Recommendation</h4>
+            <ul class="clean-list">
+              <li><strong>Audio Encoding Pipeline:</strong> Converts master WAV files into multiple Ogg Vorbis/AAC bitrates (96kbps, 160kbps, 320kbps).</li>
+              <li><strong>Discover Weekly:</strong> Collaborative filtering algorithms (matrix factorization) computing playlist graphs.</li>
+            </ul>
+          </div>
+
+          <div class="breakdown-card">
+            <div class="card-tag database">Storage & CDN</div>
+            <h4>Edge Content Delivery</h4>
+            <ul class="clean-list">
+              <li><strong>Content Delivery Network (CDN):</strong> Audio files are cached in server clusters physically near the user (Cloudflare / Fastly).</li>
+              <li><strong>Cassandra:</strong> Handles billions of user library records and playlist tracks.</li>
+            </ul>
+          </div>
+
+          <div class="breakdown-card">
+            <div class="card-tag apis">APIs & Integrations</div>
+            <h4>Ecosystem & Rights</h4>
+            <ul class="clean-list">
+              <li><strong>Spotify Web API:</strong> Public endpoints for developers (e.g. <code>GET /v1/tracks/{id}</code>).</li>
+              <li><strong>Royalty Calculation Engine:</strong> Aggregates every play count &gt;30s to pay labels and artists.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="tpm-takeaway">
+          <strong>🎓 TPM Lesson from Spotify:</strong> Audio files are never fetched directly from a SQL database. The TPM decouples "Metadata" (artist name, track title in a fast DB) from "Binary Media" (the MP3/Ogg files stored on CDN edge servers).
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Interactive Live Demo Simulator for Use Cases -->
+    <section id="interactive-simulator" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Interactive Teaching Tool • Live Demo Studio</span>
+        <h2>Live Public Product Simulators: Uber Ride & Spotify Streaming</h2>
+      </div>
+      <p class="lead-text">
+        Experience exactly how modern distributed systems behave under the hood. Choose between the <strong>Uber Real-Time Geospatial Ride Dispatch Engine</strong> and the <strong>Spotify Instant Audio Streaming & Buffering Pipeline</strong> to run live demonstrations, inspect wire payloads, and inject network failure modes:
+      </p>
+
+      <!-- Simulator Selector Tabs -->
+      <div class="sim-mode-tabs">
+        <button id="simTabUber" class="sim-mode-btn active" data-sim="uber">
+          🚗 Live Demo 1: Uber Ride Dispatch Engine (Geospatial & WebSocket Flow)
+        </button>
+        <button id="simTabSpotify" class="sim-mode-btn" data-sim="spotify">
+          🎧 Live Demo 2: Spotify Instant Audio Streaming (CDN Range & Buffer Flow)
+        </button>
+      </div>
+
+      <!-- ================= UBER LIVE SIMULATOR ================= -->
+      <div id="uberSimulatorPanel" class="sim-panel active">
+        <div class="sim-panel-header">
+          <div>
+            <h3>🚗 Uber Real-Time Ride Dispatch Simulator</h3>
+            <p>Simulate a rider booking a trip. Observe the H3 geospatial hexagon calculation, surge pricing engine, driver WebSocket matchmaking, and Stripe payment authorization.</p>
+          </div>
+          <div class="sim-badge-live">🔴 Interactive Engine Active</div>
+        </div>
+
+        <div class="uber-demo-grid">
+          <!-- Left: Visual Map & Rider App -->
+          <div class="uber-ui-column">
+            <!-- Rider App Mockup Card -->
+            <div class="rider-phone-card">
+              <div class="phone-notch"><span>●</span></div>
+              <div class="phone-header">
+                <span class="phone-brand">Uber</span>
+                <span id="phoneClock" class="phone-clock">7:42 PM</span>
+              </div>
+
+              <!-- Map Canvas Wrapper -->
+              <div class="uber-map-container">
+                <canvas id="uberMapCanvas" width="420" height="260"></canvas>
+                <div class="map-overlay-h3">
+                  <span class="h3-badge">H3 Hex: <code>882685623ffffff</code></span>
+                  <span id="surgeDisplayBadge" class="surge-badge normal">Surge: 1.0x</span>
+                </div>
+                <div id="driverStatusPin" class="driver-status-overlay" style="display: none;">
+                  <span class="pulse-dot"></span>
+                  <span id="driverStatusPinText">Driver 2.4 km away (ETA: 4m)</span>
+                </div>
+              </div>
+
+              <!-- Trip Controls Inside Phone -->
+              <div class="trip-config-form">
+                <div class="route-input-row">
+                  <div class="route-pins">
+                    <span class="pin-dot green"></span>
+                    <span class="pin-line"></span>
+                    <span class="pin-dot red"></span>
+                  </div>
+                  <div class="route-fields">
+                    <select id="uberPickupSelect" class="route-select">
+                      <option value="lekki">📍 Pickup: Lekki Phase 1, Admiralty Way</option>
+                      <option value="vi">📍 Pickup: Victoria Island, Adeola Odeku</option>
+                      <option value="ikeja">📍 Pickup: Ikeja City Mall, Alausa</option>
+                    </select>
+                    <select id="uberDropoffSelect" class="route-select">
+                      <option value="airport">🏁 Dropoff: International Airport (Terminal 2)</option>
+                      <option value="ikoyi">🏁 Dropoff: Ikoyi Golf Club, Kingsway</option>
+                      <option value="techhub">🏁 Dropoff: Yaba Innovation Tech Hub</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Ride Type Selector -->
+                <div class="ride-type-picker">
+                  <div class="ride-opt active" data-type="uberx" data-base="18">
+                    <strong>UberX</strong>
+                    <span>Affordable • 4 seats</span>
+                    <span class="ride-price" id="priceUberX">$18.00</span>
+                  </div>
+                  <div class="ride-opt" data-type="comfort" data-base="26">
+                    <strong>Comfort</strong>
+                    <span>Newer cars • Extra legroom</span>
+                    <span class="ride-price" id="priceComfort">$26.00</span>
+                  </div>
+                  <div class="ride-opt" data-type="black" data-base="45">
+                    <strong>Black</strong>
+                    <span>Premium luxury</span>
+                    <span class="ride-price" id="priceBlack">$45.00</span>
+                  </div>
+                </div>
+
+                <!-- Surge Demand Controller -->
+                <div class="surge-slider-box">
+                  <div class="surge-label-row">
+                    <span>Simulated Demand / Supply Level:</span>
+                    <strong id="surgeSliderVal" style="color: #38bdf8;">1.0x (Normal)</strong>
+                  </div>
+                  <input type="range" id="surgeSlider" min="1.0" max="2.5" step="0.1" value="1.0" class="slider-input">
+                </div>
+
+                <!-- Primary Action Button -->
+                <button id="requestUberBtn" class="uber-cta-btn">
+                  🚀 Request UberX (Start Live Dispatch)
+                </button>
+
+                <!-- Failure Injection Bar -->
+                <div class="failure-inject-bar">
+                  <span class="inject-label">TPM Failure Injections:</span>
+                  <div class="inject-btns">
+                    <button id="injectCancelBtn" class="inject-btn" title="Simulate matched driver cancelling the trip">
+                      ⚠️ Driver Cancels (Re-dispatch)
+                    </button>
+                    <button id="injectTunnelBtn" class="inject-btn" title="Simulate tunnel network disconnect and client retry loop">
+                      📵 Tunnel Network Drop
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Architecture Trace & Wire Inspector -->
+          <div class="uber-tech-column">
+            <!-- Execution Step Tracker -->
+            <div class="arch-tracker-card">
+              <div class="tracker-header">
+                <h4>System Architecture Pipeline & Latency Trace</h4>
+                <span id="uberStageStatus" class="stage-status-pill idle">Status: Standby</span>
+              </div>
+
+              <div class="pipeline-steps-list">
+                <div class="pipe-step" id="step1">
+                  <div class="pipe-indicator">1</div>
+                  <div class="pipe-details">
+                    <strong>Client Request & Envoy API Gateway Handshake</strong>
+                    <span>Rider client dispatches HTTPS POST with JWT bearer token; Gateway verifies rate limits (< 15ms).</span>
+                  </div>
+                </div>
+
+                <div class="pipe-step" id="step2">
+                  <div class="pipe-indicator">2</div>
+                  <div class="pipe-details">
+                    <strong>H3 Geospatial Indexing & Driver Radius Lookup</strong>
+                    <span>Resolves lat/lon into hexagonal cell; queries Redis Geospatial cache for available driver GPS pings.</span>
+                  </div>
+                </div>
+
+                <div class="pipe-step" id="step3">
+                  <div class="pipe-indicator">3</div>
+                  <div class="pipe-details">
+                    <strong>Surge Pricing Engine & Route Calculation</strong>
+                    <span>Calculates demand multiplier (1.0x - 2.5x) and routes path using Dijkstra algorithms.</span>
+                  </div>
+                </div>
+
+                <div class="pipe-step" id="step4">
+                  <div class="pipe-indicator">4</div>
+                  <div class="pipe-details">
+                    <strong>Driver WebSocket Match & Atomic Redis Lock</strong>
+                    <span>Pushes dispatch offer over persistent WebSocket; acquires atomic Redlock on driver ID to prevent duplicate assignments.</span>
+                  </div>
+                </div>
+
+                <div class="pipe-step" id="step5">
+                  <div class="pipe-indicator">5</div>
+                  <div class="pipe-details">
+                    <strong>Stripe Payment Pre-Authorization Hold</strong>
+                    <span>Sends synchronous payment intent with idempotency key to pre-authorize trip fare on rider's card.</span>
+                  </div>
+                </div>
+
+                <div class="pipe-step" id="step6">
+                  <div class="pipe-indicator">6</div>
+                  <div class="pipe-details">
+                    <strong>Real-Time Driver En Route Telemetry</strong>
+                    <span>Driver emits GPS telemetry every 4s; rider map renders animated vehicle along polyline coordinates.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Live Wire Trace & Telemetry Inspector -->
+            <div class="wire-trace-card">
+              <div class="wire-header">
+                <span>📡 Live Wire & Payload Console</span>
+                <span id="wireLatencyBadge" class="wire-latency">Latency: -- ms</span>
+              </div>
+              <pre id="wireTraceOutput" class="wire-code"><code>// Live system telemetry will stream here once "Request UberX" is triggered...
+// Observe headers, H3 indexes, WebSocket events, and Stripe idempotency keys in real time.</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= SPOTIFY LIVE SIMULATOR ================= -->
+      <div id="spotifySimulatorPanel" class="sim-panel">
+        <div class="sim-panel-header">
+          <div>
+            <h3>🎧 Spotify Instant Audio Streaming & Buffering Engine</h3>
+            <p>See why music plays in < 200ms without buffering. Test adaptive bitrate streaming, HTTP/3 CDN range requests, circular memory buffers, and the 30-second royalty threshold trigger.</p>
+          </div>
+          <div class="sim-badge-live" style="background: rgba(16, 185, 129, 0.2); color: #34d399;">🟢 Spotify Engine Ready</div>
+        </div>
+
+        <div class="spotify-demo-grid">
+          <!-- Left: Interactive Player Mockup -->
+          <div class="spotify-ui-column">
+            <div class="spotify-player-card">
+              <div class="sp-album-cover">
+                <div class="album-art-inner">
+                  <span class="music-icon">🎵</span>
+                  <div class="now-playing-waves" id="nowPlayingWaves">
+                    <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="sp-track-info">
+                <div class="track-title" id="trackTitle">Blinding Lights</div>
+                <div class="track-artist" id="trackArtist">The Weeknd • After Hours (2020)</div>
+                <span class="sp-badge-tier" id="userTierBadge">Spotify Premium (320 kbps)</span>
+              </div>
+
+              <!-- Audio Waveform & Buffer Pipeline -->
+              <div class="buffer-pipeline-container">
+                <div class="buffer-meta-row">
+                  <span>Playback & Memory Buffer Status</span>
+                  <span id="bufferSecondsText" style="color: #38bdf8;">Buffered: 0s ahead</span>
+                </div>
+                <div class="buffer-track-bar">
+                  <div id="bufferFilledBar" class="buffer-filled" style="width: 0%;"></div>
+                  <div id="playbackPlayedBar" class="playback-played" style="width: 0%;"></div>
+                </div>
+                <div class="time-row">
+                  <span id="playbackCurrentTime">0:00</span>
+                  <span id="playbackTotalTime">3:20</span>
+                </div>
+              </div>
+
+              <!-- Controls -->
+              <div class="sp-controls-row">
+                <button class="sp-icon-btn" id="spPrevBtn">⏮</button>
+                <button class="sp-play-btn" id="spPlayBtn">▶</button>
+                <button class="sp-icon-btn" id="spNextBtn">⏭</button>
+              </div>
+
+              <!-- Network & Quality Tuner -->
+              <div class="sp-tuner-card">
+                <div class="tuner-row">
+                  <label>Network Condition:</label>
+                  <select id="spNetworkSelect" class="route-select">
+                    <option value="5g">⚡ 5G Broadband (15ms latency • High Speed)</option>
+                    <option value="3g">📶 3G Mobile (250ms latency • Slower Chunks)</option>
+                    <option value="offline">✈️ Subway / Airplane Mode (0 kbps • Off-grid)</option>
+                  </select>
+                </div>
+
+                <div class="tuner-row">
+                  <label>Audio Bitrate:</label>
+                  <select id="spBitrateSelect" class="route-select">
+                    <option value="320">320 kbps (Extreme Quality • Ogg Vorbis)</option>
+                    <option value="160">160 kbps (High Quality • Free Tier Default)</option>
+                    <option value="96">96 kbps (Data Saver • Low Bandwidth)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Streaming Architecture & Byte-Range Telemetry -->
+          <div class="spotify-tech-column">
+            <div class="arch-tracker-card">
+              <div class="tracker-header">
+                <h4>Streaming Pipeline & CDN Edge Ingestion</h4>
+                <span id="spStreamStatus" class="stage-status-pill idle">Stream: Paused</span>
+              </div>
+
+              <div class="pipeline-steps-list">
+                <div class="pipe-step" id="spStep1">
+                  <div class="pipe-indicator">1</div>
+                  <div class="pipe-details">
+                    <strong>Local Device Cache Probe (LRU Disk Cache)</strong>
+                    <span>Probes local storage for pre-cached audio header. Cache Hit allows immediate instant audio output (< 20ms).</span>
+                  </div>
+                </div>
+
+                <div class="pipe-step" id="spStep2">
+                  <div class="pipe-indicator">2</div>
+                  <div class="pipe-details">
+                    <strong>Hermes Playback Gateway & DRM License Check</strong>
+                    <span>Validates user token with Auth service; confirms Premium license allows 320kbps unthrottled streaming.</span>
+                  </div>
+                </div>
+
+                <div class="pipe-step" id="spStep3">
+                  <div class="pipe-indicator">3</div>
+                  <div class="pipe-details">
+                    <strong>CDN Edge HTTP/3 Byte-Range Chunks</strong>
+                    <span>Sends parallel range requests (<code>Range: bytes=0-524288</code>) to nearest Cloudflare / Fastly Point of Presence.</span>
+                  </div>
+                </div>
+
+                <div class="pipe-step" id="spStep4">
+                  <div class="pipe-indicator">4</div>
+                  <div class="pipe-details">
+                    <strong>Circular Ring Buffer & Predictive Pre-buffering</strong>
+                    <span>Pre-loads next 15 seconds in memory. If network drops, music keeps playing smoothly without audio stutters!</span>
+                  </div>
+                </div>
+
+                <div class="pipe-step" id="spStep5">
+                  <div class="pipe-indicator">5</div>
+                  <div class="pipe-details">
+                    <strong>30-Second Royalty Milestone Trigger (Kafka Event)</strong>
+                    <span>When playback crosses the 30-second mark, an asynchronous Kafka event is published to credit artist royalties.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Wire Trace for Spotify -->
+            <div class="wire-trace-card">
+              <div class="wire-header">
+                <span>🎵 Live Byte-Range Wire Trace</span>
+                <span id="spChunkBadge" class="wire-latency">Chunk: -- / --</span>
+              </div>
+              <pre id="spWireOutput" class="wire-code"><code>// Press ▶ Play on the Spotify player to start streaming audio chunks.
+// Observe HTTP/3 Range headers, memory buffer allocations, and Kafka royalty events.</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Student Deliverables & Capstone -->
+    <section id="student-deliverables" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Course Deliverables</span>
+        <h2>Week 01 Assignment & Capstone Kickoff</h2>
+      </div>
+
+      <div class="grid-2-col">
+        <!-- Individual Deliverable -->
+        <div class="deliverable-box">
+          <div class="deliv-badge individual">Individual Assignment (10 Marks)</div>
+          <h3>Deliverable: Technical Product Breakdown</h3>
+          <p class="deliv-deadline">⏰ Due: Sunday, Nov 8, 2026 before 11:59 PM WAT</p>
+          <p>Select <strong>one real-world technical product</strong> (e.g., WhatsApp, DoorDash, Duolingo, Netflix, Stripe) and assume the role of its Technical PM. Provide:</p>
+
+          <ol class="step-list">
+            <li><strong>Product Purpose & Target User:</strong> The exact job-to-be-done.</li>
+            <li><strong>Frontend Clients:</strong> Devices supported, UI frameworks, client-side caching.</li>
+            <li><strong>Backend Services:</strong> Core microservices responsible for business logic.</li>
+            <li><strong>Data Storage Layer:</strong> Relational vs NoSQL choice and why.</li>
+            <li><strong>External API Dependencies:</strong> 3 external services it relies on and what happens if one fails.</li>
+            <li><strong>One Technical Improvement Opportunity:</strong> A bottleneck you would optimize.</li>
+          </ol>
+
+          <div class="rubric-mini">
+            <h4>Marking Rubric (Total: 10 Marks)</h4>
+            <ul>
+              <li>Understanding of topic & architecture: <strong>3 Marks</strong></li>
+              <li>Depth of technical breakdown & dependencies: <strong>3 Marks</strong></li>
+              <li>Practical relevance & clarity of improvement: <strong>2 Marks</strong></li>
+              <li>Professional formatting & on-time submission: <strong>2 Marks</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Team Capstone -->
+        <div class="deliverable-box">
+          <div class="deliv-badge team">Team Capstone (Phase 1 of 6)</div>
+          <h3>Capstone Concept, Users & Scope</h3>
+          <p class="deliv-deadline">👥 Collaborative Team Deliverable</p>
+          <p>In your assigned capstone groups, define your new technical product concept that you will build and document across the 12 weeks.</p>
+
+          <div class="checklist-card">
+            <h4>Phase 1 Checklist:</h4>
+            <label class="check-item"><input type="checkbox"> Team name & assigned product concept selected</label>
+            <label class="check-item"><input type="checkbox"> Clear problem statement defined (Who hurts & how badly?)</label>
+            <label class="check-item"><input type="checkbox"> High-level system boundary established (What is in scope vs out of scope)</label>
+            <label class="check-item"><input type="checkbox"> 3 primary user personas identified with technical needs</label>
+            <label class="check-item"><input type="checkbox"> Shared Google Workspace / Linear workspace created</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Downloadable Template Section -->
+      <div class="template-box">
+        <div class="template-info">
+          <h4>📄 Week 1 Technical Breakdown Template (Markdown Ready)</h4>
+          <p>Copy this standardized template to kickstart your assignment submission:</p>
+        </div>
+        <button id="copyTemplateBtn" class="primary-btn">📋 Copy Markdown Template</button>
+      </div>
+      <textarea id="templateText" class="template-textarea" readonly>
+# Technical Product Breakdown: [Insert Product Name Here]
+**Student Name:** [Your Full Name]
+**PCIP Track:** Technical Product Management
+**Date:** [Submission Date]
+
+## 1. Product Overview & Core Purpose
+- **Product Name:** 
+- **Target Audience:** 
+- **Core Value Proposition:** 
+
+## 2. Frontend / Presentation Layer
+- **Client Platforms:** (e.g. iOS native, Android native, Web React)
+- **Key Client Responsibilities:** (e.g. state management, offline support, UI rendering)
+
+## 3. Backend / Application Layer
+- **Core Backend Services:** (e.g. Auth Service, Search Service, Notification Worker)
+- **Communication Protocol:** (e.g. REST, gRPC, WebSockets)
+
+## 4. Data Storage Layer
+- **Primary Database:** (e.g. PostgreSQL, DynamoDB) & Rationale:
+- **Caching Layer:** (e.g. Redis for session and hot queries)
+
+## 5. Third-Party Dependencies & Risk Analysis
+- **Dependency 1:** (e.g. Stripe for payments) -> Failure fallback strategy:
+- **Dependency 2:** (e.g. Twilio for SMS) -> Failure fallback strategy:
+- **Dependency 3:** (e.g. AWS S3 for media) -> Failure fallback strategy:
+
+## 6. TPM Improvement Proposal
+- **Identified Bottleneck / Risk:** 
+- **Proposed Technical Solution & Expected Impact:** 
+      </textarea>
+    </section>
+
+    <!-- Discussion & Review Questions -->
+    <section class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Classroom Prompts</span>
+        <h2>Saturday Workshop Discussion Questions</h2>
+      </div>
+      <div class="faq-accordion">
+        <details class="faq-item">
+          <summary class="faq-q">Question 1: If Twilio goes down during an Uber rider login, what should the app do?</summary>
+          <div class="faq-a">
+            <p><strong>TPM Solution:</strong> Never let a third-party failure lock users out entirely. The system should implement a fallback channel: offer WhatsApp verification, email magic links, or switch dynamically to a secondary backup SMS gateway (like Infobip or MessageBird). The client should display a clear retry timer rather than an ambiguous crash.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">Question 2: Why doesn't Spotify just query Postgres whenever a user taps Play?</summary>
+          <div class="faq-a">
+            <p><strong>TPM Solution:</strong> Relational databases are optimized for transactional ACID queries (e.g. updating an account balance), not streaming binary audio files (BLOBs) to 500 million listeners. Storing audio in Postgres would exhaust memory, saturate disk I/O, and cause catastrophic connection limits. Audio is stored on Object Storage (S3) and replicated across CDN edges.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">Question 3: How does a TPM measure whether a backend API is healthy?</summary>
+          <div class="faq-a">
+            <p><strong>TPM Solution:</strong> The four golden signals: <strong>Latency</strong> (P95 and P99 response times), <strong>Traffic</strong> (Requests Per Second / RPS), <strong>Errors</strong> (HTTP 5xx rate), and <strong>Saturation</strong> (CPU and memory utilization on the host servers).</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <p>Product Bosslady Academy (PBA) • Product Career Internship Program (PCIP) • Technical Product Management Track</p>
+      <p class="footer-sub">Curriculum Session: November 2026 – February 2027 • Facilitated by Oyindamola Oye-Daniel</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

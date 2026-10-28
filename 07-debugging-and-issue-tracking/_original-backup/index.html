@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 07: Debugging and Issue Tracking | PCIP TPM Track</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand-group">
+        <a href="../index.html" class="back-portal-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Master Portal
+        </a>
+        <span class="divider">/</span>
+        <span class="badge-week">Week 07 of 12</span>
+      </div>
+      <div class="nav-title">Debugging and Issue Tracking</div>
+      <div class="nav-actions">
+        <button id="themeToggle" class="icon-btn" title="Toggle Theme">🌓</button>
+        <a href="../06-engineering-collaboration/index.html" class="nav-prev-btn">← Week 6</a>
+        <a href="../08-scalability-and-performance/index.html" class="nav-next-btn">Next: Week 8 →</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="meta-pill-group">
+        <span class="meta-pill date-pill">📅 Dec 13 – 19, 2026</span>
+        <span class="meta-pill live-pill">🔴 Masterclass: Sat 7:00 PM WAT</span>
+        <span class="meta-pill review-pill">🎯 Project Review: Sun 6:00 PM WAT</span>
+      </div>
+      <h1 class="hero-title">Debugging, Telemetry, and Issue Tracking</h1>
+      <p class="hero-subtitle">
+        When production breaks, panic is not an option. Learn how to write world-class bug reports with reproduction steps (STR), master severity prioritization (P0 to P3), conduct 5-Whys Root Cause Analyses (RCA), and study real-world post-mortems from <strong>DoorDash</strong> and <strong>Amazon</strong>.
+      </p>
+      <div class="hero-quick-stats">
+        <div class="stat-box">
+          <span class="stat-num">P0 to P3</span>
+          <span class="stat-label">Severity vs Priority Matrix</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">DoorDash & Amazon</span>
+          <span class="stat-label">Outage Post-Mortem Studies</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">5 Whys RCA</span>
+          <span class="stat-label">Root Cause Diagnostic</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">10 Marks</span>
+          <span class="stat-label">Individual Deliverable #7</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="sub-nav">
+    <div class="sub-nav-container">
+      <a href="#bug-anatomy" class="sub-link active">1. Anatomy of a Bug Report</a>
+      <a href="#severity-matrix" class="sub-link">2. Severity vs Priority</a>
+      <a href="#rca-5whys" class="sub-link">3. Root Cause Analysis (5 Whys)</a>
+      <a href="#case-studies" class="sub-link">4. DoorDash & Amazon Outages</a>
+      <a href="#severity-calculator" class="sub-link">5. Triage Calculator</a>
+      <a href="#deliverables" class="sub-link">6. Deliverables & Template</a>
+    </div>
+  </nav>
+
+  <main class="main-container">
+
+    <!-- 1. Bug Anatomy -->
+    <section id="bug-anatomy" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 7.1</span>
+        <h2>The Anatomy of a World-Class Bug Report</h2>
+      </div>
+      <p class="lead-text">
+        Engineers hate ambiguous bug tickets like: <em>"The app crashed when I clicked checkout."</em> A Technical PM provides full diagnostic telemetry so the bug can be reproduced in 60 seconds:
+      </p>
+
+      <div class="grid-3-col">
+        <div class="concept-card">
+          <div class="concept-icon">📱</div>
+          <h3>1. Environment & Context</h3>
+          <p>OS version (iOS 17.4), device model (iPhone 15 Pro), App build number (#4092), staging vs production URL, and user correlation ID.</p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-icon">👣</div>
+          <h3>2. Steps to Reproduce (STR)</h3>
+          <p>Numbered, deterministic steps. Exactly what buttons were clicked, what data was input into which fields, and network state.</p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-icon">🔍</div>
+          <h3>3. Expected vs Actual & Logs</h3>
+          <p>Expected HTTP status & UI state vs. Actual HTTP 500 error code, Sentry stack trace snippet, and response payload.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Severity vs Priority -->
+    <section id="severity-matrix" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 7.2</span>
+        <h2>Severity (Impact) vs. Priority (Urgency) Matrix</h2>
+      </div>
+
+      <div class="table-responsive">
+        <table class="tpm-table">
+          <thead>
+            <tr>
+              <th>Level</th>
+              <th>Classification</th>
+              <th>Definition & Real-World Example</th>
+              <th>Target SLA</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="p-badge p0">P0</span></td>
+              <td><strong>Blocker / Catastrophic</strong></td>
+              <td>Core revenue or user authentication completely down for all users. (e.g. Stripe checkout throws 500 error globally). Engineers wake up immediately.</td>
+              <td>&lt; 30 mins to resolve / mitigate</td>
+            </tr>
+            <tr>
+              <td><span class="p-badge p1">P1</span></td>
+              <td><strong>Critical</strong></td>
+              <td>Major feature degraded with no workaround for a significant user cohort. (e.g. Android users cannot upload photos).</td>
+              <td>&lt; 4 hours</td>
+            </tr>
+            <tr>
+              <td><span class="p-badge p2">P2</span></td>
+              <td><strong>Major</strong></td>
+              <td>Functional bug with an available workaround. (e.g. Discount code fails on first tap but succeeds on refresh).</td>
+              <td>Within current sprint</td>
+            </tr>
+            <tr>
+              <td><span class="p-badge p3">P3</span></td>
+              <td><strong>Minor / Cosmetic</strong></td>
+              <td>Visual glitch, typo, or minor misalignment that does not block core product usage.</td>
+              <td>Backlog prioritization</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 3. Root Cause Analysis (5 Whys) -->
+    <section id="rca-5whys" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 7.3</span>
+        <h2>Root Cause Analysis: The 5 Whys Framework</h2>
+      </div>
+      <p class="lead-text">
+        When an outage is resolved, the TPM coordinates a blameless post-mortem. Asking "Why" 5 consecutive times drills past superficial symptoms to uncover systemic architectural flaws:
+      </p>
+
+      <div class="five-whys-container">
+        <div class="why-step">
+          <span class="why-num">Why 1?</span>
+          <div>
+            <strong>Why did customers get charged twice during checkout?</strong>
+            <p>Because the web app sent two simultaneous HTTP requests to the payment endpoint.</p>
+          </div>
+        </div>
+        <div class="why-step">
+          <span class="why-num">Why 2?</span>
+          <div>
+            <strong>Why did the web app send two requests?</strong>
+            <p>Because the "Pay Now" button did not disable on the first tap, and the user double-clicked.</p>
+          </div>
+        </div>
+        <div class="why-step">
+          <span class="why-num">Why 3?</span>
+          <div>
+            <strong>Why did the backend accept both identical requests?</strong>
+            <p>Because the payment service had no distributed lock or idempotency check on duplicate order IDs.</p>
+          </div>
+        </div>
+        <div class="why-step">
+          <span class="why-num">Why 4?</span>
+          <div>
+            <strong>Why was idempotency not implemented?</strong>
+            <p>Because the payment PRD lacked non-functional requirements specifying network retry protection.</p>
+          </div>
+        </div>
+        <div class="why-step root">
+          <span class="why-num">Why 5? (ROOT CAUSE)</span>
+          <div>
+            <strong>Why did the PRD lack idempotency specs?</strong>
+            <p>Because our engineering review process did not require an architecture sign-off checklist for financial transactions.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Public Product Case Studies -->
+    <section id="case-studies" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 7.4: Real-World Public Product Case Studies</span>
+        <h2>Case Studies: DoorDash & Amazon Outages</h2>
+      </div>
+
+      <div class="tab-control">
+        <button class="tab-btn active" data-tab="doordash-case">🍔 Case Study 1: DoorDash Super Bowl Cascading Failure</button>
+        <button class="tab-btn" data-tab="amazon-case">📦 Case Study 2: Amazon DynamoDB Metadata Outage</button>
+      </div>
+
+      <div id="doordash-case" class="tab-pane active">
+        <div class="case-header">
+          <div class="case-badge">DoorDash Inc.</div>
+          <h3>How a Single Slow Database Query Froze 500k Food Orders</h3>
+          <p>During a high-traffic Sunday football rush, a third-party coupon validation API slowed down from 50ms to 2,000ms.</p>
+        </div>
+
+        <div class="breakdown-grid">
+          <div class="breakdown-card">
+            <div class="card-tag backend">The Cascading Failure</div>
+            <h4>Connection Pool Saturation</h4>
+            <p>Because the checkout service waited 2 full seconds per coupon check, open database connection pools filled to 100%. Subsequent orders queued and timed out.</p>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag frontend">The TPM Solution</div>
+            <h4>Circuit Breaker Pattern</h4>
+            <p>The TPM introduced a <strong>Circuit Breaker (Netflix Hystrix pattern)</strong>: if the coupon API fails or takes &gt; 300ms for 5 consecutive requests, the circuit "trips". Orders bypass coupon validation instantly and succeed!</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="amazon-case" class="tab-pane">
+        <div class="case-header">
+          <div class="case-badge">Amazon Web Services</div>
+          <h3>The DynamoDB US-EAST-1 Metadata Outage</h3>
+          <p>A brief network hiccup caused metadata storage servers to renew leases simultaneously, hammering internal DNS servers with a "thundering herd" effect.</p>
+        </div>
+
+        <div class="breakdown-grid">
+          <div class="breakdown-card">
+            <div class="card-tag apis">Thundering Herd Problem</div>
+            <h4>Simultaneous Reconnection</h4>
+            <p>When millions of servers attempt reconnection at the exact same millisecond, the recovery traffic is 10x higher than regular peak traffic!</p>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag database">The Fix</div>
+            <h4>Exponential Backoff with Jitter</h4>
+            <p>Clients must wait random intervals: <code>wait = min(max_backoff, base * 2^attempt) + random_jitter</code> so reconnection requests spread across several minutes.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Interactive Bug Severity & Triage Tool -->
+    <section id="severity-calculator" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Interactive Teaching Tool</span>
+        <h2>Interactive Bug Severity & Triage Calculator</h2>
+      </div>
+      <p>Select the bug attributes below to calculate the recommended priority score (P0, P1, P2, P3) and response protocol:</p>
+
+      <div class="triage-calc-wrapper">
+        <div class="triage-controls">
+          <div class="control-group">
+            <label>User Impact Blast Radius:</label>
+            <select id="triageImpact" class="form-input">
+              <option value="all">100% of All Active Users Affected</option>
+              <option value="large">Large Cohort (&gt; 25% of users)</option>
+              <option value="small">Small Cohort (&lt; 5% or edge devices)</option>
+              <option value="single">Isolated Single User / Rare Edge Case</option>
+            </select>
+          </div>
+          <div class="control-group">
+            <label>Business / Functional Severity:</label>
+            <select id="triageSeverity" class="form-input">
+              <option value="revenue">Core Revenue / Checkout / Login Blocked</option>
+              <option value="feature">Major Feature Broken (No Workaround)</option>
+              <option value="workaround">Feature Broken but Workaround Exists</option>
+              <option value="cosmetic">Visual / Cosmetic / Typo Only</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="triage-output-card" id="triageOutputCard">
+          <!-- Dynamically populated by script.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Student Deliverables -->
+    <section id="deliverables" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Course Deliverables</span>
+        <h2>Week 07 Assignment & Capstone Milestone</h2>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="deliverable-box">
+          <div class="deliv-badge individual">Individual Assignment (10 Marks)</div>
+          <h3>Standard Bug Report with Reproduction Steps</h3>
+          <p class="deliv-deadline">⏰ Due: Sunday, Dec 19, 2026 before 11:59 PM WAT</p>
+          <p>Find or simulate a realistic production defect in your chosen case study product. Write a comprehensive Bug Report:</p>
+          <ol class="step-list">
+            <li><strong>Title & Severity Classification:</strong> Explicit P0–P3 tag with blast radius.</li>
+            <li><strong>Environment Details:</strong> OS, client version, user session context.</li>
+            <li><strong>Numbered Steps to Reproduce (STR):</strong> Clear, deterministic steps.</li>
+            <li><strong>Expected vs Actual Behavior:</strong> Expected UI/Data vs Actual behavior.</li>
+            <li><strong>Technical Artifact:</strong> Sample HTTP error payload or stack trace.</li>
+          </ol>
+          <div class="rubric-mini">
+            <h4>Marking Rubric (Total: 10 Marks)</h4>
+            <ul>
+              <li>Severity/Priority justification: <strong>2 Marks</strong></li>
+              <li>Precision of Steps to Reproduce (STR): <strong>3 Marks</strong></li>
+              <li>Expected vs Actual contrast & clarity: <strong>3 Marks</strong></li>
+              <li>Technical depth (network/logs) & formatting: <strong>2 Marks</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="deliverable-box">
+          <div class="deliv-badge team">Team Capstone (Phase 7 of 6)</div>
+          <h3>Capstone Bug Triage & Issue Workflow</h3>
+          <p class="deliv-deadline">👥 Collaborative Team Milestone</p>
+          <p>Teams establish an issue tracking and triage SLA protocol for their capstone project:</p>
+
+          <div class="checklist-card">
+            <h4>Week 7 Team Goals:</h4>
+            <label class="check-item"><input type="checkbox"> Configure Linear/GitHub Issue Templates for Bug Reports</label>
+            <label class="check-item"><input type="checkbox"> Define team SLA response times for P0, P1, and P2 defects</label>
+            <label class="check-item"><input type="checkbox"> Conduct a mock incident triage exercise in Sunday session</label>
+            <label class="check-item"><input type="checkbox"> Prepare for End-of-Year break project consolidation</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="template-box">
+        <div class="template-info">
+          <h4>📄 Week 7 Standard Bug Report Template</h4>
+          <p>Copy this standardized markdown template for your submission:</p>
+        </div>
+        <button id="copyTemplateBtn" class="primary-btn">📋 Copy Markdown Template</button>
+      </div>
+      <textarea id="templateText" class="template-textarea" readonly>
+# Bug Report: [Short, Actionable Title Describing the Defect]
+**Product:** [Product Name]
+**Reported By (TPM):** [Your Full Name]
+**Date Reported:** [Submission Date]
+**Priority:** [P0 / P1 / P2 / P3]
+**Impacted Cohort:** [e.g. iOS App Users on v4.12]
+
+## 1. Environment Details
+- **Platform:** iOS 17.4 / Chrome 122 Web
+- **App Version:** Build #3819
+- **Environment:** Production
+- **User Account Type:** Verified Premium User
+
+## 2. Steps to Reproduce (STR)
+1. Log in to user account.
+2. Navigate to [Feature / Screen].
+3. Fill in required fields: [Field A] = "Test", [Field B] = "$50".
+4. Disconnect Wi-Fi network momentarily or switch to 3G.
+5. Tap "Submit Order" button.
+
+## 3. Expected Result
+- System displays an offline retry toast ("Connection lost. Retrying in 5s...").
+- Cart state is preserved in local storage.
+
+## 4. Actual Result
+- Screen freezes indefinitely with an unhandled exception modal.
+- Network inspector shows HTTP 504 Gateway Timeout on `POST /api/v1/orders`.
+- Sentry Error: `Uncaught TypeError: Cannot read properties of undefined (reading 'order_id')`.
+
+## 5. Proposed Fix & Preventive Action
+- Add client-side timeout handling (5 seconds) with retry prompt.
+- Ensure backend implements circuit breaker on payment service.
+      </textarea>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>Product Bosslady Academy (PBA) • Product Career Internship Program (PCIP) • Technical Product Management Track</p>
+      <p class="footer-sub">Week 07 Curriculum • November 2026 – February 2027 • Facilitated by Oyindamola Oye-Daniel</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

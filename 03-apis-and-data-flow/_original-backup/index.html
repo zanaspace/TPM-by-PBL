@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 03: APIs and Data Flow | PCIP TPM Track</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand-group">
+        <a href="../index.html" class="back-portal-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Master Portal
+        </a>
+        <span class="divider">/</span>
+        <span class="badge-week">Week 03 of 12</span>
+      </div>
+      <div class="nav-title">APIs and Data Flow</div>
+      <div class="nav-actions">
+        <button id="themeToggle" class="icon-btn" title="Toggle Theme">🌓</button>
+        <a href="../02-systems-thinking-and-architecture/index.html" class="nav-prev-btn">← Week 2</a>
+        <a href="../04-technical-prd-writing/index.html" class="nav-next-btn">Next: Week 4 →</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="meta-pill-group">
+        <span class="meta-pill date-pill">📅 Nov 16 – 22, 2026</span>
+        <span class="meta-pill live-pill">🔴 Masterclass: Sat 7:00 PM WAT</span>
+        <span class="meta-pill review-pill">🎯 Project Review: Sun 6:00 PM WAT</span>
+      </div>
+      <h1 class="hero-title">APIs and Data Flow for Technical PMs</h1>
+      <p class="hero-subtitle">
+        Understand how modern systems communicate. Master HTTP methods, status codes, payload structures, webhooks, and idempotency keys through the lens of industry titans: <strong>Stripe</strong> and <strong>Google Maps</strong>.
+      </p>
+      <div class="hero-quick-stats">
+        <div class="stat-box">
+          <span class="stat-num">REST vs Webhooks</span>
+          <span class="stat-label">Communication Paradigms</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">Stripe & Google Maps</span>
+          <span class="stat-label">Gold Standard API Case Studies</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">Idempotency</span>
+          <span class="stat-label">Preventing Double Charges</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">10 Marks</span>
+          <span class="stat-label">Individual Deliverable #3</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="sub-nav">
+    <div class="sub-nav-container">
+      <a href="#api-fundamentals" class="sub-link active">1. API Fundamentals</a>
+      <a href="#http-status-codes" class="sub-link">2. HTTP Verbs & Status Codes</a>
+      <a href="#case-studies" class="sub-link">3. Case Studies (Stripe & Google Maps)</a>
+      <a href="#interactive-sandbox" class="sub-link">4. Live API Tester Sandbox</a>
+      <a href="#deliverables" class="sub-link">5. Deliverables & Template</a>
+    </div>
+  </nav>
+
+  <main class="main-container">
+
+    <!-- 1. API Fundamentals -->
+    <section id="api-fundamentals" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 3.1</span>
+        <h2>What is an API to a Technical Product Manager?</h2>
+      </div>
+      <p class="lead-text">
+        An Application Programming Interface (API) is a contract between two software systems. Just as a UI is an interface for humans (buttons, inputs), an API is an interface for computers (endpoints, JSON parameters, and return codes).
+      </p>
+
+      <div class="grid-3-col">
+        <div class="concept-card">
+          <div class="concept-icon">📡</div>
+          <h3>REST (Representational State Transfer)</h3>
+          <p>Stateless, resource-based over HTTP. Every resource is identified by a URI (e.g. <code>/v1/customers/cus_123</code>) and manipulated using standard HTTP verbs.</p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-icon">🔔</div>
+          <h3>Webhooks (Reverse APIs)</h3>
+          <p>Instead of your app asking "Did the payment succeed?" 50 times a minute (polling), the payment provider calls your webhook URL instantly when the event occurs (Pub/Sub push).</p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-icon">🛡️</div>
+          <h3>Idempotency Keys</h3>
+          <p>A safety token sent in headers. If a user hits "Pay" twice due to poor network, the server recognizes the identical key and ensures only <strong>one</strong> transaction occurs.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. HTTP Verbs & Status Codes -->
+    <section id="http-status-codes" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 3.2</span>
+        <h2>HTTP Verbs & Status Codes Every TPM Must Memorize</h2>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="info-callout primary">
+          <h3>HTTP Verbs (Methods)</h3>
+          <ul class="bullet-list">
+            <li><code>GET /orders</code>: Retrieve resources (Safe & Idempotent; never modifies state).</li>
+            <li><code>POST /orders</code>: Create a brand new resource.</li>
+            <li><code>PUT /orders/123</code>: Replace the entire resource representation.</li>
+            <li><code>PATCH /orders/123</code>: Partially update specific fields (e.g. update status to "Shipped").</li>
+            <li><code>DELETE /orders/123</code>: Remove the resource.</li>
+          </ul>
+        </div>
+        <div class="info-callout secondary">
+          <h3>HTTP Status Code Families</h3>
+          <ul class="bullet-list">
+            <li><strong>2xx Success:</strong> <code>200 OK</code> (Read), <code>201 Created</code> (Resource added), <code>204 No Content</code> (Deleted).</li>
+            <li><strong>4xx Client Errors:</strong> <code>400 Bad Request</code> (Malformed JSON), <code>401 Unauthorized</code> (No token), <code>403 Forbidden</code> (Wrong permissions), <code>404 Not Found</code>, <code>429 Too Many Requests</code> (Rate limit).</li>
+            <li><strong>5xx Server Errors:</strong> <code>500 Internal Error</code> (Crash in code), <code>502 Bad Gateway</code>, <code>503 Service Unavailable</code> (Overloaded server), <code>504 Gateway Timeout</code>.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Case Studies -->
+    <section id="case-studies" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 3.3: Real-World Public Product Case Studies</span>
+        <h2>Case Studies: Stripe & Google Maps API</h2>
+      </div>
+
+      <div class="tab-control">
+        <button class="tab-btn active" data-tab="stripe-case">💳 Case Study 1: Stripe (The World's Best Developer API)</button>
+        <button class="tab-btn" data-tab="maps-case">🗺️ Case Study 2: Google Maps Platform (High-Throughput Geo API)</button>
+      </div>
+
+      <!-- Stripe Pane -->
+      <div id="stripe-case" class="tab-pane active">
+        <div class="case-header">
+          <div class="case-badge">Stripe, Inc.</div>
+          <h3>How Stripe Designed the Benchmark for Developer Experience</h3>
+          <p>Stripe became a $90B company because developers loved their 7 lines of API code. Here is how their API contracts are structured.</p>
+        </div>
+
+        <div class="breakdown-grid">
+          <div class="breakdown-card">
+            <div class="card-tag apis">Endpoint Design</div>
+            <h4>Predictable Resource URLs</h4>
+            <ul class="clean-list">
+              <li><code>POST /v1/payment_intents</code>: Initiates a payment lifecycle.</li>
+              <li><code>GET /v1/payment_intents/:id</code>: Retrieves current status.</li>
+              <li>Every object returns standard JSON with an <code>id</code> prefix (e.g. <code>pi_3MtwBwLkdIwHu7ix</code>).</li>
+            </ul>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag backend">Resilience</div>
+            <h4>The Idempotency Key</h4>
+            <ul class="clean-list">
+              <li>Header: <code>Idempotency-Key: 9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d</code>.</li>
+              <li>If the network drops mid-request and the client retries, Stripe returns the original cached response instead of charging the credit card twice!</li>
+            </ul>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag database">Async Communication</div>
+            <h4>Webhooks with HMAC Signatures</h4>
+            <ul class="clean-list">
+              <li>When asynchronous events occur (e.g. 3D-Secure bank approval 10 minutes later), Stripe pushes a JSON payload to your server.</li>
+              <li>Signed with <code>Stripe-Signature</code> header so hackers cannot fake successful payment notices.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag frontend">TPM Lesson</div>
+            <h4>Machine-Readable Error Codes</h4>
+            <ul class="clean-list">
+              <li>Stripe errors return structured codes: <code>{"type": "card_error", "code": "card_declined", "decline_code": "insufficient_funds"}</code>.</li>
+              <li>This allows TPMs to write explicit UI flows: "Show a prompt asking user to try another card."</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Google Maps Pane -->
+      <div id="maps-case" class="tab-pane">
+        <div class="case-header">
+          <div class="case-badge">Google Maps Platform</div>
+          <h3>High-Throughput Geospatial Routing API</h3>
+          <p>Google Maps processes billions of queries daily. Learn how they manage query params, quotas, and caching.</p>
+        </div>
+
+        <div class="breakdown-grid">
+          <div class="breakdown-card">
+            <div class="card-tag apis">Query Design</div>
+            <h4>Parameter-Driven Endpoints</h4>
+            <ul class="clean-list">
+              <li><code>GET https://maps.googleapis.com/maps/api/directions/json?origin=Lagos&destination=Ibadan&key=AIzaSy...</code></li>
+              <li>Uses HTTP GET because the query is idempotent and read-only.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag backend">Rate Limiting</div>
+            <h4>QPS & Quota Management</h4>
+            <ul class="clean-list">
+              <li>Enforces Queries Per Second (QPS) limits per API Key.</li>
+              <li>Returns <code>429 Too Many Requests</code> with <code>OVER_QUERY_LIMIT</code> when an app exceeds its billing tier.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag database">Performance</div>
+            <h4>Coordinate Snapping & Polyline Compression</h4>
+            <ul class="clean-list">
+              <li>Instead of sending 50,000 latitude/longitude GPS points (which would be 2MB JSON), it encodes routes into compressed 15KB polyline strings.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag frontend">TPM Lesson</div>
+            <h4>Billable Unit Awareness</h4>
+            <ul class="clean-list">
+              <li>A TPM must design client debouncing: do not fire an Autocomplete API call on every single keystroke; wait 300ms after the user stops typing to save thousands of dollars!</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Interactive Live API Tester Sandbox -->
+    <section id="interactive-sandbox" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Interactive Teaching Tool</span>
+        <h2>Live API Request / Response Sandbox</h2>
+      </div>
+      <p>Simulate firing production API requests to Stripe and Google Maps. Observe headers, request bodies, status codes, and JSON responses:</p>
+
+      <div class="api-tester-container">
+        <div class="api-request-bar">
+          <select id="apiMethod" class="method-select">
+            <option value="POST">POST</option>
+            <option value="GET">GET</option>
+          </select>
+          <input type="text" id="apiUrl" class="url-input" value="https://api.stripe.com/v1/payment_intents">
+          <button id="sendRequestBtn" class="send-btn">🚀 Send API Request</button>
+        </div>
+
+        <div class="api-options-bar">
+          <label>Pre-loaded Presets:</label>
+          <button class="preset-btn" data-preset="stripe-success">Stripe: Successful Payment ($50)</button>
+          <button class="preset-btn" data-preset="stripe-declined">Stripe: Card Declined (402)</button>
+          <button class="preset-btn" data-preset="stripe-unauth">Stripe: Invalid API Key (401)</button>
+          <button class="preset-btn" data-preset="google-directions">Google Maps: Lagos to Ibadan (200)</button>
+          <button class="preset-btn" data-preset="rate-limited">Rate Limit Exceeded (429)</button>
+        </div>
+
+        <div class="api-grid-view">
+          <div class="api-pane">
+            <div class="pane-title">Request Body & Headers</div>
+            <textarea id="requestBodyText" class="code-area" spellcheck="false">{
+  "amount": 5000,
+  "currency": "usd",
+  "payment_method_types": ["card"],
+  "description": "PCIP Student Masterclass Course Fee"
+}</textarea>
+          </div>
+          <div class="api-pane">
+            <div class="pane-title">
+              <span>Response Output</span>
+              <span id="responseStatusBadge" class="status-badge s200">200 OK</span>
+            </div>
+            <pre id="responseOutput" class="code-area response-pre"><code>Click "Send API Request" or choose a preset above to inspect response payload...</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Student Deliverables -->
+    <section id="deliverables" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Course Deliverables</span>
+        <h2>Week 03 Assignment & Capstone Milestone</h2>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="deliverable-box">
+          <div class="deliv-badge individual">Individual Assignment (10 Marks)</div>
+          <h3>API Design Specification Exercise</h3>
+          <p class="deliv-deadline">⏰ Due: Sunday, Nov 22, 2026 before 11:59 PM WAT</p>
+          <p>For your individual case study product, design <strong>3 distinct API endpoints</strong>:</p>
+          <ol class="step-list">
+            <li><strong>Endpoint 1 (POST):</strong> Creation endpoint with request JSON body and validation rules.</li>
+            <li><strong>Endpoint 2 (GET):</strong> Retrieval endpoint with query parameters (filtering & pagination).</li>
+            <li><strong>Endpoint 3 (PUT/PATCH):</strong> Update endpoint with authorization check.</li>
+            <li><strong>Error Matrix:</strong> Detail at least 3 error status codes (e.g. 400, 401, 429) and their exact JSON error response format.</li>
+            <li><strong>Data Flow Sequence:</strong> Diagram or explain step-by-step how data moves between Client, API, and DB for Endpoint 1.</li>
+          </ol>
+          <div class="rubric-mini">
+            <h4>Marking Rubric (Total: 10 Marks)</h4>
+            <ul>
+              <li>RESTful convention & HTTP verb accuracy: <strong>3 Marks</strong></li>
+              <li>Request/Response JSON payload completeness: <strong>3 Marks</strong></li>
+              <li>Error status handling & edge cases: <strong>2 Marks</strong></li>
+              <li>Data flow diagram & clarity: <strong>2 Marks</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="deliverable-box">
+          <div class="deliv-badge team">Team Capstone (Phase 3 of 6)</div>
+          <h3>Capstone API Contracts & Integrations</h3>
+          <p class="deliv-deadline">👥 Collaborative Team Milestone</p>
+          <p>Teams define and document the primary API contract for their system build:</p>
+
+          <div class="checklist-card">
+            <h4>Week 3 Team Goals:</h4>
+            <label class="check-item"><input type="checkbox"> Define core API endpoints (at least 5 endpoints)</label>
+            <label class="check-item"><input type="checkbox"> Agree on authentication method (Bearer JWT / API Key)</label>
+            <label class="check-item"><input type="checkbox"> Document data exchange formats and 3rd-party webhook triggers</label>
+            <label class="check-item"><input type="checkbox"> Present API contracts in Sunday Project Review</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="template-box">
+        <div class="template-info">
+          <h4>📄 Week 3 API Design Specification Template</h4>
+          <p>Copy this standardized markdown template for your submission:</p>
+        </div>
+        <button id="copyTemplateBtn" class="primary-btn">📋 Copy Markdown Template</button>
+      </div>
+      <textarea id="templateText" class="template-textarea" readonly>
+# Week 03 API Design Specification: [Product Name]
+**Student Name:** [Your Full Name]
+**PCIP Track:** Technical Product Management
+**Date:** [Submission Date]
+
+## 1. Authentication Scheme
+- **Method:** Bearer Token (JWT) in Authorization Header
+- **Example Header:** `Authorization: Bearer eyJhbGciOi...`
+
+## 2. Endpoint 1: Create Resource (POST)
+- **URL:** `POST /api/v1/[resources]`
+- **Description:** Creates a new [resource].
+- **Request Headers:**
+  - `Content-Type: application/json`
+  - `Idempotency-Key: [UUID]`
+- **Request Body (JSON):**
+```json
+{
+  "title": "Sample Title",
+  "amount_cents": 2500,
+  "category_id": "cat_987"
+}
+```
+- **Success Response (201 Created):**
+```json
+{
+  "id": "res_00123",
+  "title": "Sample Title",
+  "status": "active",
+  "created_at": "2026-11-20T14:30:00Z"
+}
+```
+
+## 3. Endpoint 2: Retrieve & Filter (GET)
+- **URL:** `GET /api/v1/[resources]?status=active&limit=20&page=1`
+- **Query Parameters:**
+  - `status` (string, optional)
+  - `limit` (integer, max 100)
+- **Success Response (200 OK):**
+```json
+{
+  "data": [...],
+  "pagination": { "page": 1, "total_records": 150, "has_more": true }
+}
+```
+
+## 4. Error Response Matrix
+| Status Code | Error Code | Reason & UI Recovery Action |
+|-------------|------------|-----------------------------|
+| 400 Bad Request | `missing_field` | Display specific field error on form input. |
+| 401 Unauthorized | `token_expired` | Redirect user to login or refresh session. |
+| 429 Too Many Requests | `rate_limit_exceeded` | Back off request and retry after header value. |
+      </textarea>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>Product Bosslady Academy (PBA) • Product Career Internship Program (PCIP) • Technical Product Management Track</p>
+      <p class="footer-sub">Week 03 Curriculum • November 2026 – February 2027 • Facilitated by Oyindamola Oye-Daniel</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

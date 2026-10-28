@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 05: Agile and Engineering Workflows | PCIP TPM Track</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand-group">
+        <a href="../index.html" class="back-portal-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Master Portal
+        </a>
+        <span class="divider">/</span>
+        <span class="badge-week">Week 05 of 12</span>
+      </div>
+      <div class="nav-title">Agile and Engineering Workflows</div>
+      <div class="nav-actions">
+        <button id="themeToggle" class="icon-btn" title="Toggle Theme">🌓</button>
+        <a href="../04-technical-prd-writing/index.html" class="nav-prev-btn">← Week 4</a>
+        <a href="../06-engineering-collaboration/index.html" class="nav-next-btn">Next: Week 6 →</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="meta-pill-group">
+        <span class="meta-pill date-pill">📅 Nov 30 – Dec 5, 2026</span>
+        <span class="meta-pill live-pill">🔴 Masterclass: Sat 7:00 PM WAT</span>
+        <span class="meta-pill review-pill">🎯 Project Review: Sun 6:00 PM WAT</span>
+      </div>
+      <h1 class="hero-title">Agile and Engineering Workflows for TPMs</h1>
+      <p class="hero-subtitle">
+        Drive engineering velocity with precision. Learn how high-performing tech teams at <strong>Linear</strong> and <strong>Slack</strong> organize sprint roadmaps, balance technical debt vs. new features, estimate story points, and run effective retrospectives.
+      </p>
+      <div class="hero-quick-stats">
+        <div class="stat-box">
+          <span class="stat-num">70 / 20 / 10</span>
+          <span class="stat-label">Capacity Allocation Rule</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">Linear & Slack</span>
+          <span class="stat-label">Modern Agile Workflows</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">RICE Matrix</span>
+          <span class="stat-label">Prioritization Science</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">10 Marks</span>
+          <span class="stat-label">Individual Deliverable #5</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="sub-nav">
+    <div class="sub-nav-container">
+      <a href="#agile-ceremonies" class="sub-link active">1. Agile Ceremonies</a>
+      <a href="#tech-debt" class="sub-link">2. Managing Tech Debt</a>
+      <a href="#story-points" class="sub-link">3. Estimation & Story Points</a>
+      <a href="#case-studies" class="sub-link">4. Linear & Slack Case Studies</a>
+      <a href="#sprint-calculator" class="sub-link">5. Sprint Capacity Calculator</a>
+      <a href="#deliverables" class="sub-link">6. Deliverables & Template</a>
+    </div>
+  </nav>
+
+  <main class="main-container">
+
+    <!-- 1. Agile Ceremonies -->
+    <section id="agile-ceremonies" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 5.1</span>
+        <h2>The 4 Core Agile Ceremonies & The TPM's Role</h2>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="info-callout primary">
+          <h3>1. Backlog Grooming / Refinement</h3>
+          <p><strong>Frequency:</strong> Weekly (45–60 mins)</p>
+          <p><strong>TPM Role:</strong> Walk through upcoming user stories and technical enablers. Clarify requirements, ensure acceptance criteria are complete, and confirm the team reaches the <strong>Definition of Ready (DoR)</strong>.</p>
+        </div>
+        <div class="info-callout secondary">
+          <h3>2. Sprint Planning</h3>
+          <p><strong>Frequency:</strong> Bi-weekly on Mondays (60 mins)</p>
+          <p><strong>TPM Role:</strong> Define the Sprint Goal. Present prioritized items based on team velocity (e.g. 40 points). Defend trade-offs when an engineer says <em>"We cannot fit feature B without dropping feature C."</em></p>
+        </div>
+        <div class="info-callout primary">
+          <h3>3. Daily Standup (Scrum)</h3>
+          <p><strong>Frequency:</strong> Daily (15 mins strict)</p>
+          <p><strong>TPM Role:</strong> Listen for blockers! If a developer is stuck on third-party API documentation or waiting on another team's database migration, the TPM unblocks them immediately.</p>
+        </div>
+        <div class="info-callout secondary">
+          <h3>4. Sprint Retrospective</h3>
+          <p><strong>Frequency:</strong> End of every sprint (45 mins)</p>
+          <p><strong>TPM Role:</strong> What went well? What slowed us down? Action items to improve pipeline automation, testing, or requirement clarity next sprint.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Managing Tech Debt -->
+    <section id="tech-debt" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 5.2</span>
+        <h2>The 70 / 20 / 10 Capacity Allocation Framework</h2>
+      </div>
+      <p class="lead-text">
+        Non-technical PMs often make the fatal mistake of allocating 100% of engineering bandwidth to new visible features. Over time, code turns into spaghetti, systems crash, and velocity drops to zero. As a TPM, you protect engineering health.
+      </p>
+
+      <div class="grid-3-col">
+        <div class="concept-card" style="border-top: 4px solid #10b981;">
+          <div class="concept-icon">🚀</div>
+          <h3>70% Product Features</h3>
+          <p>User-facing capabilities, growth initiatives, conversion funnels, and revenue-generating features agreed upon in the product roadmap.</p>
+        </div>
+        <div class="concept-card" style="border-top: 4px solid #f59e0b;">
+          <div class="concept-icon">🔧</div>
+          <h3>20% Technical Debt & Infra</h3>
+          <p>Database indexing, refactoring legacy classes, upgrading vulnerable NPM/Python packages, improving CI/CD build speeds, and reducing latency.</p>
+        </div>
+        <div class="concept-card" style="border-top: 4px solid #8b5cf6;">
+          <div class="concept-icon">🔬</div>
+          <h3>10% Spikes & Exploration</h3>
+          <p>Timeboxed research investigations (e.g. benchmarking PostgreSQL vs ClickHouse for an upcoming analytics feature) before committing full sprint points.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Estimation & Story Points -->
+    <section id="story-points" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 5.3</span>
+        <h2>Story Points & Fibonacci Estimation: Why Hours Don't Work</h2>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="info-callout primary">
+          <h3>Why Story Points Over Hours?</h3>
+          <p>A senior engineer might build a feature in 3 hours that takes an intern 3 days. Estimating in hours creates friction. <strong>Story points measure relative complexity, effort, and risk</strong>, regardless of who writes the code.</p>
+          <ul class="bullet-list">
+            <li><strong>1 Point:</strong> Trivial text change or config tweak.</li>
+            <li><strong>2–3 Points:</strong> Standard API endpoint with existing pattern.</li>
+            <li><strong>5 Points:</strong> Complex feature touching frontend, backend, and DB.</li>
+            <li><strong>8 Points:</strong> High complexity, multiple external integrations, substantial risk.</li>
+            <li><strong>13+ Points:</strong> Too big! Must be broken down into smaller sub-stories.</li>
+          </ul>
+        </div>
+        <div class="info-callout secondary">
+          <h3>Definition of Ready (DoR) vs Done (DoD)</h3>
+          <p><strong>DoR (Before work starts):</strong> PRD approved, designs attached, acceptance criteria written, dependencies unblocked.</p>
+          <p><strong>DoD (Before release):</strong> Code reviewed by 2 engineers, unit test coverage &gt; 80%, passed staging QA, deployed to production behind feature flag.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Public Product Case Studies -->
+    <section id="case-studies" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 5.4: Real-World Public Product Case Studies</span>
+        <h2>Case Studies: Linear & Slack</h2>
+      </div>
+
+      <div class="tab-control">
+        <button class="tab-btn active" data-tab="linear-case">⚡ Case Study 1: Linear (Opinionated Issue Tracking)</button>
+        <button class="tab-btn" data-tab="slack-case">💬 Case Study 2: Slack (Continuous Deployment at Scale)</button>
+      </div>
+
+      <!-- Linear Pane -->
+      <div id="linear-case" class="tab-pane active">
+        <div class="case-header">
+          <div class="case-badge">Linear.app</div>
+          <h3>Why Top Silicon Valley Startups Left Jira for Linear</h3>
+          <p>Linear revolutionized engineering workflows by rejecting heavyweight enterprise bureaucracy in favor of keyboard-first, high-velocity sprints.</p>
+        </div>
+
+        <div class="breakdown-grid">
+          <div class="breakdown-card">
+            <div class="card-tag frontend">Cycles vs Sprints</div>
+            <h4>Continuous Flow Over Artificial Deadlines</h4>
+            <p>Linear replaces stressful 2-week sprints with repeating "Cycles". Unfinished work automatically rolls into the next cycle without shame or arbitrary rescheduling rituals.</p>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag backend">Git Automation</div>
+            <h4>Automated PR Status Transitions</h4>
+            <p>When an engineer branches <code>git checkout -b john/lin-102-auth-token</code> and opens a GitHub PR, Linear automatically transitions the issue to "In Review". Zero manual dragging required!</p>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag database">Triage Inbox</div>
+            <h4>Customer Bug Quarantine</h4>
+            <p>Customer feedback doesn't pollute the active sprint backlog. It lands in a dedicated "Triage" queue where the TPM approves, merges, or archives before engineers ever see it.</p>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag apis">TPM Lesson</div>
+            <h4>Speed as a Feature</h4>
+            <p>Linear's sync engine uses local SQLite in the browser. Interacting with tickets takes 0ms latency. Fast tools create fast teams.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slack Pane -->
+      <div id="slack-case" class="tab-pane">
+        <div class="case-header">
+          <div class="case-badge">Slack / Salesforce</div>
+          <h3>Deploying Code 100 Times a Day with Feature Flags</h3>
+          <p>Slack cannot afford to bring down enterprise workplace communications during a release. Here is how their engineering squads ship safely.</p>
+        </div>
+
+        <div class="breakdown-grid">
+          <div class="breakdown-card">
+            <div class="card-tag backend">Feature Flagging</div>
+            <h4>Decoupling Deploy from Release</h4>
+            <p>Code is merged into production daily, but hidden behind dynamic feature flags (LaunchDarkly). The TPM turns on the feature for 1% of users, tests metrics, and gradually ramps to 100%.</p>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag database">Canary Testing</div>
+            <h4>Dogfooding on Slack Employees</h4>
+            <p>Every new build runs internally across 3,000 Slack employees for 24 hours before a single external customer receives the code.</p>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag frontend">Rollback Automation</div>
+            <h4>Instant 60-Second Revert</h4>
+            <p>If Sentry detects an error spike above 0.1%, automated canary watchdogs flip the feature flag to OFF automatically without engineering intervention.</p>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag apis">TPM Lesson</div>
+            <h4>Blameless Post-Mortems</h4>
+            <p>When outages happen, the focus is never on blaming the developer who pushed the commit, but on fixing the missing automated guardrail.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Interactive Sprint Capacity Calculator -->
+    <section id="sprint-calculator" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Interactive Teaching Tool</span>
+        <h2>Sprint Capacity & RICE Prioritization Simulator</h2>
+      </div>
+      <p>Simulate a 2-week sprint planning session. The engineering squad has a capacity of <strong>40 Story Points</strong>. Toggle features below and observe how the 70/20/10 capacity allocation and RICE scores balance:</p>
+
+      <div class="sprint-calc-wrapper">
+        <div class="capacity-bar-container">
+          <div class="capacity-header">
+            <span>Sprint Commitment: <strong id="currentPointsText">0</strong> / 40 Points</span>
+            <span id="capacityStatusBadge" class="status-badge s200">Optimal (Within Budget)</span>
+          </div>
+          <div class="progress-track">
+            <div id="progressFill" class="progress-fill" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <div class="backlog-items-list" id="backlogItemsContainer">
+          <!-- Dynamically populated by script.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Student Deliverables -->
+    <section id="deliverables" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Course Deliverables</span>
+        <h2>Week 05 Assignment & Capstone Milestone</h2>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="deliverable-box">
+          <div class="deliv-badge individual">Individual Assignment (10 Marks)</div>
+          <h3>Product Backlog & Sprint Plan</h3>
+          <p class="deliv-deadline">⏰ Due: Sunday, Dec 5, 2026 before 11:59 PM WAT</p>
+          <p>For your individual case study product, prepare a full Sprint Execution Plan:</p>
+          <ol class="step-list">
+            <li><strong>6 Backlog Items:</strong> 3 Features, 2 Tech Debt items, 1 Spike/Exploration.</li>
+            <li><strong>Story Point Estimations:</strong> Estimate each using Fibonacci (1, 2, 3, 5, 8).</li>
+            <li><strong>RICE Score Calculation:</strong> Show Reach, Impact, Confidence, and Effort calculations.</li>
+            <li><strong>Sprint 1 Selection & Trade-off Rationale:</strong> Select items fitting a 30-point capacity and explain why excluded items were cut.</li>
+          </ol>
+          <div class="rubric-mini">
+            <h4>Marking Rubric (Total: 10 Marks)</h4>
+            <ul>
+              <li>Backlog diversity (Features vs Tech Debt balance): <strong>3 Marks</strong></li>
+              <li>Story point estimation realism: <strong>2 Marks</strong></li>
+              <li>RICE scoring logic & rigor: <strong>3 Marks</strong></li>
+              <li>Trade-off justification & sprint roadmap: <strong>2 Marks</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="deliverable-box">
+          <div class="deliv-badge team">Team Capstone (Phase 5 of 6)</div>
+          <h3>Capstone Sprint Roadmap & Execution Plan</h3>
+          <p class="deliv-deadline">👥 Collaborative Team Milestone</p>
+          <p>Teams create their full sprint backlog and engineering roadmap:</p>
+
+          <div class="checklist-card">
+            <h4>Week 5 Team Goals:</h4>
+            <label class="check-item"><input type="checkbox"> Set up Team Linear / Jira workspace</label>
+            <label class="check-item"><input type="checkbox"> Break down PRD into 15+ atomic engineering user stories</label>
+            <label class="check-item"><input type="checkbox"> Allocate story points with team consensus (Planning Poker)</label>
+            <label class="check-item"><input type="checkbox"> Map stories into Sprint 1 and Sprint 2 execution cycles</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="template-box">
+        <div class="template-info">
+          <h4>📄 Week 5 Sprint Backlog & Planning Template</h4>
+          <p>Copy this standardized markdown template for your submission:</p>
+        </div>
+        <button id="copyTemplateBtn" class="primary-btn">📋 Copy Markdown Template</button>
+      </div>
+      <textarea id="templateText" class="template-textarea" readonly>
+# Week 05 Sprint Backlog & Planning: [Product Name]
+**Student Name:** [Your Full Name]
+**PCIP Track:** Technical Product Management
+**Date:** [Submission Date]
+
+## 1. Team Velocity & Sprint Parameters
+- **Sprint Duration:** 2 Weeks (Nov 30 – Dec 14)
+- **Engineers in Squad:** 4 Software Engineers + 1 QA
+- **Total Historical Velocity:** 30 Story Points
+
+## 2. Product Backlog Items (PBI)
+| ID | Item Title | Category | Story Points | RICE Score | In Sprint 1? |
+|----|------------|----------|--------------|------------|--------------|
+| T-101 | Biometric Login | Feature | 5 | 850 | YES |
+| T-102 | Redis Caching for User Feed | Tech Debt | 3 | 720 | YES |
+| T-103 | ClickHouse Spike Evaluation | Spike | 2 | 400 | YES |
+| T-104 | Push Notification Customization | Feature | 8 | 320 | NO (Sprint 2) |
+| T-105 | Upgrade Node.js & Patch CVEs | Tech Debt | 3 | 600 | YES |
+| T-106 | Social Graph Export API | Feature | 8 | 280 | NO (Sprint 2) |
+
+## 3. RICE Calculation Breakdown (Example for T-101)
+- **Reach:** 50,000 active mobile users/month
+- **Impact:** 3 (High - reduces login drop-off)
+- **Confidence:** 80% (0.8)
+- **Effort:** 5 person-weeks
+- **RICE Score:** (50,000 * 3 * 0.8) / 5 = 24,000 (Normalized to 850)
+
+## 4. Trade-off Rationale & Capacity Distribution
+- **Capacity Split:** Features (13 pts - 65%), Tech Debt (6 pts - 30%), Spikes (2 pts - 10%).
+- **Why Items Were Cut:** Items T-104 and T-106 were deferred to Sprint 2 to ensure critical tech debt (Redis caching) was resolved before handling high-load marketing campaigns.
+      </textarea>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>Product Bosslady Academy (PBA) • Product Career Internship Program (PCIP) • Technical Product Management Track</p>
+      <p class="footer-sub">Week 05 Curriculum • November 2026 – February 2027 • Facilitated by Oyindamola Oye-Daniel</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

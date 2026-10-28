@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 06: Engineering Collaboration | PCIP TPM Track</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand-group">
+        <a href="../index.html" class="back-portal-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Master Portal
+        </a>
+        <span class="divider">/</span>
+        <span class="badge-week">Week 06 of 12</span>
+      </div>
+      <div class="nav-title">Engineering Collaboration</div>
+      <div class="nav-actions">
+        <button id="themeToggle" class="icon-btn" title="Toggle Theme">🌓</button>
+        <a href="../05-agile-and-engineering-workflows/index.html" class="nav-prev-btn">← Week 5</a>
+        <a href="../07-debugging-and-issue-tracking/index.html" class="nav-next-btn">Next: Week 7 →</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="meta-pill-group">
+        <span class="meta-pill date-pill">📅 Dec 6 – 12, 2026</span>
+        <span class="meta-pill live-pill">🔴 Masterclass: Sat 7:00 PM WAT</span>
+        <span class="meta-pill review-pill">🎯 Project Review: Sun 6:00 PM WAT</span>
+      </div>
+      <h1 class="hero-title">Engineering Collaboration & Git Workflows</h1>
+      <p class="hero-subtitle">
+        Partner seamlessly with software engineers. Master Git branching, explore commits and Pull Requests (PRs), translate high-level product specs into technical engineering sub-tasks, and study how <strong>GitHub</strong> and <strong>GitLab</strong> power continuous integration.
+      </p>
+      <div class="hero-quick-stats">
+        <div class="stat-box">
+          <span class="stat-num">Git Branching</span>
+          <span class="stat-label">Trunk-Based vs GitFlow</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">GitHub & GitLab</span>
+          <span class="stat-label">CI/CD & PR Workflows</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">Task Decomposition</span>
+          <span class="stat-label">Product to Engineering Tasks</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">10 Marks</span>
+          <span class="stat-label">Individual Deliverable #6</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="sub-nav">
+    <div class="sub-nav-container">
+      <a href="#git-basics" class="sub-link active">1. Git for TPMs</a>
+      <a href="#pr-reviews" class="sub-link">2. How to Review a PR</a>
+      <a href="#task-breakdown" class="sub-link">3. Technical Task Breakdown</a>
+      <a href="#case-studies" class="sub-link">4. GitHub & GitLab Case Studies</a>
+      <a href="#pr-simulator" class="sub-link">5. Interactive PR Simulator</a>
+      <a href="#deliverables" class="sub-link">6. Deliverables & Template</a>
+    </div>
+  </nav>
+
+  <main class="main-container">
+
+    <!-- 1. Git Basics -->
+    <section id="git-basics" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 6.1</span>
+        <h2>Git Fundamentals Every Technical PM Must Know</h2>
+      </div>
+      <p class="lead-text">
+        Git is a distributed version control system. You don't need to write terminal git rebase commands daily, but you must understand how code travels from a developer's laptop to production.
+      </p>
+
+      <div class="grid-3-col">
+        <div class="concept-card">
+          <div class="concept-icon">🌿</div>
+          <h3>Branches (`main` vs `feature/`)</h3>
+          <p>Developers never commit directly to production (`main`). They cut an isolated branch (e.g. <code>feature/stripe-webhooks</code>), write code, and merge only after approvals.</p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-icon">📦</div>
+          <h3>Commits & Pull Requests (PRs)</h3>
+          <p>A commit is a snapshot of changed files. A Pull Request is a formal proposal asking team members: <em>"Please review my code before I merge it into the main codebase."</em></p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-icon">🤖</div>
+          <h3>CI/CD Automation Pipelines</h3>
+          <p>Every PR triggers automated robots: running unit tests, linting code style, scanning for security vulnerabilities, and creating temporary staging preview links.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. How to Review a PR -->
+    <section id="pr-reviews" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 6.2</span>
+        <h2>The TPM Pull Request Review Checklist</h2>
+      </div>
+      <p>Engineers review the code syntax and algorithmic complexity; as a TPM, you review the PR for <strong>functional completeness, risk, and user impact</strong>:</p>
+
+      <div class="grid-2-col">
+        <div class="info-callout primary">
+          <h3>✅ What the TPM Checks on a PR</h3>
+          <ul class="bullet-list">
+            <li><strong>Acceptance Criteria Match:</strong> Does this PR deliver the exact behavior promised in the PRD?</li>
+            <li><strong>Database Schema Migrations:</strong> Does the migration add a non-nullable column without a default value? (This could lock large production tables!)</li>
+            <li><strong>Analytics & Telemetry Events:</strong> Are the tracking events (e.g. <code>track('checkout_completed')</code>) included in this PR?</li>
+            <li><strong>Staging Preview Test:</strong> Open the ephemeral preview URL on mobile and test edge cases.</li>
+          </ul>
+        </div>
+        <div class="info-callout secondary">
+          <h3>🚫 What the TPM Leaves to Engineers</h3>
+          <ul class="bullet-list">
+            <li>Variable naming conventions and whitespace formatting (handled by automated linters).</li>
+            <li>Internal design patterns (Factory vs Singleton classes).</li>
+            <li>Memory pointer allocations and garbage collection optimizations.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Technical Task Breakdown -->
+    <section id="task-breakdown" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 6.3</span>
+        <h2>Decomposing Product Requirements into Engineering Tasks</h2>
+      </div>
+      <p class="lead-text">
+        A product requirement like <em>"Add 2-Factor Authentication via SMS"</em> cannot be given to a developer as a single giant ticket. A TPM breaks it down across the stack:
+      </p>
+
+      <div class="table-responsive">
+        <table class="tpm-table">
+          <thead>
+            <tr>
+              <th>Sub-Task ID</th>
+              <th>Layer / Component</th>
+              <th>Technical Task Description</th>
+              <th>Est. Points</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>ENG-201</strong></td>
+              <td>Database</td>
+              <td>Add <code>phone_number</code>, <code>is_2fa_enabled</code>, and <code>two_factor_secret</code> columns to <code>users</code> table with migration.</td>
+              <td>2 pts</td>
+            </tr>
+            <tr>
+              <td><strong>ENG-202</strong></td>
+              <td>Backend Service</td>
+              <td>Integrate Twilio Verify API SDK; implement <code>POST /auth/2fa/send-otp</code> endpoint with rate limiting (max 3 SMS/hour).</td>
+              <td>3 pts</td>
+            </tr>
+            <tr>
+              <td><strong>ENG-203</strong></td>
+              <td>Backend Service</td>
+              <td>Implement <code>POST /auth/2fa/verify-otp</code> endpoint with 60-second OTP expiration logic and audit logging.</td>
+              <td>3 pts</td>
+            </tr>
+            <tr>
+              <td><strong>ENG-204</strong></td>
+              <td>Frontend (Client)</td>
+              <td>Build 6-digit OTP input UI modal with countdown timer and "Resend SMS" button.</td>
+              <td>3 pts</td>
+            </tr>
+            <tr>
+              <td><strong>ENG-205</strong></td>
+              <td>QA & Edge Cases</td>
+              <td>Automated end-to-end integration tests: invalid OTP, expired OTP, and Twilio API outage fallback.</td>
+              <td>2 pts</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 4. Public Product Case Studies -->
+    <section id="case-studies" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 6.4: Real-World Public Product Case Studies</span>
+        <h2>Case Studies: GitHub & GitLab</h2>
+      </div>
+
+      <div class="tab-control">
+        <button class="tab-btn active" data-tab="github-case">🐙 Case Study 1: GitHub (Actions & Trunk-Based Scale)</button>
+        <button class="tab-btn" data-tab="gitlab-case">🦊 Case Study 2: GitLab (Radical Transparency & All-Remote RFCs)</button>
+      </div>
+
+      <div id="github-case" class="tab-pane active">
+        <div class="case-header">
+          <div class="case-badge">GitHub / Microsoft</div>
+          <h3>How 100M+ Developers Collaborate Seamlessly</h3>
+          <p>GitHub builds tools that define how the entire global software industry develops and ships code.</p>
+        </div>
+
+        <div class="breakdown-grid">
+          <div class="breakdown-card">
+            <div class="card-tag frontend">Branch Protection</div>
+            <h4>Enforcing Quality Gates</h4>
+            <p>GitHub allows TPMs and EMs to enforce branch rules: require 2 senior engineer approvals, require all CI unit tests to pass, and require a linear commit history before merge.</p>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag backend">GitHub Actions</div>
+            <h4>Automated Workflows</h4>
+            <p>On every commit, GitHub Actions spins up isolated Docker containers to run tests, calculate code coverage, and deploy to staging.</p>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag database">Trunk-Based Flow</div>
+            <h4>Merging to Main Several Times a Day</h4>
+            <p>GitHub engineers avoid long-lived branches. Features are broken into tiny PRs (&lt; 200 lines of code) and merged into <code>main</code> continuously.</p>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag apis">TPM Lesson</div>
+            <h4>Small PRs Ship Faster</h4>
+            <p>A PR with 50 lines gets reviewed in 10 minutes. A PR with 1,000 lines sits for 5 days and causes bugs. As a TPM, encourage engineers to split massive PRs!</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="gitlab-case" class="tab-pane">
+        <div class="case-header">
+          <div class="case-badge">GitLab, Inc.</div>
+          <h3>Asynchronous RFCs & Public Handbook Culture</h3>
+          <p>GitLab pioneered all-remote product collaboration using public merge requests for company-wide decisions.</p>
+        </div>
+
+        <div class="breakdown-grid">
+          <div class="breakdown-card">
+            <div class="card-tag backend">RFCs in Git</div>
+            <h4>Decisions Documented as Code</h4>
+            <p>Instead of endless Slack debates or lost Google Docs, major architectural changes are proposed as Markdown files in a Git repo where stakeholders comment on specific lines.</p>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag apis">ADRs</div>
+            <h4>Architectural Decision Records</h4>
+            <p>GitLab preserves the historical "Why": why a database was chosen, why an API was deprecated. New hires understand system context instantly.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Interactive PR Review Simulator -->
+    <section id="pr-simulator" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Interactive Teaching Tool</span>
+        <h2>Interactive Pull Request Review Simulator</h2>
+      </div>
+      <p>Assume the role of the Technical PM. Review this Pull Request opened by a backend engineer. Inspect the changes, run automated CI checks, and decide whether to approve or request changes:</p>
+
+      <div class="pr-sim-container">
+        <div class="pr-header-card">
+          <div class="pr-title-row">
+            <span class="pr-badge-open">🟢 Open</span>
+            <h3>PR #402: Implement Redis Caching for User Feed API</h3>
+          </div>
+          <div class="pr-meta-row">
+            <span>Branch: <code>feature/feed-redis-cache</code> ➔ <code>main</code></span>
+            <span>Author: <code>@sarah-backend-dev</code></span>
+            <span>Files Changed: <strong>3</strong> (+65, -12)</span>
+          </div>
+        </div>
+
+        <div class="ci-status-box" id="ciStatusBox">
+          <div class="ci-step passed">✅ Linters & Static Analysis (Passed in 18s)</div>
+          <div class="ci-step passed">✅ Unit Tests (42/42 Tests Passed in 35s)</div>
+          <div class="ci-step passed">✅ Ephemeral Staging Preview URL Generated</div>
+        </div>
+
+        <div class="diff-viewer">
+          <div class="diff-header">File: <code>services/feed_service.py</code></div>
+          <pre class="diff-content"><code>@@ -14,8 +14,14 @@ def get_user_feed(user_id):
+-    # Fetch directly from SQL database on every request
+-    return db.query(Posts).filter_by(user_id=user_id).order_by(Posts.created_at.desc()).limit(20)
++    # TPM Specification: Check Redis cache first with 60s TTL
++    cache_key = f"user_feed:{user_id}"
++    cached_data = redis_client.get(cache_key)
++    if cached_data:
++        return json.loads(cached_data)
++    
++    # Cache miss: query database and populate Redis
++    posts = db.query(Posts).filter_by(user_id=user_id).order_by(Posts.created_at.desc()).limit(20)
++    redis_client.setex(cache_key, 60, json.dumps(posts))
++    return posts</code></pre>
+        </div>
+
+        <div class="pr-decision-bar">
+          <button id="approvePrBtn" class="primary-btn" style="background: #10b981;">✅ Approve & Merge PR</button>
+          <button id="requestChangesBtn" class="primary-btn" style="background: #f43f5e;">⚠️ Request Changes</button>
+          <span id="prResultMsg" class="pr-result-text"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Student Deliverables -->
+    <section id="deliverables" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Course Deliverables</span>
+        <h2>Week 06 Assignment & Capstone Milestone</h2>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="deliverable-box">
+          <div class="deliv-badge individual">Individual Assignment (10 Marks)</div>
+          <h3>Translating Product Requirements into Technical Tasks</h3>
+          <p class="deliv-deadline">⏰ Due: Sunday, Dec 12, 2026 before 11:59 PM WAT</p>
+          <p>Take one feature requirement from your Week 4 PRD and decompose it into <strong>5 distinct engineering tasks</strong>:</p>
+          <ol class="step-list">
+            <li><strong>Task Hierarchy:</strong> Clearly specify Database, Backend, Frontend, and QA tasks.</li>
+            <li><strong>Detailed Acceptance Criteria per Task:</strong> Specific technical criteria for each ticket.</li>
+            <li><strong>Dependencies & Sequencing:</strong> Which task blocks which?</li>
+            <li><strong>Story Point Estimations:</strong> Fibonacci points per task.</li>
+          </ol>
+          <div class="rubric-mini">
+            <h4>Marking Rubric (Total: 10 Marks)</h4>
+            <ul>
+              <li>Decomposition completeness across stack: <strong>3 Marks</strong></li>
+              <li>Technical task descriptions & criteria: <strong>3 Marks</strong></li>
+              <li>Sequencing & dependency clarity: <strong>2 Marks</strong></li>
+              <li>Formatting & professional presentation: <strong>2 Marks</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="deliverable-box">
+          <div class="deliv-badge team">Team Capstone (Phase 6 of 6)</div>
+          <h3>Capstone Engineering Collaboration Workflow</h3>
+          <p class="deliv-deadline">👥 Collaborative Team Milestone</p>
+          <p>Teams define their engineering collaboration standards in GitHub/Linear:</p>
+
+          <div class="checklist-card">
+            <h4>Week 6 Team Goals:</h4>
+            <label class="check-item"><input type="checkbox"> Create shared GitHub organization and repository</label>
+            <label class="check-item"><input type="checkbox"> Define branch naming conventions (e.g. <code>feat/</code>, <code>fix/</code>)</label>
+            <label class="check-item"><input type="checkbox"> Write Pull Request template (<code>.github/pull_request_template.md</code>)</label>
+            <label class="check-item"><input type="checkbox"> Agree on definition of done (DoD) for capstone deliverables</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="template-box">
+        <div class="template-info">
+          <h4>📄 Week 6 Technical Task Decomposition Template</h4>
+          <p>Copy this standardized markdown template for your submission:</p>
+        </div>
+        <button id="copyTemplateBtn" class="primary-btn">📋 Copy Markdown Template</button>
+      </div>
+      <textarea id="templateText" class="template-textarea" readonly>
+# Week 06 Technical Task Decomposition: [Feature Title]
+**Student Name:** [Your Full Name]
+**PCIP Track:** Technical Product Management
+**Date:** [Submission Date]
+
+## Feature Overview
+- **Parent Feature:** [Feature Name from PRD]
+- **Target Release:** Sprint 1
+
+## Technical Task Breakdown (Engineering Tickets)
+
+### Task 1: Database Migration (Backend / Data)
+- **Ticket ID:** ENG-101
+- **Title:** [e.g. Create tables and indexes for feature]
+- **Points:** 2
+- **Technical Description:** 
+- **Acceptance Criteria:**
+  - [ ] Migration script runs cleanly without locking production tables.
+  - [ ] B-Tree index added on [column_name].
+
+### Task 2: Core Backend Logic (API)
+- **Ticket ID:** ENG-102
+- **Title:** [e.g. Build POST /v1/... endpoint]
+- **Points:** 3
+- **Dependencies:** Blocked by ENG-101
+- **Acceptance Criteria:**
+  - [ ] Returns HTTP 201 Created on valid input.
+  - [ ] Validates payload schema.
+
+### Task 3: Client UI Implementation (Frontend)
+- **Ticket ID:** ENG-103
+- **Title:** [e.g. Implement UI modal and state management]
+- **Points:** 3
+- **Dependencies:** Can be built in parallel with mocked API contract.
+
+### Task 4: End-to-End Integration & Error Handling (QA)
+- **Ticket ID:** ENG-104
+- **Title:** [e.g. Automated test suite for edge cases]
+- **Points:** 2
+      </textarea>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>Product Bosslady Academy (PBA) • Product Career Internship Program (PCIP) • Technical Product Management Track</p>
+      <p class="footer-sub">Week 06 Curriculum • November 2026 – February 2027 • Facilitated by Oyindamola Oye-Daniel</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

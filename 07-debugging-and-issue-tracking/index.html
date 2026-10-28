@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 07: Debugging and Issue Tracking | PCIP TPM Track</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Navigation Header -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand-group">
+        <a href="../index.html" class="back-portal-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          All Weeks
+        </a>
+        <span class="divider">/</span>
+        <span class="badge-week">Week 07 of 12</span>
+      </div>
+      <div class="nav-title">Technical Product Management Track</div>
+      <div class="nav-actions">
+        <button id="themeToggle" class="icon-btn" title="Switch dark / light mode" aria-label="Switch dark or light mode">🌓</button>
+        <a href="../06-engineering-collaboration/index.html" class="nav-prev-btn">← Week 6</a>
+        <a href="../08-scalability-and-performance/index.html" class="nav-next-btn">
+          Next: Week 8
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Progress bar -->
+  <div class="read-progress"><div id="readProgress" class="read-progress-fill"></div></div>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="meta-pill-group">
+        <span class="meta-pill">📅 Dec 14 – 20, 2026</span>
+        <span class="meta-pill live-pill">🔴 Class: Saturday 7:00 PM WAT</span>
+        <span class="meta-pill review-pill">🎯 Project Review: Sunday 6:00 PM WAT</span>
+      </div>
+      <h1 class="hero-title">Debugging and Issue Tracking</h1>
+      <p class="hero-subtitle">
+        Every product breaks sometimes. What matters is how fast you notice, how calmly you respond, and what you learn.
+        This week you'll learn to write bug reports engineers can act on, decide what to fix first, and find the <strong>real</strong> cause of a problem.
+        Then you'll lead a <strong>live incident</strong>: payments are failing on a Friday night, and the clock is ticking.
+      </p>
+
+      <div class="goals-box">
+        <h2 class="goals-title">By the end of this week, you will be able to:</h2>
+        <ul class="goals-list">
+          <li><span class="goal-check">✓</span> Write a clear bug report with steps to reproduce, expected and actual results</li>
+          <li><span class="goal-check">✓</span> Give a bug the right priority, from P0 (drop everything) to P3 (later)</li>
+          <li><span class="goal-check">✓</span> Follow the steps of an incident: notice, triage, stop the damage, communicate, fix, learn</li>
+          <li><span class="goal-check">✓</span> Use the "5 Whys" to find a root cause — without blaming people</li>
+          <li><span class="goal-check">✓</span> Write a full bug report for a real app</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Topic Navigation -->
+  <nav class="sub-nav" aria-label="Lesson sections">
+    <div class="sub-nav-container">
+      <a href="#bug-report" class="sub-link active">1. A Good Bug Report</a>
+      <a href="#priority" class="sub-link">2. What to Fix First</a>
+      <a href="#incidents" class="sub-link">3. Incidents &amp; Root Causes</a>
+      <a href="#simulation" class="sub-link">4. ▶ Incident Simulation</a>
+      <a href="#case-studies" class="sub-link">5. CrowdStrike &amp; AWS</a>
+      <a href="#quiz" class="sub-link">6. Quick Quiz</a>
+      <a href="#assignment" class="sub-link">7. Assignment</a>
+      <a href="#word-bank" class="sub-link">8. Word Bank</a>
+    </div>
+  </nav>
+
+  <main class="main-container">
+
+    <!-- 1. Bug report -->
+    <section id="bug-report" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 1</span>
+        <h2>Writing a bug report engineers can act on</h2>
+      </div>
+
+      <div class="big-definition">
+        <p>A <strong>bug</strong> is when the product doesn't do what it should. A <strong>bug report</strong> (or ticket) describes it so an engineer can see it happen for themselves — and fix it.</p>
+        <p>Think of a doctor: <em>"I feel sick"</em> isn't enough. <em>"Since Tuesday, a fever every evening, worse after eating"</em> helps them find the cause.</p>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="info-callout secondary">
+          <h3>😩 A bug report engineers dread</h3>
+          <div class="bug-card bad">
+            <div class="bug-title">Checkout broken!!!</div>
+            <p>The app crashed when I tried to pay. Please fix ASAP.</p>
+          </div>
+          <p class="note-text">Which app version? Which phone? Which payment method? What exactly happened? The engineer must come back with 5 questions before they can even start.</p>
+        </div>
+        <div class="info-callout primary">
+          <h3>😊 A bug report engineers love</h3>
+          <div class="bug-card good">
+            <div class="bug-title">Paying with a new card shows "Something went wrong" (saved cards work)</div>
+            <p><strong>Where:</strong> Android app 5.4.0, Samsung A14, live app</p>
+            <p><strong>Steps:</strong> 1. Add jollof to basket 2. Checkout 3. Choose "New card" 4. Enter test card 4081… 5. Tap Pay</p>
+            <p><strong>Expected:</strong> Payment succeeds, order confirmed.</p>
+            <p><strong>Actual:</strong> "Something went wrong" after 3 seconds. No charge.</p>
+            <p><strong>How often:</strong> 5 out of 5 tries. Started today around 7:30 PM.</p>
+            <p><strong>Proof:</strong> screen recording + error <code>card_token is required</code></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="parts-row">
+        <div class="bp"><span>1</span><strong>Clear title</strong><em>What's wrong, where</em></div>
+        <div class="bp"><span>2</span><strong>Where it happened</strong><em>App version, phone, live or test</em></div>
+        <div class="bp"><span>3</span><strong>Steps to reproduce</strong><em>Numbered, exact</em></div>
+        <div class="bp"><span>4</span><strong>Expected vs actual</strong><em>What should happen vs what did</em></div>
+        <div class="bp"><span>5</span><strong>How often &amp; since when</strong><em>Every time? Since today?</em></div>
+        <div class="bp"><span>6</span><strong>Proof</strong><em>Screenshot, video, error text</em></div>
+      </div>
+
+      <div class="game-card" id="lineGame">
+        <div class="game-head">
+          <h3>🎮 Mini-game: Which line belongs in a good bug report?</h3>
+          <span class="game-score" id="lineScore">Score: 0 / 0</span>
+        </div>
+        <p class="game-instructions">For each part of the report, pick the line that would help an engineer more.</p>
+        <div class="game-task" id="lineTask">Loading…</div>
+        <div class="game-choices two-choices">
+          <button class="choice-btn say-btn" data-pick="a" id="lineA">A</button>
+          <button class="choice-btn say-btn" data-pick="b" id="lineB">B</button>
+        </div>
+        <div class="game-feedback" id="lineFeedback" aria-live="polite"></div>
+        <div class="game-foot">
+          <span id="lineProgress" class="game-progress"></span>
+          <button class="ghost-btn" id="lineNext" disabled>Next →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Priority -->
+    <section id="priority" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 2</span>
+        <h2>What to fix first: P0 to P3</h2>
+      </div>
+      <p>Teams get more bug reports than they can fix. <strong>Priority</strong> decides the order. Most teams use 4 levels — like a hospital emergency room deciding who is seen first.</p>
+
+      <div class="p-grid">
+        <div class="p-card pc0"><span class="p-badge p0">P0</span><h3>Drop everything</h3><p>Something core is broken for many people: nobody can pay, log in, or order.</p><p class="p-eg"><strong>Example:</strong> 40% of payments failing.</p><p class="p-sla">⏱️ Start now, day or night. Stop the damage within the hour.</p></div>
+        <div class="p-card pc1"><span class="p-badge p1">P1</span><h3>Urgent</h3><p>A big feature is broken for a large group, with no easy way around it.</p><p class="p-eg"><strong>Example:</strong> restaurants get order alerts 5 minutes late.</p><p class="p-sla">⏱️ Fix today.</p></div>
+        <div class="p-card pc2"><span class="p-badge p2">P2</span><h3>Normal</h3><p>Something is broken, but there's a workaround, or few people are affected.</p><p class="p-eg"><strong>Example:</strong> a discount code fails the first time but works on retry.</p><p class="p-sla">⏱️ Fix this sprint or next.</p></div>
+        <div class="p-card pc3"><span class="p-badge p3">P3</span><h3>Later</h3><p>Small or cosmetic: it looks wrong, but doesn't stop anyone.</p><p class="p-eg"><strong>Example:</strong> a typo on the Help page.</p><p class="p-sla">⏱️ Add to the backlog.</p></div>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="priority-helper">
+          <h3>🧮 Priority helper</h3>
+          <p class="muted small">Answer two questions to get a suggested priority.</p>
+          <label class="ph-label" for="phHow">1. How bad is it for the person affected?</label>
+          <select id="phHow" class="ph-select">
+            <option value="4">They can't pay, log in or order at all</option>
+            <option value="3">A main feature is broken, no way around it</option>
+            <option value="2">It's broken, but there's a workaround</option>
+            <option value="1">It looks wrong, but works</option>
+          </select>
+          <label class="ph-label" for="phWho">2. How many people does it affect?</label>
+          <select id="phWho" class="ph-select">
+            <option value="4">Almost everyone</option>
+            <option value="3">A large group (e.g. all Android users)</option>
+            <option value="2" selected>A small group (e.g. one old app version)</option>
+            <option value="1">One or two people</option>
+          </select>
+          <div class="ph-result" id="phResult" aria-live="polite"></div>
+        </div>
+        <div class="info-callout secondary">
+          <h3>🤔 Severity vs priority — not always the same</h3>
+          <p><strong>Severity</strong> = how bad the bug is. <strong>Priority</strong> = how soon we fix it. Usually they match, but not always:</p>
+          <ul class="bullet-list">
+            <li><strong>Low severity, high priority:</strong> the company name is misspelt on the home screen on launch day. Nothing breaks — but everyone sees it. Fix now.</li>
+            <li><strong>High severity, lower priority:</strong> the app crashes on a phone model only 3 customers use. Bad for them, but other things may come first — and you can contact them directly.</li>
+          </ul>
+          <p class="note-text">The TPM helps decide priority, because it needs product and business judgement — not just technical judgement.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Incidents -->
+    <section id="incidents" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 3</span>
+        <h2>Incidents and root causes</h2>
+      </div>
+      <p>An <strong>incident</strong> is a serious, live problem — usually a P0 or P1. Good teams follow the same steps every time, so nobody panics.</p>
+
+      <div class="incident-steps">
+        <div class="is"><span class="is-icon">🔔</span><strong>1. Notice</strong><p>An alert fires, or customers complain. The faster you notice, the less damage.</p></div>
+        <div class="is"><span class="is-icon">🏷️</span><strong>2. Triage</strong><p>How bad? How many people? Give it a priority and gather the right people.</p></div>
+        <div class="is"><span class="is-icon">🧯</span><strong>3. Stop the damage</strong><p>First stop the bleeding (roll back, switch a feature off). The perfect fix can come later.</p></div>
+        <div class="is"><span class="is-icon">📣</span><strong>4. Communicate</strong><p>Tell customers, support and leaders what's happening and when the next update is.</p></div>
+        <div class="is"><span class="is-icon">🛠️</span><strong>5. Fix properly</strong><p>Now engineers build and test the real fix, without the pressure of a live outage.</p></div>
+        <div class="is"><span class="is-icon">📚</span><strong>6. Learn</strong><p>Write a blameless <strong>post-mortem</strong>: what happened, why, and what we'll change.</p></div>
+      </div>
+
+      <div class="whys">
+        <h3>🔎 The 5 Whys: dig past the first answer</h3>
+        <p class="muted">Keep asking "why?" until you reach something you can change in how the team works. Example: customers were charged twice.</p>
+        <ol class="why-list">
+          <li><strong>Why were customers charged twice?</strong> The app sent the same payment request twice.</li>
+          <li><strong>Why did it send it twice?</strong> The Pay button stayed active, and people tapped again when it felt slow.</li>
+          <li><strong>Why didn't the backend notice the repeat?</strong> There was no idempotency key (Week 3!).</li>
+          <li><strong>Why was there no idempotency key?</strong> The PRD didn't mention retries or double taps (Week 4!).</li>
+          <li class="root"><strong>Why didn't the PRD mention it? — ROOT CAUSE:</strong> Our PRD checklist has no "what if it's sent twice?" question for payment features.</li>
+        </ol>
+        <div class="tpm-takeaway"><strong>🎓 Blameless:</strong> notice the root cause is never "Tobi made a mistake". People will always make mistakes — the question is what <strong>system</strong> let the mistake reach customers. If people fear blame, they hide problems.</div>
+      </div>
+    </section>
+
+    <!-- 4. Simulation -->
+    <section id="simulation" class="content-card demo-section">
+      <div class="card-header">
+        <span class="section-tag tag-live">▶ Simulation</span>
+        <h2>Friday, 7:42 PM: payments are failing</h2>
+      </div>
+      <p class="lead-text">
+        You're the TPM on call for ChopNow. It's the busiest evening of the week. Your phone buzzes — and then buzzes again.
+        <strong>Sort the reports, lead the incident, then run the post-mortem.</strong> In a real incident, every minute costs orders.
+      </p>
+
+      <div class="sim-steps">
+        <div class="sim-step active" data-stage="triage"><span>1</span> 🏷️ Triage</div>
+        <div class="sim-step" data-stage="room"><span>2</span> 🚨 Incident room</div>
+        <div class="sim-step" data-stage="pm"><span>3</span> 📚 Post-mortem</div>
+      </div>
+
+      <!-- Stage 1: triage -->
+      <div class="stage" id="stageTriage">
+        <p class="muted">Five things arrived in the last few minutes. Give each one a priority.</p>
+        <div class="triage-list" id="triageList"></div>
+        <div class="stage-actions">
+          <span class="muted small" id="triageNote"></span>
+          <button class="primary-btn" id="toRoom" disabled>🚨 Open the incident room for the P0 →</button>
+        </div>
+      </div>
+
+      <!-- Stage 2: incident room -->
+      <div class="stage" id="stageRoom" hidden>
+        <div class="room-top">
+          <div class="clock"><span>🕖</span><strong id="clock">19:42</strong></div>
+          <div class="room-stat"><span>Payments failing</span><strong id="rFail">38%</strong></div>
+          <div class="room-stat"><span>Orders lost</span><strong id="rLost">0</strong></div>
+          <div class="room-stat"><span>Money lost</span><strong id="rMoney">₦0</strong></div>
+          <div class="room-stat"><span>Status</span><strong id="rStatus">🔴 Ongoing</strong></div>
+        </div>
+        <div class="chart" id="chart" aria-label="Payment failures over time"></div>
+
+        <div class="room-grid">
+          <div class="room-col">
+            <h3>🔍 Investigate <span class="muted small">(each check takes time)</span></h3>
+            <div class="clue-list" id="clueList"></div>
+          </div>
+          <div class="room-col">
+            <h3>🧯 Take action</h3>
+            <div class="action-list" id="actionList"></div>
+            <h3 class="mt">📣 Communicate</h3>
+            <div class="action-list" id="commList"></div>
+          </div>
+        </div>
+
+        <div class="room-log-wrap">
+          <h3>🗒️ Incident timeline</h3>
+          <ul class="room-log" id="roomLog"></ul>
+        </div>
+
+        <div class="room-end" id="roomEnd" hidden></div>
+      </div>
+
+      <!-- Stage 3: post-mortem -->
+      <div class="stage" id="stagePm" hidden>
+        <div class="pm-doc">
+          <div class="pm-head">
+            <h3>📄 Post-mortem: payments failing for new cards</h3>
+            <span class="muted small">Blameless • Written by: You (TPM) • Shared with: everyone</span>
+          </div>
+          <div class="pm-summary" id="pmSummary"></div>
+          <h4>🔎 5 Whys — pick the answer that digs deeper</h4>
+          <ol class="pm-whys" id="pmWhys"></ol>
+          <div id="pmActions" hidden>
+            <h4>✅ Action items — pick the 3 that would best stop this happening again</h4>
+            <div class="pm-action-list" id="pmActionList"></div>
+            <button class="primary-btn" id="pmFinish" disabled>Finish the post-mortem</button>
+          </div>
+          <div class="pm-result" id="pmResult" hidden></div>
+        </div>
+        <div class="stage-actions">
+          <button class="ghost-btn" id="restartIncident">↺ Run the whole incident again</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Case studies -->
+    <section id="case-studies" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 5</span>
+        <h2>Real incidents: CrowdStrike and Amazon Web Services</h2>
+      </div>
+      <p>Two real outages that affected millions of people — and the lessons the companies shared afterwards.</p>
+
+      <div class="tab-control">
+        <button class="tab-btn active" data-tab="crowd-case">🦅 CrowdStrike (2024)</button>
+        <button class="tab-btn" data-tab="aws-case">☁️ AWS DynamoDB (2015)</button>
+      </div>
+
+      <div id="crowd-case" class="tab-pane active">
+        <p class="case-intro"><strong>What happened:</strong> on 19 July 2024, CrowdStrike, a security company, sent a faulty update to its software on Windows computers. Microsoft estimated about <strong>8.5 million</strong> computers crashed and couldn't restart normally. Airlines, banks, hospitals and TV stations around the world were disrupted.</p>
+        <div class="breakdown-grid">
+          <div class="breakdown-card bc-ext">
+            <h4>💥 One update, everywhere at once</h4>
+            <ul class="clean-list">
+              <li>The update went to a huge number of computers at nearly the same time.</li>
+              <li>So when it was broken, it broke almost everywhere before anyone could stop it.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-back">
+            <h4>🧯 Hard to undo</h4>
+            <ul class="clean-list">
+              <li>The faulty update was pulled within about an hour and a half.</li>
+              <li>But many crashed computers needed someone to fix them by hand, one by one — which took days for some companies.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-front">
+            <h4>🔁 What they changed</h4>
+            <ul class="clean-list">
+              <li>More testing of this kind of update before release.</li>
+              <li>Releasing updates <strong>gradually</strong> — a small group first, then more — and giving customers more control over when they get them.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-data">
+            <h4>🌍 Why it mattered so much</h4>
+            <ul class="clean-list">
+              <li>Many companies depended on the same software (a shared dependency — Week 1!).</li>
+              <li>One supplier's mistake became everyone's incident.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tpm-takeaway">
+          <strong>🎓 TPM lesson from CrowdStrike:</strong> release risky changes to a <strong>small group first</strong>, and always know how you would undo them. That's exactly what saves you in this week's simulation.
+        </div>
+      </div>
+
+      <div id="aws-case" class="tab-pane">
+        <p class="case-intro"><strong>What happened:</strong> in September 2015, a short network problem in Amazon Web Services' US-East region caused trouble for <strong>DynamoDB</strong>, a database service thousands of companies use. Many well-known websites and apps had errors for several hours.</p>
+        <div class="breakdown-grid">
+          <div class="breakdown-card bc-ext">
+            <h4>🐘 Everyone asked at once</h4>
+            <ul class="clean-list">
+              <li>After the network blip, many storage servers asked a central service for information <strong>at the same moment</strong>.</li>
+              <li>That central service was overwhelmed and answered too slowly.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-back">
+            <h4>🔁 Retrying made it worse</h4>
+            <ul class="clean-list">
+              <li>When answers were too slow, servers gave up and tried again — adding even more load.</li>
+              <li>Engineers call this a <strong>retry storm</strong> or "thundering herd".</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-front">
+            <h4>🧯 How they recovered</h4>
+            <ul class="clean-list">
+              <li>AWS reduced the load on the central service and added more capacity.</li>
+              <li>Then services slowly came back to normal.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-data">
+            <h4>⏳ The general fix: wait smarter</h4>
+            <ul class="clean-list">
+              <li>When something fails, wait a little longer before each retry — and add a small <strong>random</strong> delay so everyone doesn't retry together.</li>
+              <li>This is called "backoff with jitter".</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tpm-takeaway">
+          <strong>🎓 TPM lesson from AWS:</strong> recovery can be dangerous too. When planning for failure, ask "what happens when everything comes back <em>at the same time</em>?"
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Quiz -->
+    <section id="quiz" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 6</span>
+        <h2>Quick quiz: check your understanding</h2>
+      </div>
+      <p>7 short questions. Tap an answer to see if you are right. No marks — this is just for practice.</p>
+      <div id="quizBox" class="quiz-box"></div>
+      <div class="quiz-result" id="quizResult" hidden></div>
+    </section>
+
+    <!-- 7. Assignment -->
+    <section id="assignment" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 7</span>
+        <h2>This week's work</h2>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="deliverable-box">
+          <div class="deliv-badge individual">Individual Assignment • 10 Marks</div>
+          <h3>Write a real bug report</h3>
+          <p class="deliv-deadline">⏰ Due: Sunday, Dec 20, 2026, before 11:59 PM WAT</p>
+          <p>Find a real bug (or something confusing) in the app you've studied — or in any app you use. Write a bug report that an engineer could act on straight away:</p>
+          <ol class="step-list">
+            <li><strong>Title and priority:</strong> a clear title, a priority (P0–P3), and <em>why</em> you chose it.</li>
+            <li><strong>Where it happened:</strong> phone or computer, app version or browser.</li>
+            <li><strong>Steps to reproduce:</strong> numbered and exact.</li>
+            <li><strong>Expected vs actual:</strong> what should happen, and what did.</li>
+            <li><strong>Proof:</strong> a screenshot or short video, and any error message.</li>
+            <li><strong>Bonus:</strong> a guess at the cause using 2–3 "whys", and one idea to prevent it.</li>
+          </ol>
+          <div class="hint-box">💡 <strong>Tip:</strong> Try your steps again from the start before you submit. If you can't make the bug happen again, the engineer can't either.</div>
+
+          <div class="rubric-mini">
+            <h4>How you will be marked (10 marks)</h4>
+            <ul>
+              <li><span>Sensible priority with a reason</span><strong>2</strong></li>
+              <li><span>Clear, exact steps to reproduce</span><strong>3</strong></li>
+              <li><span>Clear expected vs actual</span><strong>3</strong></li>
+              <li><span>Proof, details and neat layout</span><strong>2</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="deliverable-box">
+          <div class="deliv-badge team">Team Capstone • Phase 7</div>
+          <h3>Plan how your team handles bugs</h3>
+          <p class="deliv-deadline">👥 Done together with your team</p>
+          <p>Decide what your team will do when things break. Tick each item as you finish it (your ticks are saved on this device):</p>
+          <div class="checklist-card" id="capstoneChecklist">
+            <label class="check-item"><input type="checkbox" data-key="c1"> Made a bug report template in your tool (GitHub, Linear or Jira)</label>
+            <label class="check-item"><input type="checkbox" data-key="c2"> Agreed what P0, P1, P2 and P3 mean for <em>your</em> product, with examples</label>
+            <label class="check-item"><input type="checkbox" data-key="c3"> Agreed how fast you respond to each (e.g. P0 within 1 hour)</label>
+            <label class="check-item"><input type="checkbox" data-key="c4"> Listed your top 3 "what could go badly wrong" risks and a first response for each</label>
+            <label class="check-item"><input type="checkbox" data-key="c5"> Ready to run a practice incident at Sunday's Project Review</label>
+          </div>
+          <div class="check-progress"><div class="check-progress-fill" id="checkFill"></div></div>
+          <p class="check-progress-text" id="checkText">0 of 5 done</p>
+        </div>
+      </div>
+
+      <div class="template-box">
+        <div class="template-info">
+          <h4>📄 Bug report template</h4>
+          <p>Copy this, paste it into Google Docs, and fill in the blanks.</p>
+        </div>
+        <button id="copyTemplateBtn" class="primary-btn">📋 Copy template</button>
+      </div>
+      <textarea id="templateText" class="template-textarea" readonly>
+# Bug: [What's wrong, and where — e.g. "Paying with a new card shows 'Something went wrong'"]
+Reported by: [Your full name]
+Date: [Date]
+Product: [App name]
+Priority: P0 / P1 / P2 / P3
+Why this priority: [How bad is it, and how many people does it affect?]
+
+## Where it happened
+- Device: [e.g. Samsung A14 / iPhone 13 / Windows laptop]
+- App version or browser: [e.g. Android app 5.4.0 / Chrome 131]
+- Live app or test app: [Live]
+- Account type (if it matters): [e.g. new user, has saved card]
+
+## Steps to reproduce
+1. ______
+2. ______
+3. ______
+4. ______
+
+## Expected result
+- ______
+
+## Actual result
+- ______
+
+## How often, and since when
+- Happens: [every time / 3 out of 5 tries / once]
+- First noticed: [date and time]
+
+## Proof
+- Screenshot / video: [link]
+- Error message (copy it exactly): "______"
+
+## Bonus: possible cause and prevention
+- Why 1: ______
+- Why 2: ______
+- Why 3: ______
+- One idea to stop it happening again: ______
+</textarea>
+    </section>
+
+    <!-- Discussion -->
+    <section class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Saturday class</span>
+        <h2>Questions we will discuss together</h2>
+      </div>
+      <p>Think about your answer first, then tap to see one good answer.</p>
+      <div class="faq-accordion">
+        <details class="faq-item">
+          <summary class="faq-q">1. During an incident, an engineer wants to spend an hour finding the perfect fix. What do you say?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> "First, can we stop the damage right now?" — roll back the last change, or switch the feature flag off. Customers are being hurt every minute. Once things are stable, the perfect fix can be built and tested calmly.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">2. What makes a good status update for customers during an outage?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> Plain words, honesty, what still works, and when the next update is. For example: <em>"Some card payments are failing. Saved cards and pay-on-delivery still work. We're fixing it — next update by 8:30 PM."</em> No technical jargon, no blaming a partner, no silence.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">3. Why should post-mortems be "blameless"?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> Because if people are punished for mistakes, they hide them, and you learn nothing. Everyone makes mistakes. A good post-mortem asks which check, test or process was missing — and fixes that, so the <em>next</em> person can't make the same mistake.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">4. A customer reports a bug you can't make happen again. Is it real?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> Probably — some bugs only happen on certain phones, slow networks, or with certain accounts. Ask for details (device, app version, time, screenshot), check if other customers report the same, and look at the error logs for that time. "Can't reproduce" means "keep investigating", not "close it".</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- 8. Word bank -->
+    <section id="word-bank" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 8</span>
+        <h2>Word bank: tech words in plain English</h2>
+      </div>
+      <p>You will hear these words in class and from engineers. Search for any word you're not sure about.</p>
+      <input type="search" id="glossarySearch" class="search-input" placeholder="Search a word, e.g. rollback" aria-label="Search the word bank">
+      <div class="glossary-grid" id="glossaryGrid"></div>
+      <p class="no-results" id="glossaryEmpty" hidden>No matching word. Ask about it on Slack!</p>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>Product Bosslady Academy (PBA) • Product Career Internship Program (PCIP) • Technical Product Management Track</p>
+      <p class="footer-sub">November 2026 – February 2027 • Facilitated by Oyindamola Oye-Daniel</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

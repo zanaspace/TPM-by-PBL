@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PCIP Technical Product Management | Student & Instructor Master Curriculum Portal</title>
+  <meta name="description" content="Product Bosslady Academy (PBA) 12-Week Technical Product Management Curriculum. Interactive modules, public product case studies (Uber, Netflix, Stripe, Airbnb, Spotify), and hands-on TPM simulators.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Global Navigation Header -->
+  <header class="master-header">
+    <div class="header-container">
+      <div class="brand-block">
+        <div class="brand-logo-badge">PBA</div>
+        <div>
+          <div class="brand-title">Product Bosslady Academy (PBA)</div>
+          <div class="brand-subtitle">Product Career Internship Program (PCIP) • Technical Product Management Track</div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <span class="session-badge">Nov 2026 – Feb 2027</span>
+        <button id="themeToggle" class="theme-toggle-btn" title="Toggle Light/Dark Theme">🌓</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Banner -->
+  <section class="portal-hero">
+    <div class="hero-inner">
+      <div class="hero-top-pills">
+        <span class="pill live-pill">🔴 Masterclasses: Saturdays 7:00 PM – 9:00 PM WAT</span>
+        <span class="pill review-pill">🎯 Project Reviews: Sundays 6:00 PM – 7:00 PM WAT</span>
+        <span class="pill cert-pill">📜 300-Mark Accredited Certificate</span>
+      </div>
+      <h1 class="portal-title">Technical Product Management Curriculum</h1>
+      <p class="portal-description">
+        A rigorous 12-week immersive master program designed to bridge product strategy with deep technical execution. Master 3-tier systems architecture, API design, technical PRDs, high-throughput database scaling, and engineering workflows through iconic public tech products: <strong>Uber, Netflix, Spotify, Stripe, Airbnb, Instagram, DoorDash, and Amazon</strong>.
+      </p>
+
+      <div class="portal-stats-grid">
+        <div class="stat-card">
+          <span class="stat-big">12</span>
+          <span class="stat-label">Weekly Modular Courses</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-big">16+</span>
+          <span class="stat-label">Public Product Case Studies</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-big">12</span>
+          <span class="stat-label">Individual Deliverables</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-big">300</span>
+          <span class="stat-label">Total Assessment Marks</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Program Dashboard -->
+  <main class="portal-main">
+
+    <!-- Search & Filter Controls -->
+    <section class="controls-section">
+      <div class="search-box-wrapper">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="courseSearchInput" class="search-input" placeholder="Search by topic, architecture concept, or keyword (e.g. API, Redis, ERD, Microservices, PRD, BOLA)...">
+      </div>
+
+      <div class="product-filters-wrapper">
+        <span class="filter-label">Filter by Public Case Study:</span>
+        <div class="filter-pills" id="productFilterPills">
+          <button class="filter-pill active" data-filter="all">All (12 Weeks)</button>
+          <button class="filter-pill" data-filter="Uber">Uber</button>
+          <button class="filter-pill" data-filter="Spotify">Spotify</button>
+          <button class="filter-pill" data-filter="Netflix">Netflix</button>
+          <button class="filter-pill" data-filter="Instagram">Instagram</button>
+          <button class="filter-pill" data-filter="Stripe">Stripe</button>
+          <button class="filter-pill" data-filter="Airbnb">Airbnb</button>
+          <button class="filter-pill" data-filter="WhatsApp">WhatsApp</button>
+          <button class="filter-pill" data-filter="Slack">Slack / Linear</button>
+          <button class="filter-pill" data-filter="GitHub">GitHub / GitLab</button>
+          <button class="filter-pill" data-filter="DoorDash">DoorDash</button>
+          <button class="filter-pill" data-filter="Shopify">Shopify</button>
+          <button class="filter-pill" data-filter="Amazon">Amazon</button>
+          <button class="filter-pill" data-filter="Apple">Apple / Cloudflare</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12-Course Grid -->
+    <section class="courses-section">
+      <div class="section-title-row">
+        <h2>12-Week Modular Learning Roadmap</h2>
+        <span id="courseCountBadge" class="count-badge">Showing 12 of 12 Courses</span>
+      </div>
+
+      <div class="courses-grid" id="coursesContainer">
+        <!-- 12 Course Cards -->
+
+        <!-- Week 1 -->
+        <article class="course-card" data-products="Uber Spotify" data-keywords="introduction 3-tier architecture components dependencies frontend backend api">
+          <div class="card-header">
+            <span class="week-tag">Week 01</span>
+            <span class="date-tag">Nov 2–8, 2026</span>
+          </div>
+          <h3 class="course-name">Introduction to Technical Product Management</h3>
+          <p class="course-summary">
+            Dissect the 3-tier architecture (Client, Logic, Storage), distinguish the TPM vs PM vs EM triad, and analyze real-world system anatomy.
+          </p>
+          <div class="public-products-row">
+            <span class="product-badge">🚗 Uber</span>
+            <span class="product-badge">🎧 Spotify</span>
+          </div>
+          <div class="card-deliverable-info">
+            <strong>Expected Deliverable:</strong> Technical product breakdown: purpose, components, and dependencies.
+          </div>
+          <a href="01-intro-to-technical-pm/index.html" class="course-launch-btn">
+            Explore Week 1 Course ➔
+          </a>
+        </article>
+
+        <!-- Week 2 -->
+        <article class="course-card" data-products="Netflix Instagram" data-keywords="systems thinking architecture monolith microservices erd entity relationship diagram sql nosql database">
+          <div class="card-header">
+            <span class="week-tag">Week 02</span>
+            <span class="date-tag">Nov 9–15, 2026</span>
+          </div>
+          <h3 class="course-name">Systems Thinking and Architecture</h3>
+          <p class="course-summary">
+            Analyze monolith vs microservices trade-offs, model relational schemas with Entity Relationship Diagrams (ERDs), and inspect read-heavy social graphs.
+          </p>
+          <div class="public-products-row">
+            <span class="product-badge">🎬 Netflix</span>
+            <span class="product-badge">📸 Instagram</span>
+          </div>
+          <div class="card-deliverable-info">
+            <strong>Expected Deliverable:</strong> System design analysis, architecture diagram, data flow and simple ERD.
+          </div>
+          <a href="02-systems-thinking-and-architecture/index.html" class="course-launch-btn">
+            Explore Week 2 Course ➔
+          </a>
+        </article>
+
+        <!-- Week 3 -->
+        <article class="course-card" data-products="Stripe Google" data-keywords="apis data flow rest webhooks http status codes idempotency keys endpoints payload contracts">
+          <div class="card-header">
+            <span class="week-tag">Week 03</span>
+            <span class="date-tag">Nov 16–22, 2026</span>
+          </div>
+          <h3 class="course-name">APIs and Data Flow</h3>
+          <p class="course-summary">
+            Master RESTful conventions, HTTP verbs, status codes, payload schemas, webhooks, and idempotency keys to prevent double-charging.
+          </p>
+          <div class="public-products-row">
+            <span class="product-badge">💳 Stripe</span>
+            <span class="product-badge">🗺️ Google Maps</span>
+          </div>
+          <div class="card-deliverable-info">
+            <strong>Expected Deliverable:</strong> API design exercise with sample endpoints, inputs/outputs and data flow.
+          </div>
+          <a href="03-apis-and-data-flow/index.html" class="course-launch-btn">
+            Explore Week 3 Course ➔
+          </a>
+        </article>
+
+        <!-- Week 4 -->
+        <article class="course-card" data-products="Airbnb WhatsApp" data-keywords="technical prd writing functional non-functional requirements acceptance criteria gherkin given-when-then">
+          <div class="card-header">
+            <span class="week-tag">Week 04</span>
+            <span class="date-tag">Nov 23–29, 2026</span>
+          </div>
+          <h3 class="course-name">Technical PRD Writing</h3>
+          <p class="course-summary">
+            Write engineering-ready specs with functional & non-functional requirements, Gherkin Given-When-Then acceptance criteria, and edge-case fallbacks.
+          </p>
+          <div class="public-products-row">
+            <span class="product-badge">🏡 Airbnb</span>
+            <span class="product-badge">💬 WhatsApp</span>
+          </div>
+          <div class="card-deliverable-info">
+            <strong>Expected Deliverable:</strong> Feature PRD with functional and technical requirements and acceptance criteria.
+          </div>
+          <a href="04-technical-prd-writing/index.html" class="course-launch-btn">
+            Explore Week 4 Course ➔
+          </a>
+        </article>
+
+        <!-- Week 5 -->
+        <article class="course-card" data-products="Slack Linear" data-keywords="agile engineering workflows sprint planning backlog grooming story points fibonacci tech debt rice">
+          <div class="card-header">
+            <span class="week-tag">Week 05</span>
+            <span class="date-tag">Nov 30–Dec 5, 2026</span>
+          </div>
+          <h3 class="course-name">Agile and Engineering Workflows</h3>
+          <p class="course-summary">
+            Drive sprint velocity using the 70/20/10 capacity allocation rule, estimate complexity with Fibonacci story points, and prioritize with RICE scoring.
+          </p>
+          <div class="public-products-row">
+            <span class="product-badge">⚡ Linear</span>
+            <span class="product-badge">💬 Slack</span>
+          </div>
+          <div class="card-deliverable-info">
+            <strong>Expected Deliverable:</strong> Product backlog, sprint plan and prioritisation rationale.
+          </div>
+          <a href="05-agile-and-engineering-workflows/index.html" class="course-launch-btn">
+            Explore Week 5 Course ➔
+          </a>
+        </article>
+
+        <!-- Week 6 -->
+        <article class="course-card" data-products="GitHub" data-keywords="engineering collaboration git branches pull requests pr review commits ci cd task decomposition">
+          <div class="card-header">
+            <span class="week-tag">Week 06</span>
+            <span class="date-tag">Dec 6–12, 2026</span>
+          </div>
+          <h3 class="course-name">Engineering Collaboration</h3>
+          <p class="course-summary">
+            Partner with engineers across Git repositories, branch strategies, pull request reviews, and decompose high-level PRDs into atomic engineering tickets.
+          </p>
+          <div class="public-products-row">
+            <span class="product-badge">🐙 GitHub</span>
+            <span class="product-badge">🦊 GitLab</span>
+          </div>
+          <div class="card-deliverable-info">
+            <strong>Expected Deliverable:</strong> Translation of a product requirement into technical tasks.
+          </div>
+          <a href="06-engineering-collaboration/index.html" class="course-launch-btn">
+            Explore Week 6 Course ➔
+          </a>
+        </article>
+
+        <!-- Week 7 -->
+        <article class="course-card" data-products="DoorDash Amazon" data-keywords="debugging issue tracking bug reports reproduction steps p0 p1 p2 p3 rca root cause 5 whys telemetry sentry">
+          <div class="card-header">
+            <span class="week-tag">Week 07</span>
+            <span class="date-tag">Dec 13–19, 2026</span>
+          </div>
+          <h3 class="course-name">Debugging and Issue Tracking</h3>
+          <p class="course-summary">
+            Write diagnostic bug reports with reproduction steps (STR), classify defects using the P0–P3 severity matrix, and conduct blameless 5-Whys root cause analyses.
+          </p>
+          <div class="public-products-row">
+            <span class="product-badge">🍔 DoorDash</span>
+            <span class="product-badge">📦 Amazon</span>
+          </div>
+          <div class="card-deliverable-info">
+            <strong>Expected Deliverable:</strong> Bug report with reproduction steps and expected versus actual behaviour.
+          </div>
+          <a href="07-debugging-and-issue-tracking/index.html" class="course-launch-btn">
+            Explore Week 7 Course ➔
+          </a>
+        </article>
+
+        <!-- Break Notice Card -->
+        <article class="course-card break-card" data-products="All" data-keywords="break holiday consolidation notes review">
+          <div class="card-header">
+            <span class="week-tag break-tag">Holiday Break</span>
+            <span class="date-tag">Dec 20, 2026 – Jan 2, 2027</span>
+          </div>
+          <h3 class="course-name">End-of-Year Program Break</h3>
+          <p class="course-summary">
+            No regular sessions scheduled. Participants organize project notes, refine capstone architecture, and prepare for high-load scaling in the new year.
+          </p>
+          <div class="card-deliverable-info" style="border: none; background: transparent; padding: 0;">
+            <span style="color: #6ee7b7; font-size: 0.85rem;">🌴 Project consolidation & rest period</span>
+          </div>
+        </article>
+
+        <!-- Week 8 -->
+        <article class="course-card" data-products="Shopify Twitter" data-keywords="scalability performance high traffic load balancing redis cache cdn read replicas sharding rps">
+          <div class="card-header">
+            <span class="week-tag">Week 08</span>
+            <span class="date-tag">Jan 3–9, 2027</span>
+          </div>
+          <h3 class="course-name">Scalability and Performance</h3>
+          <p class="course-summary">
+            Design for massive concurrency surges. Master vertical vs horizontal scaling, multi-tier caching (Redis & CDN), database read replicas, and fan-out bottlenecks.
+          </p>
+          <div class="public-products-row">
+            <span class="product-badge">🛍️ Shopify</span>
+            <span class="product-badge">🐦 Twitter / X</span>
+          </div>
+          <div class="card-deliverable-info">
+            <strong>Expected Deliverable:</strong> Scaling analysis and proposed bottleneck improvements.
+          </div>
+          <a href="08-scalability-and-performance/index.html" class="course-launch-btn">
+            Explore Week 8 Course ➔
+          </a>
+        </article>
+
+        <!-- Week 9 -->
+        <article class="course-card" data-products="Apple Cloudflare" data-keywords="security system reliability auth authn authz oauth2 jwt owasp bola idor sqli sla slo sli error budgets">
+          <div class="card-header">
+            <span class="week-tag">Week 09</span>
+            <span class="date-tag">Jan 10–16, 2027</span>
+          </div>
+          <h3 class="course-name">Security and System Reliability</h3>
+          <p class="course-summary">
+            Protect systems with OAuth 2.0 and JWTs, guard against OWASP Top 10 vulnerabilities (BOLA/SQLi), and calculate "Nines of Availability" error budgets.
+          </p>
+          <div class="public-products-row">
+            <span class="product-badge">🍏 Apple</span>
+            <span class="product-badge">☁️ Cloudflare</span>
+          </div>
+          <div class="card-deliverable-info">
+            <strong>Expected Deliverable:</strong> Technical risk analysis covering security, vulnerabilities and reliability.
+          </div>
+          <a href="09-security-and-system-reliability/index.html" class="course-launch-btn">
+            Explore Week 9 Course ➔
+          </a>
+        </article>
+
+        <!-- Week 10 -->
+        <article class="course-card" data-products="Uber Amazon" data-keywords="full system integration sequence diagrams saga pattern kafka microservices api gateway distributed orchestration">
+          <div class="card-header">
+            <span class="week-tag">Week 10</span>
+            <span class="date-tag">Jan 17–23, 2027</span>
+          </div>
+          <h3 class="course-name">Full System Integration</h3>
+          <p class="course-summary">
+            Unify all product components into end-to-end UML sequence diagrams, implement distributed Saga transaction rollbacks, and handle third-party failures.
+          </p>
+          <div class="public-products-row">
+            <span class="product-badge">🍕 Uber Eats</span>
+            <span class="product-badge">📦 Amazon</span>
+          </div>
+          <div class="card-deliverable-info">
+            <strong>Expected Deliverable:</strong> Compiled technical documentation: PRD, architecture, API design and system flow.
+          </div>
+          <a href="10-full-system-integration/index.html" class="course-launch-btn">
+            Explore Week 10 Course ➔
+          </a>
+        </article>
+
+        <!-- Week 11 -->
+        <article class="course-card" data-products="Google Stripe" data-keywords="portfolio career technical pm resume cv linkedin interview questions system design star-t">
+          <div class="card-header">
+            <span class="week-tag">Week 11</span>
+            <span class="date-tag">Jan 24–30, 2027</span>
+          </div>
+          <h3 class="course-name">Portfolio and Career in Technical PM</h3>
+          <p class="course-summary">
+            Transform technical work into portfolio case studies, optimize resume bullets with quantifiable engineering ROI, and practice tier-1 tech system design interviews.
+          </p>
+          <div class="public-products-row">
+            <span class="product-badge">🔍 Google</span>
+            <span class="product-badge">💳 Stripe</span>
+          </div>
+          <div class="card-deliverable-info">
+            <strong>Expected Deliverable:</strong> Portfolio-ready Technical PM case study, CV and LinkedIn preparation.
+          </div>
+          <a href="11-portfolio-and-career-in-tpm/index.html" class="course-launch-btn">
+            Explore Week 11 Course ➔
+          </a>
+        </article>
+
+        <!-- Week 12 -->
+        <article class="course-card finale-card" data-products="All" data-keywords="career readiness demo day graduation capstone pitch presentation defense certification 300 marks">
+          <div class="card-header">
+            <span class="week-tag finale-tag">Week 12 (Finale)</span>
+            <span class="date-tag">Jan 31–Feb 5, 2027</span>
+          </div>
+          <h3 class="course-name">Career Readiness and Demo Day</h3>
+          <p class="course-summary">
+            Deliver the 10-minute executive technical presentation, defend system architecture choices before senior engineering facilitators, and graduate with PBA accreditation.
+          </p>
+          <div class="public-products-row">
+            <span class="product-badge" style="background: rgba(245, 158, 11, 0.25); color: #fde047;">🏆 PBA Demo Day</span>
+          </div>
+          <div class="card-deliverable-info">
+            <strong>Expected Deliverable:</strong> Final explanation or presentation of individual case study & team capstone.
+          </div>
+          <a href="12-career-readiness-and-demo-day/index.html" class="course-launch-btn" style="background: #f59e0b; color: #000; font-weight: 700;">
+            Explore Finale & Pitch Timer ➔
+          </a>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Interactive 300-Mark Grade Calculator Section -->
+    <section class="calculator-section">
+      <div class="calc-header">
+        <span class="section-tag">Interactive Student Portal Tool</span>
+        <h2>PBA 300-Mark Assessment & Grade Classification Simulator</h2>
+        <p>Enter your anticipated or awarded marks across the four core assessment pillars to calculate your final percentage and official grade standing:</p>
+      </div>
+
+      <div class="calc-grid">
+        <div class="calc-inputs">
+          <div class="input-card">
+            <label>
+              <strong>1. Weekly Learning & Individual Assignments</strong>
+              <span>12 weekly assignments × 10 marks (Max: 120 marks)</span>
+            </label>
+            <input type="number" id="inputWeekly" class="grade-input" min="0" max="120" value="105">
+          </div>
+
+          <div class="input-card">
+            <label>
+              <strong>2. Team Capstone System Build</strong>
+              <span>Milestones (40), Demo (35), Feasibility (15), Contribution (10) (Max: 100 marks)</span>
+            </label>
+            <input type="number" id="inputCapstone" class="grade-input" min="0" max="100" value="88">
+          </div>
+
+          <div class="input-card">
+            <label>
+              <strong>3. Individual Final Project & Portfolio</strong>
+              <span>Quality (20), Decisions (10), Presentation (10), Defense (10) (Max: 50 marks)</span>
+            </label>
+            <input type="number" id="inputPortfolio" class="grade-input" min="0" max="50" value="44">
+          </div>
+
+          <div class="input-card">
+            <label>
+              <strong>4. Attendance & Professional Conduct</strong>
+              <span>24 scheduled sessions (24 marks) + active peer feedback (6 marks) (Max: 30 marks)</span>
+            </label>
+            <input type="number" id="inputAttendance" class="grade-input" min="0" max="30" value="28">
+          </div>
+        </div>
+
+        <div class="calc-result-display">
+          <div class="result-box">
+            <span class="result-title">Total Marks Earned</span>
+            <div class="score-display">
+              <span id="totalMarksScore">265</span>
+              <span class="max-score">/ 300</span>
+            </div>
+            <div class="percentage-display">
+              Final Percentage: <strong id="percentageText">88.3%</strong>
+            </div>
+            <div class="grade-classification-card">
+              <span class="grade-label">Official Grade:</span>
+              <span id="finalGradeBadge" class="grade-badge a">Grade A</span>
+            </div>
+            <div class="status-summary" id="certificateStatusText">
+              ✅ Meets all graduation & certificate requirements (Score ≥ 50%).
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Program Rules & Schedule Section -->
+    <section class="rules-section">
+      <div class="rules-grid">
+        <div class="rules-box">
+          <h3>📜 Programme Rules & Completion Requirements</h3>
+          <ul class="clean-bullet-list">
+            <li><strong>Minimum Passing Score:</strong> At least 50% overall (150 out of 300 total marks).</li>
+            <li><strong>Attendance Requirement:</strong> At least 80% of scheduled live sessions (20 of 24 sessions) is required to qualify for graduation certification.</li>
+            <li><strong>Academic Integrity:</strong> Participants must submit their own original work and disclose AI assistance where required. Plagiarism or misrepresentation may result in deductions.</li>
+            <li><strong>Team Capstone Contribution:</strong> Every participant must demonstrate individual code/architecture contribution; team membership alone does not guarantee equal marks.</li>
+          </ul>
+        </div>
+        <div class="rules-box">
+          <h3>🎯 Expected Programme Outcomes</h3>
+          <ul class="clean-bullet-list">
+            <li>A comprehensive technical product documentation package including PRD, architecture, and API design.</li>
+            <li>Fluency in systems thinking, database scaling, caching, and CI/CD engineering workflows.</li>
+            <li>The ability to bridge business requirements into concrete technical specifications.</li>
+            <li>A portfolio-ready Technical PM case study and preparation for top global tech interviews.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="master-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <strong>Product Bosslady Academy (PBA)</strong>
+        <p>Product Career Internship Program (PCIP) • Technical Product Management Track</p>
+      </div>
+      <p class="motto-text"><em>"Build. Grow. Scale Your Product Journey."</em></p>
+      <div class="footer-credits">
+        Curriculum Session: November 2026 – February 2027 • Founded & Facilitated by <strong>Oyindamola Oye-Daniel</strong>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

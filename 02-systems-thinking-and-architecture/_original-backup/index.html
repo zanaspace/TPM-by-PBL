@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 02: Systems Thinking and Architecture | PCIP TPM Track</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand-group">
+        <a href="../index.html" class="back-portal-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Master Portal
+        </a>
+        <span class="divider">/</span>
+        <span class="badge-week">Week 02 of 12</span>
+      </div>
+      <div class="nav-title">Systems Thinking and Architecture</div>
+      <div class="nav-actions">
+        <button id="themeToggle" class="icon-btn" title="Toggle Theme">🌓</button>
+        <a href="../01-intro-to-technical-pm/index.html" class="nav-prev-btn">← Week 1</a>
+        <a href="../03-apis-and-data-flow/index.html" class="nav-next-btn">Next: Week 3 →</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="meta-pill-group">
+        <span class="meta-pill date-pill">📅 Nov 9 – 15, 2026</span>
+        <span class="meta-pill live-pill">🔴 Masterclass: Sat 7:00 PM WAT</span>
+        <span class="meta-pill review-pill">🎯 Project Review: Sun 6:00 PM WAT</span>
+      </div>
+      <h1 class="hero-title">Systems Thinking and Architecture for TPMs</h1>
+      <p class="hero-subtitle">
+        Master architectural paradigms from Monoliths to Microservices. Learn how data relationships work, design entity relationship diagrams (ERDs), and examine how <strong>Netflix</strong> streams video to 260M subscribers and <strong>Instagram</strong> structures its social graph.
+      </p>
+      <div class="hero-quick-stats">
+        <div class="stat-box">
+          <span class="stat-num">Monolith vs Microservices</span>
+          <span class="stat-label">Architectural Trade-offs</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">Netflix & Instagram</span>
+          <span class="stat-label">Public Product Deep Dives</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">Relational ERD</span>
+          <span class="stat-label">Data Modeling for PMs</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">10 Marks</span>
+          <span class="stat-label">Individual Deliverable #2</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="sub-nav">
+    <div class="sub-nav-container">
+      <a href="#systems-thinking" class="sub-link active">1. Systems Thinking</a>
+      <a href="#monolith-vs-microservices" class="sub-link">2. Monolith vs Microservices</a>
+      <a href="#data-modeling" class="sub-link">3. ERD & Data Modeling</a>
+      <a href="#case-studies" class="sub-link">4. Case Studies (Netflix & Instagram)</a>
+      <a href="#erd-simulator" class="sub-link">5. Interactive ERD Explorer</a>
+      <a href="#deliverables" class="sub-link">6. Deliverables & Rubric</a>
+    </div>
+  </nav>
+
+  <main class="main-container">
+
+    <!-- 1. Systems Thinking -->
+    <section id="systems-thinking" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 2.1</span>
+        <h2>What is Systems Thinking for a Product Manager?</h2>
+      </div>
+      <p class="lead-text">
+        Systems thinking means viewing your product not as isolated UI buttons or standalone features, but as an interconnected ecosystem of services, data flows, queues, and feedback loops where changing one part can cause ripple effects across the entire system.
+      </p>
+
+      <div class="grid-3-col">
+        <div class="concept-card">
+          <div class="concept-icon">🔄</div>
+          <h3>Feedback Loops & Cascading Effects</h3>
+          <p>If the user checkout flow adds a synchronous fraud check that takes 800ms, does that cause database thread pools to exhaust during flash sales? A TPM anticipates downstream bottlenecks before writing the first line of code.</p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-icon">🧱</div>
+          <h3>Coupling & Cohesion</h3>
+          <p><strong>High Cohesion:</strong> Components that belong together live together. <strong>Loose Coupling:</strong> If the email notification service crashes, users must still be able to log in, browse, and place orders without interruption.</p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-icon">⚖️</div>
+          <h3>The CAP Theorem Trade-off</h3>
+          <p>In distributed systems, you can only pick two of three: <strong>Consistency</strong> (every read receives latest write), <strong>Availability</strong> (every request receives a non-error response), and <strong>Partition Tolerance</strong> (system works despite network drops).</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Monolith vs Microservices -->
+    <section id="monolith-vs-microservices" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 2.2</span>
+        <h2>Architecture Patterns: Monolith vs. Microservices vs. Event-Driven</h2>
+      </div>
+      <p>Every engineering team engages in debates over architecture. As a TPM, your job is to evaluate the business and operational trade-offs.</p>
+
+      <div class="table-responsive">
+        <table class="tpm-table">
+          <thead>
+            <tr>
+              <th>Architecture Style</th>
+              <th>How It Works</th>
+              <th>When to Choose (TPM Pros)</th>
+              <th>Hidden Traps & Costs (TPM Cons)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Monolithic Architecture</strong></td>
+              <td>All application code (Auth, Billing, Catalog, Search) lives in a single codebase and deploys as a single unit.</td>
+              <td>Fast initial iteration, simple local debugging, zero network serialization overhead, unified database.</td>
+              <td>Single point of failure; one developer's bug can bring down the entire app; scaling requires scaling everything.</td>
+            </tr>
+            <tr>
+              <td><strong>Microservices Architecture</strong></td>
+              <td>System is split into distinct, independently deployable services communicating over HTTP/gRPC.</td>
+              <td>Autonomous engineering squads, independent horizontal scaling, tech stack flexibility per service.</td>
+              <td>Distributed tracing complexity, network latency, data consistency challenges, DevOps overhead.</td>
+            </tr>
+            <tr>
+              <td><strong>Event-Driven (Async Pub/Sub)</strong></td>
+              <td>Services produce and consume messages via event brokers (Apache Kafka, RabbitMQ, AWS SQS) without waiting.</td>
+              <td>Extreme resilience to traffic bursts, loose coupling, non-blocking asynchronous user experiences.</td>
+              <td>Eventual consistency, message deduplication needed, complex debugging of message replay.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 3. ERD & Data Modeling -->
+    <section id="data-modeling" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 2.3</span>
+        <h2>Data Modeling: Entity Relationship Diagrams (ERDs) for TPMs</h2>
+      </div>
+      <p class="lead-text">
+        An ERD is the visual blueprint of how your product's data is stored and connected. If you can define the entities, attributes, and relationships, you can clearly communicate feature requirements to backend engineers.
+      </p>
+
+      <div class="grid-2-col">
+        <div class="info-callout primary">
+          <h3>🔑 Core ERD Building Blocks</h3>
+          <ul class="bullet-list">
+            <li><strong>Entity:</strong> A real-world noun stored in the database (e.g. <code>User</code>, <code>Order</code>, <code>Product</code>).</li>
+            <li><strong>Attribute:</strong> A property of an entity (e.g. <code>email</code>, <code>price_cents</code>, <code>created_at</code>).</li>
+            <li><strong>Primary Key (PK):</strong> A unique identifier for every row (e.g. <code>user_id (UUID)</code>).</li>
+            <li><strong>Foreign Key (FK):</strong> A reference in one table that points to the PK of another table to establish relationships.</li>
+          </ul>
+        </div>
+        <div class="info-callout secondary">
+          <h3>🔗 Relationship Cardinality Types</h3>
+          <ul class="bullet-list">
+            <li><strong>1-to-1 (1:1):</strong> A User has one UserProfile; a UserProfile belongs to one User.</li>
+            <li><strong>1-to-Many (1:N):</strong> An Author has many Articles; each Article belongs to one Author.</li>
+            <li><strong>Many-to-Many (N:M):</strong> A Student enrolls in many Courses; a Course contains many Students (Requires a Join Table like <code>Enrollments</code>).</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Case Studies -->
+    <section id="case-studies" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 2.4: Real-World Public Product Case Studies</span>
+        <h2>Case Studies: Netflix & Instagram</h2>
+      </div>
+
+      <div class="tab-control">
+        <button class="tab-btn active" data-tab="netflix-case">🎬 Case Study 1: Netflix (Microservices & Edge Streaming)</button>
+        <button class="tab-btn" data-tab="instagram-case">📸 Case Study 2: Instagram (Social Graph & Read-Heavy ERD)</button>
+      </div>
+
+      <!-- Netflix Pane -->
+      <div id="netflix-case" class="tab-pane active">
+        <div class="case-header">
+          <div class="case-badge">Netflix, Inc.</div>
+          <h3>How Netflix Re-architected for 1000+ Microservices</h3>
+          <p>In 2008, a corrupted database shut down Netflix DVD rentals for 3 days. That catastrophic event sparked Netflix's 7-year cloud migration to AWS and microservices.</p>
+        </div>
+
+        <div class="breakdown-grid">
+          <div class="breakdown-card">
+            <div class="card-tag backend">Architecture</div>
+            <h4>Zuul Gateway & Chaos Monkey</h4>
+            <ul class="clean-list">
+              <li><strong>Zuul Edge Gateway:</strong> Directs 100% of global Netflix streaming requests, handling auth, routing, and canary deployments.</li>
+              <li><strong>Chaos Engineering:</strong> Netflix intentionally kills random microservices in production (Chaos Monkey) to test resilience.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag frontend">Media Ingestion</div>
+            <h4>Video Encoding Pipeline</h4>
+            <ul class="clean-list">
+              <li>When a filmmaker uploads a 4K ProRes master file, Netflix splits it into thousands of 5-second chunks.</li>
+              <li>Encodes chunks in parallel across 120 different bitrate/device profiles (Mobile, 4K OLED, Safari, Android).</li>
+            </ul>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag database">Content Delivery</div>
+            <h4>Open Connect CDN Appliances</h4>
+            <ul class="clean-list">
+              <li>Netflix embeds custom hardware CDN boxes (Open Connect Appliances) directly inside local Internet Service Providers (ISPs).</li>
+              <li>95% of video data never leaves your city's local ISP network.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag apis">TPM Takeaway</div>
+            <h4>Availability Over Consistency</h4>
+            <ul class="clean-list">
+              <li>If the personalized recommendation service fails, Netflix does not show an error screen.</li>
+              <li>It gracefully falls back to a cached static list of "Trending Movies". The user never knows a service crashed!</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Instagram Pane -->
+      <div id="instagram-case" class="tab-pane">
+        <div class="case-header">
+          <div class="case-badge">Instagram / Meta</div>
+          <h3>Instagram's Social Graph & Read-Heavy Architecture</h3>
+          <p>Instagram has an extreme 100:1 read-to-write ratio. For every photo uploaded, it is viewed thousands or millions of times.</p>
+        </div>
+
+        <div class="breakdown-grid">
+          <div class="breakdown-card">
+            <div class="card-tag database">ERD Design</div>
+            <h4>The Core Entities</h4>
+            <ul class="clean-list">
+              <li><strong>Users Table:</strong> <code>user_id (PK)</code>, <code>username</code>, <code>password_hash</code>, <code>is_verified</code>.</li>
+              <li><strong>Posts Table:</strong> <code>post_id (PK)</code>, <code>user_id (FK)</code>, <code>caption</code>, <code>created_at</code>.</li>
+              <li><strong>Media Table:</strong> <code>media_id (PK)</code>, <code>post_id (FK)</code>, <code>s3_url</code>, <code>dimensions</code>.</li>
+              <li><strong>Follows Table:</strong> <code>follower_id (FK)</code>, <code>followee_id (FK)</code>.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag backend">Scale Strategy</div>
+            <h4>Fan-Out On Write vs Fan-Out On Read</h4>
+            <ul class="clean-list">
+              <li><strong>Regular Users:</strong> When a user posts, it fans out and injects the post ID into each follower's feed cache in Redis.</li>
+              <li><strong>Celebrities (Cristiano Ronaldo):</strong> Fan-out on write would overwhelm Redis (600M followers!). Instead, celebrity posts are merged at read time.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag database">Database Sharding</div>
+            <h4>PostgreSQL Sharding Strategy</h4>
+            <ul class="clean-list">
+              <li>Instagram partitioned their PostgreSQL database across thousands of shards using custom 64-bit ID generation.</li>
+              <li>IDs embed timestamp, shard ID, and auto-increment sequence in a single integer!</li>
+            </ul>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag apis">TPM Takeaway</div>
+            <h4>Design for Asymmetry</h4>
+            <ul class="clean-list">
+              <li>A TPM must evaluate the read/write profile before picking a database. Read-heavy products require aggressive caching and database read replicas.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Interactive ERD Explorer -->
+    <section id="erd-simulator" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Interactive Teaching Tool</span>
+        <h2>Interactive Instagram Schema & ERD Explorer</h2>
+      </div>
+      <p>Explore Instagram's relational database schema below. Click any table to inspect its fields, primary/foreign keys, and data relationships:</p>
+
+      <div class="erd-interactive-canvas">
+        <div class="erd-tables-grid" id="erdTablesGrid">
+          <!-- Dynamically populated by script.js -->
+        </div>
+
+        <div class="erd-detail-card" id="erdDetailCard">
+          <div class="inspector-empty">
+            👆 Click on any database table above to view field types, primary keys, relationships, and sample SQL queries!
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Student Deliverables -->
+    <section id="deliverables" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Course Deliverables</span>
+        <h2>Week 02 Assignment & Capstone Milestone</h2>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="deliverable-box">
+          <div class="deliv-badge individual">Individual Assignment (10 Marks)</div>
+          <h3>System Design Analysis & Simple ERD</h3>
+          <p class="deliv-deadline">⏰ Due: Sunday, Nov 15, 2026 before 11:59 PM WAT</p>
+          <p>For your chosen technical product (from Week 1):</p>
+          <ol class="step-list">
+            <li><strong>System Architecture Diagram:</strong> Draw the component relationships (Client, API Gateway, Microservices, DB, Cache).</li>
+            <li><strong>Data Flow Walkthrough:</strong> Trace the step-by-step path of one core user action (e.g. "User likes a photo").</li>
+            <li><strong>Basic Entity Relationship Diagram (ERD):</strong> Model at least 4 database entities with Primary and Foreign Keys.</li>
+            <li><strong>Monolith vs Microservices Justification:</strong> Explain which architecture the product uses and why.</li>
+          </ol>
+          <div class="rubric-mini">
+            <h4>Marking Rubric (Total: 10 Marks)</h4>
+            <ul>
+              <li>Architecture clarity & component correctness: <strong>3 Marks</strong></li>
+              <li>ERD structure, keys & relationship cardinality: <strong>3 Marks</strong></li>
+              <li>End-to-end data flow explanation: <strong>2 Marks</strong></li>
+              <li>Professionalism, formatting & timely delivery: <strong>2 Marks</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="deliverable-box">
+          <div class="deliv-badge team">Team Capstone (Phase 2 of 6)</div>
+          <h3>Capstone Architecture & System Flow</h3>
+          <p class="deliv-deadline">👥 Collaborative Team Milestone</p>
+          <p>Teams finalize their high-level architectural blueprint and initial data entities for their capstone project:</p>
+
+          <div class="checklist-card">
+            <h4>Week 2 Team Goals:</h4>
+            <label class="check-item"><input type="checkbox"> Agree on system architecture style (Monolith vs Microservices)</label>
+            <label class="check-item"><input type="checkbox"> Map out external 3rd-party dependencies needed</label>
+            <label class="check-item"><input type="checkbox"> Draft initial ERD with at least 5 core domain tables</label>
+            <label class="check-item"><input type="checkbox"> Present draft architecture in Sunday Project Review session</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="template-box">
+        <div class="template-info">
+          <h4>📄 Week 2 System Architecture & ERD Template</h4>
+          <p>Copy this standardized markdown template for your submission:</p>
+        </div>
+        <button id="copyTemplateBtn" class="primary-btn">📋 Copy Markdown Template</button>
+      </div>
+      <textarea id="templateText" class="template-textarea" readonly>
+# Week 02 System Design Analysis & ERD: [Product Name]
+**Student Name:** [Your Full Name]
+**PCIP Track:** Technical Product Management
+**Date:** [Submission Date]
+
+## 1. High-Level Architecture Overview
+- **Architecture Style:** (e.g. Microservices on AWS / Modular Monolith)
+- **Key Services Identified:**
+  1. Service A: [Role and responsibility]
+  2. Service B: [Role and responsibility]
+  3. Service C: [Role and responsibility]
+
+## 2. End-to-End Data Flow Trace
+*Describe the journey of a single user action (e.g. Booking a ride or Creating a post):*
+1. **Step 1 (Client):** User taps "Submit" -> Client validates form and triggers HTTP POST request.
+2. **Step 2 (Edge/Gateway):** Gateway verifies JWT auth header and rate limit.
+3. **Step 3 (Backend):** Service processes request, applies business validation rules.
+4. **Step 4 (Database):** Write committed to primary DB within a transaction.
+5. **Step 5 (Async Event):** Event published to Kafka queue for notifications and analytics.
+6. **Step 6 (Response):** HTTP 201 Created returned with payload to client.
+
+## 3. Entity Relationship Diagram (ERD) Specification
+### Table 1: Users
+- `id` (UUID, Primary Key)
+- `email` (VARCHAR, Unique)
+- `created_at` (TIMESTAMP)
+
+### Table 2: [Entity 2]
+- `id` (UUID, Primary Key)
+- `user_id` (UUID, Foreign Key -> Users.id)
+- [Attribute A] ([Data Type])
+
+### Relationships:
+- `Users` to `[Entity 2]`: 1-to-Many (1:N)
+
+## 4. Architectural Trade-offs & Scaling Bottlenecks
+- **Primary Bottleneck:** 
+- **Mitigation Strategy:** (e.g., Redis caching layer, Read replicas)
+      </textarea>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>Product Bosslady Academy (PBA) • Product Career Internship Program (PCIP) • Technical Product Management Track</p>
+      <p class="footer-sub">Week 02 Curriculum • November 2026 – February 2027 • Facilitated by Oyindamola Oye-Daniel</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

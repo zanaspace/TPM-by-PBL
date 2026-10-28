@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 04: Technical PRD Writing | PCIP TPM Track</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Navigation Header -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand-group">
+        <a href="../index.html" class="back-portal-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          All Weeks
+        </a>
+        <span class="divider">/</span>
+        <span class="badge-week">Week 04 of 12</span>
+      </div>
+      <div class="nav-title">Technical Product Management Track</div>
+      <div class="nav-actions">
+        <button id="themeToggle" class="icon-btn" title="Switch dark / light mode" aria-label="Switch dark or light mode">🌓</button>
+        <a href="../03-apis-and-data-flow/index.html" class="nav-prev-btn">← Week 3</a>
+        <a href="../05-agile-and-engineering-workflows/index.html" class="nav-next-btn">
+          Next: Week 5
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Progress bar -->
+  <div class="read-progress"><div id="readProgress" class="read-progress-fill"></div></div>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="meta-pill-group">
+        <span class="meta-pill">📅 Nov 23 – 29, 2026</span>
+        <span class="meta-pill live-pill">🔴 Class: Saturday 7:00 PM WAT</span>
+        <span class="meta-pill review-pill">🎯 Project Review: Sunday 6:00 PM WAT</span>
+      </div>
+      <h1 class="hero-title">Writing a Technical PRD</h1>
+      <p class="hero-subtitle">
+        A <strong>PRD</strong> (Product Requirements Document) is the plan that tells the whole team what to build, why, and how to know it's done.
+        A vague PRD leads to the wrong thing being built, delays, and angry customers. This week you will learn to write a clear one —
+        then <strong>write a PRD yourself and watch what happens on launch week</strong>.
+      </p>
+
+      <div class="goals-box">
+        <h2 class="goals-title">By the end of this week, you will be able to:</h2>
+        <ul class="goals-list">
+          <li><span class="goal-check">✓</span> Explain what a PRD is, who reads it, and what goes in it</li>
+          <li><span class="goal-check">✓</span> Tell the difference between "what it does" (functional) and "how well it does it" (non-functional) requirements</li>
+          <li><span class="goal-check">✓</span> Turn a vague wish ("it should be fast") into something measurable</li>
+          <li><span class="goal-check">✓</span> Write acceptance criteria using Given – When – Then</li>
+          <li><span class="goal-check">✓</span> Write a full PRD for one feature of your product</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Topic Navigation -->
+  <nav class="sub-nav" aria-label="Lesson sections">
+    <div class="sub-nav-container">
+      <a href="#what-is-prd" class="sub-link active">1. What is a PRD?</a>
+      <a href="#fr-nfr" class="sub-link">2. What vs How Well</a>
+      <a href="#acceptance" class="sub-link">3. Given – When – Then</a>
+      <a href="#simulation" class="sub-link">4. ▶ PRD Simulation</a>
+      <a href="#case-studies" class="sub-link">5. Airbnb &amp; WhatsApp</a>
+      <a href="#quiz" class="sub-link">6. Quick Quiz</a>
+      <a href="#assignment" class="sub-link">7. Assignment</a>
+      <a href="#word-bank" class="sub-link">8. Word Bank</a>
+    </div>
+  </nav>
+
+  <main class="main-container">
+
+    <!-- 1. What is a PRD -->
+    <section id="what-is-prd" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 1</span>
+        <h2>What is a PRD?</h2>
+      </div>
+
+      <div class="big-definition">
+        <p>A <strong>PRD</strong> is like the <strong>architect's plan for a house</strong>. Before anyone lays a brick, everyone agrees what is being built, for whom, and what "finished" looks like.</p>
+        <p>A <strong>Technical PRD</strong> adds the parts engineers need: how fast it must be, what can go wrong, and how the systems talk (the APIs from Week 3).</p>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="info-callout primary">
+          <h3>👥 Who reads your PRD?</h3>
+          <ul class="bullet-list">
+            <li><strong>Engineers</strong> — to know exactly what to build.</li>
+            <li><strong>Designers</strong> — to design the right screens, including error screens.</li>
+            <li><strong>QA testers</strong> — to know how to check that it works.</li>
+            <li><strong>Data analysts</strong> — to measure if it succeeded.</li>
+            <li><strong>Leaders</strong> — to decide if it is worth the time and money.</li>
+          </ul>
+          <p class="note-text">If any of them has to <strong>guess</strong>, the PRD isn't finished.</p>
+        </div>
+        <div class="info-callout secondary">
+          <h3>💡 Same feature, two PRDs</h3>
+          <div class="comparison-card">
+            <div class="comp-col">
+              <span class="comp-label">A vague PRD says:</span>
+              <p>"Let guests book homes instantly."</p>
+            </div>
+            <div class="comp-col highlight">
+              <span class="comp-label">A technical PRD also says:</span>
+              <p>"If two guests tap Book for the same dates at the same moment, <strong>only one</strong> booking succeeds. The other sees 'These dates were just booked' within 1 second. No one is charged twice."</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="sub-h">The 7 parts of a good PRD</h3>
+      <div class="prd-parts">
+        <div class="prd-part"><span class="pp-num">1</span><div><strong>Problem</strong><span>Who has the problem, and how do we know? (data, interviews)</span></div></div>
+        <div class="prd-part"><span class="pp-num">2</span><div><strong>Success metric</strong><span>A number that shows it worked: "abandonment falls from 25% to 15%".</span></div></div>
+        <div class="prd-part"><span class="pp-num">3</span><div><strong>Scope</strong><span>What's in this version — and, just as important, what's <em>not</em>.</span></div></div>
+        <div class="prd-part"><span class="pp-num">4</span><div><strong>Functional requirements</strong><span>What the product must <em>do</em>.</span></div></div>
+        <div class="prd-part"><span class="pp-num">5</span><div><strong>Non-functional requirements</strong><span>How <em>well</em> it must work: speed, scale, safety.</span></div></div>
+        <div class="prd-part"><span class="pp-num">6</span><div><strong>Acceptance criteria</strong><span>Exact tests that prove it's done, written as Given – When – Then.</span></div></div>
+        <div class="prd-part"><span class="pp-num">7</span><div><strong>What can go wrong</strong><span>Edge cases and failures, and what happens in each.</span></div></div>
+      </div>
+    </section>
+
+    <!-- 2. FR vs NFR -->
+    <section id="fr-nfr" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 2</span>
+        <h2>"What it does" vs "how well it does it"</h2>
+      </div>
+      <p>Requirements come in two types. Think of ordering a car from a factory:</p>
+
+      <div class="grid-2-col">
+        <div class="info-callout primary">
+          <h3>⚙️ Functional requirements (FR) — what it does</h3>
+          <p class="muted small">🚗 Car: "It has 4 doors, air conditioning and a radio."</p>
+          <ul class="bullet-list">
+            <li><strong>FR-1:</strong> Customers can choose a delivery time slot for today or tomorrow.</li>
+            <li><strong>FR-2:</strong> Each restaurant can set the maximum orders per 30-minute slot.</li>
+            <li><strong>FR-3:</strong> Customers get an SMS 15 minutes before their slot.</li>
+          </ul>
+        </div>
+        <div class="info-callout secondary">
+          <h3>📏 Non-functional requirements (NFR) — how well</h3>
+          <p class="muted small">🚗 Car: "It reaches 100 km/h in 10 seconds and passes the crash test."</p>
+          <ul class="bullet-list">
+            <li><strong>Speed:</strong> the slot list loads in under 1 second for 95% of users.</li>
+            <li><strong>Scale:</strong> it keeps working with 3,000 orders between 12 and 1 PM.</li>
+            <li><strong>Reliability:</strong> available 99.9% of the time (under 45 minutes down per month).</li>
+            <li><strong>Security:</strong> card details are never stored on ChopNow's servers.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="fix-box">
+        <h3>🔧 The golden rule: make it measurable</h3>
+        <p>If you can't measure it, engineers can't build it and testers can't check it. Swap feelings for numbers:</p>
+        <div class="fix-rows">
+          <div class="fix-row"><span class="fix-bad">❌ "It should be fast."</span><span class="fix-arrow">→</span><span class="fix-good">✅ "Loads in under 2 seconds on a 3G connection for 95% of users."</span></div>
+          <div class="fix-row"><span class="fix-bad">❌ "It must handle lots of users."</span><span class="fix-arrow">→</span><span class="fix-good">✅ "Works with 3,000 orders in the busiest hour."</span></div>
+          <div class="fix-row"><span class="fix-bad">❌ "It should be secure."</span><span class="fix-arrow">→</span><span class="fix-good">✅ "Card numbers are never saved; only the payment company's token is stored."</span></div>
+          <div class="fix-row"><span class="fix-bad">❌ "Users should love it."</span><span class="fix-arrow">→</span><span class="fix-good">✅ "App-store rating for this flow stays at 4.5 or above."</span></div>
+        </div>
+      </div>
+
+      <div class="game-card" id="frnfrGame">
+        <div class="game-head">
+          <h3>🎮 Mini-game: What it does, or how well?</h3>
+          <span class="game-score" id="frnfrScore">Score: 0 / 0</span>
+        </div>
+        <p class="game-instructions">Read each requirement for ChopNow's "Schedule for later" feature. Is it functional or non-functional?</p>
+        <div class="game-task" id="frnfrTask">Loading…</div>
+        <div class="game-choices two-choices">
+          <button class="choice-btn" data-pick="fr">⚙️ Functional (what it does)</button>
+          <button class="choice-btn" data-pick="nfr">📏 Non-functional (how well)</button>
+        </div>
+        <div class="game-feedback" id="frnfrFeedback" aria-live="polite"></div>
+        <div class="game-foot">
+          <span id="frnfrProgress" class="game-progress"></span>
+          <button class="ghost-btn" id="frnfrNext" disabled>Next →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Acceptance criteria -->
+    <section id="acceptance" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 3</span>
+        <h2>Acceptance criteria: Given – When – Then</h2>
+      </div>
+      <p><strong>Acceptance criteria</strong> are the exact checks that prove a feature is finished. The team agrees on them <em>before</em> building, so nobody argues later. The most common way to write them has 3 parts (engineers call this format <span class="term">Gherkin</span>):</p>
+
+      <div class="gwt-grid">
+        <div class="gwt gwt-given"><span class="gwt-word">Given</span><p>the starting situation</p><span class="gwt-eg">"Given the 12:30 slot already has 10 orders…"</span></div>
+        <div class="gwt gwt-when"><span class="gwt-word">When</span><p>the thing someone does</p><span class="gwt-eg">"When a customer opens the list of slots…"</span></div>
+        <div class="gwt gwt-then"><span class="gwt-word">Then</span><p>what must happen — something you can check</p><span class="gwt-eg">"Then the 12:30 slot shows 'Full' and can't be picked."</span></div>
+      </div>
+
+      <div class="gherkin-card">
+        <div class="gherkin-head">📄 Example: two people want the last slot</div>
+        <pre class="gherkin-code"><span class="g-kw">Scenario:</span> Two customers try to book the last slot at the same moment
+  <span class="g-given">Given</span> Mama Put Express allows 10 orders in the 12:30 slot
+  <span class="g-and">And</span>   the 12:30 slot already has 9 orders
+  <span class="g-when">When</span>  Amaka and Tunde both tap "12:30" within the same second
+  <span class="g-then">Then</span>  only one of them gets the slot
+  <span class="g-and">And</span>   the other sees "This slot was just taken — 12:45 is free" within 1 second
+  <span class="g-and">And</span>   the 12:30 slot never has more than 10 orders</pre>
+      </div>
+      <p class="note-text">💡 Always write at least one <strong>happy path</strong> (everything goes right) and one <strong>edge case</strong> (something unusual or broken). Bugs live in the edge cases.</p>
+
+      <div class="game-card" id="testGame">
+        <div class="game-head">
+          <h3>🎮 Mini-game: Could a tester check this?</h3>
+          <span class="game-score" id="testScore">Score: 0 / 0</span>
+        </div>
+        <p class="game-instructions">Imagine you are the QA tester. Could you clearly say "pass" or "fail" for each one?</p>
+        <div class="game-task" id="testTask">Loading…</div>
+        <div class="game-choices two-choices">
+          <button class="choice-btn" data-pick="good">✅ Yes, I can test it</button>
+          <button class="choice-btn" data-pick="vague">🤷 No, it's too vague</button>
+        </div>
+        <div class="game-feedback" id="testFeedback" aria-live="polite"></div>
+        <div class="game-foot">
+          <span id="testProgress" class="game-progress"></span>
+          <button class="ghost-btn" id="testNext" disabled>Next →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Simulation -->
+    <section id="simulation" class="content-card demo-section">
+      <div class="card-header">
+        <span class="section-tag tag-live">▶ Simulation</span>
+        <h2>Write the PRD, then live through launch week</h2>
+      </div>
+      <p class="lead-text">
+        You are the TPM at <strong>ChopNow</strong>. Office workers keep abandoning lunch orders because food arrives at the wrong time.
+        Your feature: <strong>"Schedule delivery for later"</strong>. Make 7 choices to write the PRD, send it to your team, then see what happens when real customers use it.
+      </p>
+
+      <div class="sim-steps" id="simSteps">
+        <div class="sim-step active" data-stage="write"><span>1</span> ✍️ Write the PRD</div>
+        <div class="sim-step" data-stage="review"><span>2</span> 💬 Team review</div>
+        <div class="sim-step" data-stage="launch"><span>3</span> 🚀 Launch week</div>
+      </div>
+
+      <!-- Stage 1: write -->
+      <div class="stage" id="stageWrite">
+        <div class="quick-fill">
+          <span>Teacher shortcut:</span>
+          <button class="ghost-btn small" id="fillLazy">😴 Fill in a lazy PRD</button>
+          <button class="ghost-btn small" id="fillStrong">💪 Fill in a strong PRD</button>
+        </div>
+        <div class="write-grid">
+          <div class="decisions" id="decisions"></div>
+          <div class="doc-wrap">
+            <div class="doc" id="prdDoc" aria-live="polite"></div>
+            <button class="primary-btn send-btn" id="sendPrd" disabled>📤 Send PRD to the team (<span id="chosenCount">0</span>/7 written)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 2: review -->
+      <div class="stage" id="stageReview" hidden>
+        <div class="review-head">
+          <div>
+            <h3>💬 #chopnow-scheduling — your team reads the PRD</h3>
+            <p class="muted small">Every question costs time. Every guess becomes a risk.</p>
+          </div>
+          <div class="review-stats">
+            <div class="mini-stat"><span>⏳ Delay</span><strong id="delayDays">0 days</strong></div>
+            <div class="mini-stat"><span>❓ Questions</span><strong id="questionCount">0</strong></div>
+            <div class="mini-stat"><span>🎲 Guesses</span><strong id="guessCount">0</strong></div>
+          </div>
+        </div>
+        <div class="chat" id="chat"></div>
+        <div class="stage-actions">
+          <button class="ghost-btn" id="backToWrite">← Fix my PRD first</button>
+          <button class="primary-btn" id="startLaunch" disabled>🚀 Build it and launch</button>
+        </div>
+      </div>
+
+      <!-- Stage 3: launch -->
+      <div class="stage" id="stageLaunch" hidden>
+        <div class="launch-grid">
+          <div>
+            <h3>🗓️ Launch week</h3>
+            <div class="timeline" id="timeline"></div>
+          </div>
+          <div class="scoreboard">
+            <h3>📊 Scoreboard</h3>
+            <div class="score-row"><span>😊 Happy customers</span><strong id="sHappy">100%</strong></div>
+            <div class="happy-bar"><div id="sHappyBar"></div></div>
+            <div class="score-row"><span>🐞 Bugs in real life</span><strong id="sBugs">0</strong></div>
+            <div class="score-row"><span>⏳ Days late</span><strong id="sLate">0</strong></div>
+            <div class="score-row"><span>🗑️ Wasted work</span><strong id="sWaste">0 days</strong></div>
+            <div class="report" id="report" hidden></div>
+          </div>
+        </div>
+        <div class="stage-actions">
+          <button class="ghost-btn" id="improvePrd">✏️ Improve my PRD and try again</button>
+          <button class="ghost-btn" id="restartSim">↺ Start over</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Case studies -->
+    <section id="case-studies" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 5</span>
+        <h2>Real examples: Airbnb and WhatsApp</h2>
+      </div>
+      <p>Two famous features where the hard part wasn't the button — it was the requirements behind it.</p>
+
+      <div class="tab-control">
+        <button class="tab-btn active" data-tab="airbnb-case">🏡 Airbnb Instant Book</button>
+        <button class="tab-btn" data-tab="whatsapp-case">💬 WhatsApp encryption</button>
+      </div>
+
+      <div id="airbnb-case" class="tab-pane active">
+        <p class="case-intro"><strong>The story:</strong> on Airbnb, guests used to send a request and wait — sometimes a whole day — for the host to say yes. Many gave up. <strong>Instant Book</strong> lets guests book straight away. Simple idea, but the PRD had to answer some hard questions.</p>
+        <div class="breakdown-grid">
+          <div class="breakdown-card bc-front">
+            <h4>🎯 Problem and metric</h4>
+            <ul class="clean-list">
+              <li>Problem: guests leave while waiting for a host's reply.</li>
+              <li>Metric: more searches turn into confirmed bookings.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-back">
+            <h4>⚔️ Edge case: two guests, same dates</h4>
+            <ul class="clean-list">
+              <li>If two guests tap Book at the same moment, the system must let <strong>only one</strong> win.</li>
+              <li>The other must get a clear message straight away — and must not be charged.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-data">
+            <h4>🛡️ Protecting hosts</h4>
+            <ul class="clean-list">
+              <li>Hosts worried about strangers booking without a check.</li>
+              <li>So the PRD included host rules: e.g. only guests with good reviews or a verified ID can book instantly.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-ext">
+            <h4>📅 Other calendars</h4>
+            <ul class="clean-list">
+              <li>Many hosts also list on other websites.</li>
+              <li>The calendar must sync, so a home booked elsewhere can't be instantly booked on Airbnb too.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tpm-takeaway">
+          <strong>🎓 TPM lesson from Airbnb:</strong> the happy path is easy. A strong PRD spends most of its time on <strong>"what if…"</strong> — and on the worries of <em>every</em> user group (guests <strong>and</strong> hosts).
+        </div>
+      </div>
+
+      <div id="whatsapp-case" class="tab-pane">
+        <p class="case-intro"><strong>The story:</strong> WhatsApp turned on <strong>end-to-end encryption</strong> for everyone in 2016. Messages are locked on your phone and only unlocked on your friend's phone — not even WhatsApp can read them. The requirements had to balance <strong>safety</strong> with <strong>keeping it simple</strong> for 1 billion+ people.</p>
+        <div class="breakdown-grid">
+          <div class="breakdown-card bc-back">
+            <h4>🔒 The main requirement</h4>
+            <ul class="clean-list">
+              <li>Only the sender and the receiver can read a message.</li>
+              <li>It must be <strong>on by default</strong> — users shouldn't have to find a setting.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-data">
+            <h4>📭 What the servers keep</h4>
+            <ul class="clean-list">
+              <li>Once a message is delivered, it is deleted from WhatsApp's servers.</li>
+              <li>If the phone is off, the locked message waits on the server for a limited time (about 30 days).</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-front">
+            <h4>📱 New phone, new lock</h4>
+            <ul class="clean-list">
+              <li>When a friend gets a new phone, their "lock" changes.</li>
+              <li>WhatsApp shows a small notice in the chat instead of blocking the conversation — safe, but not annoying.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-ext">
+            <h4>⚖️ Trade-off written down</h4>
+            <ul class="clean-list">
+              <li>Strong security makes some things harder (e.g. restoring chats on a new phone needs a backup).</li>
+              <li>The PRD has to say clearly which side wins in each case.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tpm-takeaway">
+          <strong>🎓 TPM lesson from WhatsApp:</strong> non-functional requirements (here, security) can be the <strong>whole point</strong> of a feature. Write down the trade-offs so the team doesn't argue about them halfway through building.
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Quiz -->
+    <section id="quiz" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 6</span>
+        <h2>Quick quiz: check your understanding</h2>
+      </div>
+      <p>7 short questions. Tap an answer to see if you are right. No marks — this is just for practice.</p>
+      <div id="quizBox" class="quiz-box"></div>
+      <div class="quiz-result" id="quizResult" hidden></div>
+    </section>
+
+    <!-- 7. Assignment -->
+    <section id="assignment" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 7</span>
+        <h2>This week's work</h2>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="deliverable-box">
+          <div class="deliv-badge individual">Individual Assignment • 10 Marks</div>
+          <h3>Write a PRD for one new feature</h3>
+          <p class="deliv-deadline">⏰ Due: Sunday, Nov 29, 2026, before 11:59 PM WAT</p>
+          <p>Pick <strong>one new feature</strong> for the app you've studied since Week 1. Write a short PRD with:</p>
+          <ol class="step-list">
+            <li><strong>Problem and success metric:</strong> who has the problem, how you know, and a number that shows success.</li>
+            <li><strong>Scope:</strong> what is in this version, and what is <em>not</em>.</li>
+            <li><strong>3 functional requirements:</strong> what it must do.</li>
+            <li><strong>3 non-functional requirements:</strong> speed, scale, security — with numbers.</li>
+            <li><strong>2 acceptance criteria (Given – When – Then):</strong> one happy path and one edge case.</li>
+            <li><strong>One API request</strong> it needs (like Week 3) and what happens if it fails.</li>
+          </ol>
+          <div class="hint-box">💡 <strong>Tip:</strong> Before submitting, read your PRD as the engineer, then the designer, then the tester. Anywhere they would have to guess — fix it. (Exactly what the simulation shows!)</div>
+
+          <div class="rubric-mini">
+            <h4>How you will be marked (10 marks)</h4>
+            <ul>
+              <li><span>Clear problem and a measurable success metric</span><strong>2</strong></li>
+              <li><span>Clear functional and non-functional requirements (with numbers)</span><strong>3</strong></li>
+              <li><span>Good Given – When – Then, including an edge case</span><strong>3</strong></li>
+              <li><span>API request and failure plan</span><strong>2</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="deliverable-box">
+          <div class="deliv-badge team">Team Capstone • Phase 4 of 6</div>
+          <h3>Put together your team's main PRD</h3>
+          <p class="deliv-deadline">👥 Done together with your team</p>
+          <p>Bring Weeks 1–3 together into one document. Tick each item as you finish it (your ticks are saved on this device):</p>
+          <div class="checklist-card" id="capstoneChecklist">
+            <label class="check-item"><input type="checkbox" data-key="c1"> One shared PRD document created (Google Docs or Notion)</label>
+            <label class="check-item"><input type="checkbox" data-key="c2"> Problem, users and scope from Week 1 added and updated</label>
+            <label class="check-item"><input type="checkbox" data-key="c3"> Architecture, ERD (Week 2) and API plan (Week 3) included</label>
+            <label class="check-item"><input type="checkbox" data-key="c4"> Each main feature has requirements and Given – When – Then criteria</label>
+            <label class="check-item"><input type="checkbox" data-key="c5"> Ready to review with the facilitator at Sunday's Project Review</label>
+          </div>
+          <div class="check-progress"><div class="check-progress-fill" id="checkFill"></div></div>
+          <p class="check-progress-text" id="checkText">0 of 5 done</p>
+        </div>
+      </div>
+
+      <div class="template-box">
+        <div class="template-info">
+          <h4>📄 PRD template</h4>
+          <p>Copy this, paste it into Google Docs, and fill in the blanks.</p>
+        </div>
+        <button id="copyTemplateBtn" class="primary-btn">📋 Copy template</button>
+      </div>
+      <textarea id="templateText" class="template-textarea" readonly>
+# PRD: [Feature name]
+Product: [Product name]
+Written by: [Your full name] (TPM)
+Date: [Date]
+Status: Draft / In review / Approved
+
+## 1. Problem
+- Who has the problem: ______
+- What the problem is: ______
+- How we know (data, interviews, reviews): ______
+
+## 2. Success metric
+- We will know it worked when: ______ goes from ______ to ______ by ______ (date).
+
+## 3. Scope
+- In this version: ______
+- NOT in this version (maybe later): ______
+
+## 4. Functional requirements (what it does)
+- FR-1: ______
+- FR-2: ______
+- FR-3: ______
+
+## 5. Non-functional requirements (how well — use numbers!)
+- Speed: ______ loads in under ___ seconds for 95% of users
+- Scale: works with ______ users / orders in the busiest hour
+- Security / privacy: ______
+
+## 6. Acceptance criteria
+### Happy path
+- Given ______
+- When ______
+- Then ______
+
+### Edge case
+- Given ______
+- When ______
+- Then ______
+
+## 7. What can go wrong
+| What goes wrong | What the system does | What the user sees |
+|-----------------|----------------------|--------------------|
+| ______          | ______               | ______             |
+| ______          | ______               | ______             |
+
+## 8. API request needed
+- Method and address: ______ /v1/______
+- What we send: ______
+- What comes back: ______
+- If it fails: ______
+</textarea>
+    </section>
+
+    <!-- Discussion -->
+    <section class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Saturday class</span>
+        <h2>Questions we will discuss together</h2>
+      </div>
+      <p>Think about your answer first, then tap to see one good answer.</p>
+      <div class="faq-accordion">
+        <details class="faq-item">
+          <summary class="faq-q">1. Why is writing what's "out of scope" just as important as what's in scope?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> If you don't say what's out, people fill the gap with their own ideas. A designer may spend a week on a feature nobody asked for, or leaders may expect it at launch. "Not in this version" protects the team's time and sets the right expectations.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">2. An engineer says: "The PRD says 'fast' — I tested it on my laptop and it's fast." What went wrong?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> "Fast" isn't measurable, so the engineer chose their own test. Real users have slow phones and weak networks, and arrive 3,000 at a time. The PRD should say: "Loads in under 1 second for 95% of users, with 3,000 orders in the busiest hour."</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">3. Does a TPM write the whole PRD alone?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> No. The TPM owns it and writes most of it, but checks it with engineers (Is this possible? How long?), designers (What screens?), QA (Can we test this?) and data (Can we measure this?). A PRD is a <strong>shared agreement</strong>, not a list of orders.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">4. Can a PRD change after engineers start building?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> Yes — you will learn things while building. But every change should be written in the PRD, with a date and a reason, and shared with the team. Silent changes are how teams end up building different things.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- 8. Word bank -->
+    <section id="word-bank" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 8</span>
+        <h2>Word bank: tech words in plain English</h2>
+      </div>
+      <p>You will hear these words in class and from engineers. Search for any word you're not sure about.</p>
+      <input type="search" id="glossarySearch" class="search-input" placeholder="Search a word, e.g. scope" aria-label="Search the word bank">
+      <div class="glossary-grid" id="glossaryGrid"></div>
+      <p class="no-results" id="glossaryEmpty" hidden>No matching word. Ask about it on Slack!</p>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>Product Bosslady Academy (PBA) • Product Career Internship Program (PCIP) • Technical Product Management Track</p>
+      <p class="footer-sub">November 2026 – February 2027 • Facilitated by Oyindamola Oye-Daniel</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 02: Systems Thinking and Architecture | PCIP TPM Track</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Navigation Header -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand-group">
+        <a href="../index.html" class="back-portal-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          All Weeks
+        </a>
+        <span class="divider">/</span>
+        <span class="badge-week">Week 02 of 12</span>
+      </div>
+      <div class="nav-title">Technical Product Management Track</div>
+      <div class="nav-actions">
+        <button id="themeToggle" class="icon-btn" title="Switch dark / light mode" aria-label="Switch dark or light mode">🌓</button>
+        <a href="../01-intro-to-technical-pm/index.html" class="nav-prev-btn">← Week 1</a>
+        <a href="../03-apis-and-data-flow/index.html" class="nav-next-btn">
+          Next: Week 3
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Progress bar -->
+  <div class="read-progress"><div id="readProgress" class="read-progress-fill"></div></div>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="meta-pill-group">
+        <span class="meta-pill">📅 Nov 9 – 15, 2026</span>
+        <span class="meta-pill live-pill">🔴 Class: Saturday 7:00 PM WAT</span>
+        <span class="meta-pill review-pill">🎯 Project Review: Sunday 6:00 PM WAT</span>
+      </div>
+      <h1 class="hero-title">Systems Thinking and Architecture</h1>
+      <p class="hero-subtitle">
+        Last week you learned the 4 parts of an app. This week you will learn how those parts are
+        <strong>arranged</strong> (that is what "architecture" means), why one small problem can spread
+        through a whole app, and how apps organise their memory. Then you will <strong>run a food-delivery
+        app yourself</strong> in a simulation and try to keep it alive on a busy Friday night.
+      </p>
+
+      <div class="goals-box">
+        <h2 class="goals-title">By the end of this week, you will be able to:</h2>
+        <ul class="goals-list">
+          <li><span class="goal-check">✓</span> Explain "systems thinking" in one sentence: everything is connected</li>
+          <li><span class="goal-check">✓</span> Describe 3 ways to build an app: Monolith, Microservices and Event-driven</li>
+          <li><span class="goal-check">✓</span> Say when each one is a good choice, and what it costs</li>
+          <li><span class="goal-check">✓</span> Read and draw a simple data diagram (ERD) with tables, keys and links</li>
+          <li><span class="goal-check">✓</span> Draw the architecture and data diagram for your own product</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Topic Navigation -->
+  <nav class="sub-nav" aria-label="Lesson sections">
+    <div class="sub-nav-container">
+      <a href="#systems-thinking" class="sub-link active">1. Everything is Connected</a>
+      <a href="#architecture" class="sub-link">2. 3 Ways to Build an App</a>
+      <a href="#simulation" class="sub-link">3. ▶ Simulation</a>
+      <a href="#data-modeling" class="sub-link">4. How Apps Store Data</a>
+      <a href="#case-studies" class="sub-link">5. Netflix &amp; Instagram</a>
+      <a href="#quiz" class="sub-link">6. Quick Quiz</a>
+      <a href="#assignment" class="sub-link">7. Assignment</a>
+      <a href="#word-bank" class="sub-link">8. Word Bank</a>
+    </div>
+  </nav>
+
+  <main class="main-container">
+
+    <!-- 1. Systems thinking -->
+    <section id="systems-thinking" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 1</span>
+        <h2>Systems thinking: everything is connected</h2>
+      </div>
+
+      <div class="big-definition">
+        <p><strong>Systems thinking</strong> means looking at the <em>whole</em> product, not just one screen or one feature.</p>
+        <p>The parts of an app are joined together. When you change or break one part, other parts feel it — like dominoes falling.</p>
+      </div>
+
+      <div class="domino-row" aria-hidden="true">
+        <div class="domino">💳<span>Payment check gets slow</span></div>
+        <div class="domino-arrow">→</div>
+        <div class="domino">⏳<span>Orders pile up waiting</span></div>
+        <div class="domino-arrow">→</div>
+        <div class="domino">🔥<span>Servers get too busy</span></div>
+        <div class="domino-arrow">→</div>
+        <div class="domino">🐢<span>Even the menu loads slowly</span></div>
+        <div class="domino-arrow">→</div>
+        <div class="domino">😡<span>Customers leave</span></div>
+      </div>
+      <p class="note-text center-note">One slow part caused a problem in a part that "had nothing to do with it". A TPM spots these chains <strong>before</strong> they happen.</p>
+
+      <div class="grid-3-col">
+        <div class="concept-card">
+          <div class="concept-icon">🔗</div>
+          <h3>1. Chain reactions</h3>
+          <p>A problem in one place travels to other places. Always ask: <em>"If this part is slow or broken, what else is affected?"</em></p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-icon">🧩</div>
+          <h3>2. Keep parts loosely joined</h3>
+          <p>Parts should depend on each other as little as possible. If the SMS service fails, people should <strong>still be able to order food</strong>. Engineers call this <span class="term">loose coupling</span>.</p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-icon">⚖️</div>
+          <h3>3. You can't have everything</h3>
+          <p>When parts of a system can't talk to each other for a moment, you must choose: show <strong>slightly old information</strong>, or show <strong>an error</strong> until you are sure. This choice is called the <span class="term">CAP trade-off</span>.</p>
+        </div>
+      </div>
+
+      <!-- Mini game: exact vs ok to be old -->
+      <div class="game-card" id="freshGame">
+        <div class="game-head">
+          <h3>🎮 Mini-game: Must it be exact, or can it be a little old?</h3>
+          <span class="game-score" id="freshScore">Score: 0 / 0</span>
+        </div>
+        <p class="game-instructions">Imagine the network has a hiccup. For each piece of information, should the app wait until it is 100% correct, or is a slightly old number okay?</p>
+        <div class="game-task" id="freshTask">Loading…</div>
+        <div class="game-choices two-choices">
+          <button class="choice-btn" data-pick="exact">🎯 Must be exact</button>
+          <button class="choice-btn" data-pick="old">🕐 A little old is fine</button>
+        </div>
+        <div class="game-feedback" id="freshFeedback" aria-live="polite"></div>
+        <div class="game-foot">
+          <span id="freshProgress" class="game-progress"></span>
+          <button class="ghost-btn" id="freshNext" disabled>Next →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Architecture -->
+    <section id="architecture" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 2</span>
+        <h2>3 ways to build an app</h2>
+      </div>
+      <p><strong>Architecture</strong> just means <em>how the parts of an app are arranged</em>. Engineers argue about this a lot. Your job as a TPM is not to pick the "coolest" one — it is to understand the <strong>trade-offs</strong> for the business. Let's use food businesses again.</p>
+
+      <div class="arch-grid">
+        <div class="arch-card arch-mono">
+          <div class="arch-emoji">🏠</div>
+          <h3>Monolith</h3>
+          <p class="arch-simple">The whole app is <strong>one single piece</strong>. Login, menu, payments and messages all live in one program.</p>
+          <div class="part-analogy">🍳 <strong>Like:</strong> one big kitchen where every cook shares the same room and the same gas cylinder.</div>
+          <div class="pro-con">
+            <div class="pro"><strong>👍 Good</strong><ul><li>Simple and quick to build</li><li>Easy to find problems</li><li>Cheap for a small team</li></ul></div>
+            <div class="con"><strong>👎 Watch out</strong><ul><li>A bug in one corner can crash <em>everything</em></li><li>To handle more of one thing, you copy the whole app</li><li>Big teams get in each other's way</li></ul></div>
+          </div>
+          <p class="arch-who"><strong>Real life:</strong> most startups begin here. Shopify and Stack Overflow still run very large monoliths.</p>
+        </div>
+
+        <div class="arch-card arch-micro">
+          <div class="arch-emoji">🏬</div>
+          <h3>Microservices</h3>
+          <p class="arch-simple">The app is split into <strong>many small apps</strong> ("services"), each doing one job. They talk to each other through APIs.</p>
+          <div class="part-analogy">🍢 <strong>Like:</strong> a food court. The rice stall, grill stall and drinks stall each have their own staff and kitchen.</div>
+          <div class="pro-con">
+            <div class="pro"><strong>👍 Good</strong><ul><li>If one service breaks, the others keep working</li><li>Add power only to the busy part</li><li>Teams can work and release on their own</li></ul></div>
+            <div class="con"><strong>👎 Watch out</strong><ul><li>Many more things to watch and manage</li><li>Passing work between services adds small delays</li><li>Harder to find where a problem started</li></ul></div>
+          </div>
+          <p class="arch-who"><strong>Real life:</strong> Netflix, Uber and Amazon moved to this when they grew very big.</p>
+        </div>
+
+        <div class="arch-card arch-event">
+          <div class="arch-emoji">📬</div>
+          <h3>Event-driven (with a queue)</h3>
+          <p class="arch-simple">Instead of waiting for an answer, one part <strong>drops a message in a queue</strong> and moves on. Another part picks it up when it is ready.</p>
+          <div class="part-analogy">🧾 <strong>Like:</strong> the order rail in a busy kitchen. The waiter pins the ticket and walks away. A cook takes it when free.</div>
+          <div class="pro-con">
+            <div class="pro"><strong>👍 Good</strong><ul><li>Nobody stands around waiting</li><li>Handles sudden rushes well — work just waits its turn</li><li>If a part is down, messages wait safely</li></ul></div>
+            <div class="con"><strong>👎 Watch out</strong><ul><li>Things happen "a bit later", not instantly</li><li>The same message could be handled twice by mistake</li><li>Harder to follow the full journey</li></ul></div>
+          </div>
+          <p class="arch-who"><strong>Real life:</strong> order-confirmation emails, SMS alerts and "your report is ready" messages usually work this way.</p>
+        </div>
+      </div>
+
+      <div class="tpm-takeaway">
+        <strong>🎓 Important:</strong> these are not "either / or". Most big apps mix them — for example, microservices that use queues for messages.
+        A good rule: <strong>start simple (monolith), and split parts out only when there is a real reason</strong> — like one part being much busier, or many teams getting in each other's way.
+      </div>
+
+      <!-- Picker game -->
+      <div class="game-card" id="archGame">
+        <div class="game-head">
+          <h3>🎮 Mini-game: Which way would you build it?</h3>
+          <span class="game-score" id="archScore">Score: 0 / 0</span>
+        </div>
+        <p class="game-instructions">Read the situation, then pick the best choice. There can be debate — read the explanation either way.</p>
+        <div class="game-task" id="archTask">Loading…</div>
+        <div class="game-choices">
+          <button class="choice-btn" data-pick="mono">🏠 Monolith</button>
+          <button class="choice-btn" data-pick="micro">🏬 Microservices</button>
+          <button class="choice-btn" data-pick="event">📬 Use a queue</button>
+        </div>
+        <div class="game-feedback" id="archFeedback" aria-live="polite"></div>
+        <div class="game-foot">
+          <span id="archProgress" class="game-progress"></span>
+          <button class="ghost-btn" id="archNext" disabled>Next →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Simulation -->
+    <section id="simulation" class="content-card demo-section">
+      <div class="card-header">
+        <span class="section-tag tag-live">▶ Simulation</span>
+        <h2>Run a food-delivery app: can you keep it alive?</h2>
+      </div>
+      <p class="lead-text">
+        You are the TPM of <strong>ChopNow</strong>, a food-delivery app in Lagos (like Chowdeck or Glovo).
+        Every customer goes through 4 steps: <strong>browse the menu → place the order → pay → get a confirmation message</strong>.
+        Change the traffic, break things, add servers and switch the architecture. Watch what happens to customers in real time.
+      </p>
+
+      <!-- Missions -->
+      <div class="missions" id="missions">
+        <div class="missions-head">
+          <h3>🎯 Your missions</h3>
+          <span class="game-score" id="missionScore">0 / 4 done</span>
+        </div>
+        <p class="game-instructions">Do them in order. Press <strong>"Set it up"</strong> and the simulator will prepare the situation for you. A mission ticks itself when you complete it.</p>
+        <div class="mission-list" id="missionList"></div>
+      </div>
+
+      <!-- Controls -->
+      <div class="sim-controls">
+        <div class="sim-control">
+          <span class="sim-label">Architecture</span>
+          <div class="seg" role="group" aria-label="Architecture">
+            <button class="seg-btn active" data-arch="mono">🏠 Monolith</button>
+            <button class="seg-btn" data-arch="micro">🏬 Microservices</button>
+          </div>
+        </div>
+        <div class="sim-control sim-traffic">
+          <label class="sim-label" for="trafficSlider">Customers per minute: <strong id="trafficValue">20</strong> <span id="trafficMood" class="traffic-mood">🙂 Normal Tuesday</span></label>
+          <input type="range" id="trafficSlider" min="5" max="120" step="5" value="20">
+        </div>
+        <div class="sim-control">
+          <span class="sim-label">Message queue</span>
+          <button class="toggle-pill" id="queueToggle" aria-pressed="false">📬 Queue: OFF</button>
+        </div>
+        <div class="sim-control">
+          <span class="sim-label">Simulation</span>
+          <div class="sim-buttons">
+            <button class="ghost-btn small" id="simPause">⏸ Pause</button>
+            <button class="ghost-btn small" id="simReset">↺ Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage -->
+      <div class="sim-stage" id="simStage">
+        <div class="sim-end sim-customers" id="simCustomers">
+          <div class="node-icon">📱</div>
+          <div class="node-name">Customers</div>
+          <div class="node-sub" id="customersSub">20 / min</div>
+        </div>
+
+        <div class="sim-system" id="simSystem">
+          <!-- Monolith wrapper is shown/hidden by script -->
+          <div class="mono-box" id="monoBox">
+            <div class="mono-head">
+              <span class="mono-title">🏠 ChopNow app — one single piece</span>
+              <div class="server-ctl" data-target="mono">
+                <span>Copies running:</span>
+                <button class="srv-btn" data-delta="-1" aria-label="Remove a copy">−</button>
+                <strong class="srv-count">3</strong>
+                <button class="srv-btn" data-delta="1" aria-label="Add a copy">+</button>
+              </div>
+            </div>
+            <div class="load-bar"><div class="load-fill" id="monoLoad"></div><span class="load-text" id="monoLoadText">0%</span></div>
+          </div>
+
+          <div class="svc-row" id="svcRow">
+            <!-- service cards built by script -->
+          </div>
+        </div>
+
+        <div class="sim-end sim-done" id="simDone">
+          <div class="node-icon">🛵</div>
+          <div class="node-name">Order on its way</div>
+          <div class="node-sub" id="doneSub">0 served</div>
+        </div>
+        <div class="dot-layer" id="dotLayer" aria-hidden="true"></div>
+      </div>
+
+      <!-- Metrics -->
+      <div class="metric-row">
+        <div class="metric"><span class="metric-label">✅ Orders delivered</span><strong class="metric-val" id="mServed">0</strong></div>
+        <div class="metric"><span class="metric-label">❌ Lost customers</span><strong class="metric-val" id="mFailed">0</strong></div>
+        <div class="metric"><span class="metric-label">⏱️ Wait time</span><strong class="metric-val" id="mWait">0.0s</strong></div>
+        <div class="metric"><span class="metric-label">😊 Happy customers</span><strong class="metric-val" id="mHappy">100%</strong></div>
+        <div class="metric"><span class="metric-label">💰 Server bill / month</span><strong class="metric-val" id="mCost">₦0</strong></div>
+        <div class="metric"><span class="metric-label">👀 Parts to watch</span><strong class="metric-val" id="mParts">1</strong></div>
+      </div>
+
+      <!-- Explanation + log -->
+      <div class="sim-bottom">
+        <div class="sim-explain" id="simExplain">
+          <h3 id="explainTitle">What's happening right now</h3>
+          <p id="explainText">Everything is calm. Try moving the traffic slider, or press a 💥 button to break a part.</p>
+        </div>
+        <div class="sim-log-wrap">
+          <h3>📋 Event log</h3>
+          <ul class="sim-log" id="simLog" aria-live="polite"></ul>
+        </div>
+      </div>
+
+      <div class="sim-legend">
+        <span><i class="lg-dot ok"></i> Customer served</span>
+        <span><i class="lg-dot fail"></i> Customer lost (error or gave up)</span>
+        <span><i class="lg-dot wait"></i> Message waiting in queue</span>
+        <span class="lg-note">1 server can handle about 60 requests a minute. Each customer makes 3 menu requests, then 1 order, 1 payment and 1 message.</span>
+      </div>
+    </section>
+
+    <!-- 4. Data modeling -->
+    <section id="data-modeling" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 4</span>
+        <h2>How apps store data: tables, keys and links (ERD)</h2>
+      </div>
+      <p>The database is the app's memory. Most databases store information in <strong>tables</strong> — just like spreadsheets in Excel or Google Sheets. An <strong>ERD</strong> (Entity Relationship Diagram) is a simple drawing of those tables and how they are linked.</p>
+
+      <div class="erd-basics">
+        <div class="erd-basic">
+          <span class="erd-basic-icon">📋</span>
+          <h4>Entity = a table</h4>
+          <p>A "thing" the app must remember. For example <code>User</code>, <code>Post</code>, <code>Order</code>. Each becomes one table.</p>
+        </div>
+        <div class="erd-basic">
+          <span class="erd-basic-icon">🏷️</span>
+          <h4>Attribute = a column</h4>
+          <p>A detail about the thing. A User has a <code>username</code>, <code>email</code> and <code>date_joined</code>.</p>
+        </div>
+        <div class="erd-basic">
+          <span class="erd-basic-icon">🔑</span>
+          <h4>Primary key (PK)</h4>
+          <p>A unique ID for each row, so no two are mixed up. Like your <strong>matric number</strong> or <strong>NIN</strong>.</p>
+        </div>
+        <div class="erd-basic">
+          <span class="erd-basic-icon">🔗</span>
+          <h4>Foreign key (FK)</h4>
+          <p>A column that <strong>points to</strong> another table's ID. Like writing a student's matric number on a library card to show who borrowed the book.</p>
+        </div>
+      </div>
+
+      <!-- Tiny spreadsheet example -->
+      <div class="mini-tables">
+        <div class="mini-table">
+          <div class="mini-cap">👤 users</div>
+          <table>
+            <thead><tr><th>🔑 user_id</th><th>username</th></tr></thead>
+            <tbody>
+              <tr class="hl-row"><td>1</td><td>amaka_cooks</td></tr>
+              <tr><td>2</td><td>tunde.fit</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="mini-link">
+          <span>user_id&nbsp;1 in "posts"</span>
+          <strong>points to</strong>
+          <span>user_id&nbsp;1 in "users"</span>
+          <span class="mini-arrow">⟵</span>
+        </div>
+        <div class="mini-table">
+          <div class="mini-cap">🖼️ posts</div>
+          <table>
+            <thead><tr><th>🔑 post_id</th><th>🔗 user_id</th><th>caption</th></tr></thead>
+            <tbody>
+              <tr class="hl-row"><td>501</td><td>1</td><td>Jollof Sunday 🍛</td></tr>
+              <tr class="hl-row"><td>502</td><td>1</td><td>New recipe!</td></tr>
+              <tr><td>503</td><td>2</td><td>Leg day 💪</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p class="note-text center-note">Amaka (user 1) wrote 2 posts. The app never copies her name into the posts table — it just stores her ID. If she changes her username, every post shows the new name automatically.</p>
+
+      <h3 class="sub-h">The 3 kinds of links (relationships)</h3>
+      <div class="rel-grid">
+        <div class="rel-card">
+          <div class="rel-badge">1 : 1</div>
+          <h4>One-to-one</h4>
+          <p>Each person has <strong>one</strong> NIN, and each NIN belongs to <strong>one</strong> person.</p>
+          <p class="rel-app"><strong>In an app:</strong> one User ↔ one Profile settings page.</p>
+        </div>
+        <div class="rel-card">
+          <div class="rel-badge">1 : many</div>
+          <h4>One-to-many</h4>
+          <p>One mother can have <strong>many</strong> children, but each child has <strong>one</strong> (birth) mother.</p>
+          <p class="rel-app"><strong>In an app:</strong> one User → many Posts. One Restaurant → many Menu items.</p>
+        </div>
+        <div class="rel-card">
+          <div class="rel-badge">many : many</div>
+          <h4>Many-to-many</h4>
+          <p>A student takes <strong>many</strong> courses, and a course has <strong>many</strong> students. You need a <strong>middle table</strong> (like a class register) to connect them.</p>
+          <p class="rel-app"><strong>In an app:</strong> Users ↔ Users who follow each other (the middle table is <code>follows</code>).</p>
+        </div>
+      </div>
+
+      <!-- ERD explorer -->
+      <div class="erd-explorer">
+        <div class="game-head">
+          <h3>🔍 Explore Instagram's tables</h3>
+          <span class="game-progress">Tap a table to see its columns and what it links to</span>
+        </div>
+        <div class="erd-map" id="erdMap"></div>
+        <div class="erd-detail" id="erdDetail"></div>
+      </div>
+    </section>
+
+    <!-- 5. Case studies -->
+    <section id="case-studies" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 5</span>
+        <h2>Real examples: Netflix and Instagram</h2>
+      </div>
+      <p>Two famous apps, two different problems. Look for the <strong>systems thinking</strong> in each story.</p>
+
+      <div class="tab-control">
+        <button class="tab-btn active" data-tab="netflix-case">🎬 Netflix</button>
+        <button class="tab-btn" data-tab="instagram-case">📸 Instagram</button>
+      </div>
+
+      <div id="netflix-case" class="tab-pane active">
+        <p class="case-intro"><strong>The story:</strong> in 2008, one broken database stopped Netflix from sending DVDs for 3 days. One part failed — and the whole business stopped. After that, Netflix spent about 7 years moving from one big app to <strong>hundreds of small services</strong> running in the cloud.</p>
+        <div class="breakdown-grid">
+          <div class="breakdown-card bc-back">
+            <h4>🏬 Many small services</h4>
+            <ul class="clean-list">
+              <li>Separate services for login, search, recommendations, playing video, billing and more.</li>
+              <li>A "front door" service (called a <strong>gateway</strong>) receives every request and sends it to the right service.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-front">
+            <h4>🛟 A "Plan B" for every part</h4>
+            <ul class="clean-list">
+              <li>If the "recommended for you" service fails, Netflix does <strong>not</strong> show an error.</li>
+              <li>It quietly shows a saved list of popular movies instead. Most users never notice!</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-ext">
+            <h4>🐒 Breaking things on purpose</h4>
+            <ul class="clean-list">
+              <li>Netflix built a tool called <strong>Chaos Monkey</strong> that randomly switches off its own services.</li>
+              <li>Why? To prove the app keeps working when parts fail — before a real failure happens.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-data">
+            <h4>📦 Movies stored close to you</h4>
+            <ul class="clean-list">
+              <li>Netflix puts its own boxes full of movies <strong>inside internet companies</strong> in many cities.</li>
+              <li>So most video travels a short distance, not across the world.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tpm-takeaway">
+          <strong>🎓 TPM lesson from Netflix:</strong> design so that one broken part <strong>can't stop the whole product</strong>. For each part, ask: "What do we show users if this fails?"
+        </div>
+      </div>
+
+      <div id="instagram-case" class="tab-pane">
+        <p class="case-intro"><strong>The story:</strong> on Instagram, a photo is posted <strong>once</strong> but viewed hundreds or millions of times. So the system is built to make <strong>reading</strong> (scrolling the feed) extremely fast, even if <strong>writing</strong> (posting) does a bit more work.</p>
+        <div class="breakdown-grid">
+          <div class="breakdown-card bc-data">
+            <h4>🗄️ The main tables</h4>
+            <ul class="clean-list">
+              <li><strong>users</strong> — who you are.</li>
+              <li><strong>posts</strong> — what was posted, and by which user.</li>
+              <li><strong>media</strong> — <em>where</em> the photo file is stored (not the photo itself).</li>
+              <li><strong>likes</strong> and <strong>follows</strong> — the links between people and posts.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-back">
+            <h4>📮 Your friend posts → feeds get ready early</h4>
+            <ul class="clean-list">
+              <li>When a normal user posts, Instagram drops the post into each follower's feed <strong>straight away</strong> — like putting a letter in 300 mailboxes.</li>
+              <li>So when you open the app, your feed is already prepared.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-ext">
+            <h4>⭐ Celebrities are handled differently</h4>
+            <ul class="clean-list">
+              <li>Cristiano Ronaldo has over 600 million followers. Putting one post into 600 million mailboxes would take too long.</li>
+              <li>Instead, celebrity posts are added to your feed <strong>when you open the app</strong>.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-front">
+            <h4>✂️ Splitting the database</h4>
+            <ul class="clean-list">
+              <li>One database can't hold billions of posts, so Instagram splits the data across thousands of databases (called <strong>sharding</strong>).</li>
+              <li>Each post ID even contains a clue about which database it lives in.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tpm-takeaway">
+          <strong>🎓 TPM lesson from Instagram:</strong> ask early, "Will people mostly <strong>read</strong> or mostly <strong>write</strong>?" The answer changes how you design the system. One special group (celebrities) may need its own plan.
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Quiz -->
+    <section id="quiz" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 6</span>
+        <h2>Quick quiz: check your understanding</h2>
+      </div>
+      <p>7 short questions. Tap an answer to see if you are right. No marks — this is just for practice.</p>
+      <div id="quizBox" class="quiz-box"></div>
+      <div class="quiz-result" id="quizResult" hidden></div>
+    </section>
+
+    <!-- 7. Assignment -->
+    <section id="assignment" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 7</span>
+        <h2>This week's work</h2>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="deliverable-box">
+          <div class="deliv-badge individual">Individual Assignment • 10 Marks</div>
+          <h3>Draw how your product is built</h3>
+          <p class="deliv-deadline">⏰ Due: Sunday, Nov 15, 2026, before 11:59 PM WAT</p>
+          <p>Use the <strong>same app you chose in Week 1</strong>. Pretend you are its TPM and do these 4 things:</p>
+          <ol class="step-list">
+            <li><strong>Architecture drawing:</strong> boxes and arrows showing the main parts (phone app, gateway, services, database, outside services). Tools like draw.io, Excalidraw or paper are fine.</li>
+            <li><strong>Follow one action:</strong> pick one thing a user does (e.g. "likes a photo") and write each step it goes through, in order.</li>
+            <li><strong>Simple ERD:</strong> at least 4 tables, with their main columns, a primary key (🔑) in each, and foreign keys (🔗) showing the links.</li>
+            <li><strong>Monolith or microservices?</strong> Which do you think the app uses, and why? What would go wrong if it used the other one?</li>
+          </ol>
+          <div class="hint-box">💡 <strong>Tip:</strong> Keep the drawing simple. 6 clear boxes are better than 30 confusing ones. Label every arrow with what travels along it (e.g. "order details").</div>
+
+          <div class="rubric-mini">
+            <h4>How you will be marked (10 marks)</h4>
+            <ul>
+              <li><span>Is the architecture drawing clear and correct?</span><strong>3</strong></li>
+              <li><span>Does the ERD have tables, keys and the right links?</span><strong>3</strong></li>
+              <li><span>Is the step-by-step action easy to follow?</span><strong>2</strong></li>
+              <li><span>Neat layout and on-time submission</span><strong>2</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="deliverable-box">
+          <div class="deliv-badge team">Team Capstone • Phase 2 of 6</div>
+          <h3>Plan how your team's product is built</h3>
+          <p class="deliv-deadline">👥 Done together with your team</p>
+          <p>Take last week's product idea and decide how it will be built. Tick each item as you finish it (your ticks are saved on this device):</p>
+          <div class="checklist-card" id="capstoneChecklist">
+            <label class="check-item"><input type="checkbox" data-key="c1"> Agreed: monolith or microservices — and wrote down <em>why</em></label>
+            <label class="check-item"><input type="checkbox" data-key="c2"> Listed the outside services you will need (payments, maps, SMS…) and a Plan B for each</label>
+            <label class="check-item"><input type="checkbox" data-key="c3"> Drew a first architecture diagram together</label>
+            <label class="check-item"><input type="checkbox" data-key="c4"> Drafted an ERD with at least 5 main tables</label>
+            <label class="check-item"><input type="checkbox" data-key="c5"> Ready to present it at Sunday's Project Review</label>
+          </div>
+          <div class="check-progress"><div class="check-progress-fill" id="checkFill"></div></div>
+          <p class="check-progress-text" id="checkText">0 of 5 done</p>
+        </div>
+      </div>
+
+      <div class="template-box">
+        <div class="template-info">
+          <h4>📄 Assignment template</h4>
+          <p>Copy this, paste it into Google Docs, and fill in the blanks.</p>
+        </div>
+        <button id="copyTemplateBtn" class="primary-btn">📋 Copy template</button>
+      </div>
+      <textarea id="templateText" class="template-textarea" readonly>
+# How [Product name] is built
+Student name: [Your full name]
+Track: Technical Product Management (PCIP)
+Date: [Date]
+
+## 1. Architecture drawing
+- Paste or link your drawing here.
+- Main parts I included:
+  1. ______ (what it does: ______)
+  2. ______ (what it does: ______)
+  3. ______ (what it does: ______)
+
+## 2. Following one action: "[e.g. User likes a photo]"
+1. On the phone: ______
+2. Sent to: ______
+3. The backend checks / does: ______
+4. Saved in the database as: ______
+5. Anything sent later (queue / notification): ______
+6. What the user sees at the end: ______
+
+## 3. Simple ERD (at least 4 tables)
+Table: users
+- user_id (🔑 primary key)
+- ______
+- ______
+
+Table: ______
+- ______ (🔑 primary key)
+- user_id (🔗 foreign key → users)
+- ______
+
+Links:
+- users → ______ : one-to-many (one user has many ______)
+- ______ ↔ ______ : many-to-many (middle table: ______)
+
+## 4. Monolith or microservices?
+- I think the app uses: ______
+- Because: ______
+- If it used the other one, this could go wrong: ______
+
+## 5. One weak spot I noticed
+- The part most likely to slow down or break: ______
+- My Plan B: ______
+</textarea>
+    </section>
+
+    <!-- Discussion -->
+    <section class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Saturday class</span>
+        <h2>Questions we will discuss together</h2>
+      </div>
+      <p>Think about your answer first, then tap to see one good answer.</p>
+      <div class="faq-accordion">
+        <details class="faq-item">
+          <summary class="faq-q">1. Your startup has 3 engineers and no customers yet. An engineer wants to build 12 microservices. What do you say?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> Start with a well-organised monolith. With 3 people, 12 services means lots of extra setup and things to watch, and it slows you down when speed matters most. Keep the code tidy inside, so parts can be split out later if one becomes very busy.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">2. In the simulation, why did breaking "Messages" crash everything in the monolith, but not with microservices + queue?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> In a monolith, everything runs as one program — when one part crashes, the whole program goes down. With microservices, messages run separately. With a queue, the order service doesn't even wait for the message to be sent. It drops it in the queue and moves on. When Messages comes back, the queue sends them all.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">3. A user changes their username. Why doesn't the app need to update every one of their old posts?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> Posts don't store the username — they store the user's ID (a foreign key). The username lives in only one place: the users table. Change it there once, and every post shows the new name. Storing each fact in one place avoids mistakes.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">4. Which is worse for a bank app: showing an old balance, or showing "Please try again"?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> Showing an old balance can be dangerous — the person might spend money they don't have. For money, it is better to say "try again" than to be wrong. But for a like count on Instagram, an old number is fine. The right choice depends on the <strong>cost of being wrong</strong>.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- 8. Word bank -->
+    <section id="word-bank" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 8</span>
+        <h2>Word bank: tech words in plain English</h2>
+      </div>
+      <p>You will hear these words in class and from engineers. Search for any word you're not sure about.</p>
+      <input type="search" id="glossarySearch" class="search-input" placeholder="Search a word, e.g. queue" aria-label="Search the word bank">
+      <div class="glossary-grid" id="glossaryGrid"></div>
+      <p class="no-results" id="glossaryEmpty" hidden>No matching word. Ask about it on Slack!</p>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>Product Bosslady Academy (PBA) • Product Career Internship Program (PCIP) • Technical Product Management Track</p>
+      <p class="footer-sub">November 2026 – February 2027 • Facilitated by Oyindamola Oye-Daniel</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

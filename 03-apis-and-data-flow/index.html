@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 03: APIs and Data Flow | PCIP TPM Track</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Navigation Header -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand-group">
+        <a href="../index.html" class="back-portal-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          All Weeks
+        </a>
+        <span class="divider">/</span>
+        <span class="badge-week">Week 03 of 12</span>
+      </div>
+      <div class="nav-title">Technical Product Management Track</div>
+      <div class="nav-actions">
+        <button id="themeToggle" class="icon-btn" title="Switch dark / light mode" aria-label="Switch dark or light mode">🌓</button>
+        <a href="../02-systems-thinking-and-architecture/index.html" class="nav-prev-btn">← Week 2</a>
+        <a href="../04-technical-prd-writing/index.html" class="nav-next-btn">
+          Next: Week 4
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Progress bar -->
+  <div class="read-progress"><div id="readProgress" class="read-progress-fill"></div></div>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="meta-pill-group">
+        <span class="meta-pill">📅 Nov 16 – 22, 2026</span>
+        <span class="meta-pill live-pill">🔴 Class: Saturday 7:00 PM WAT</span>
+        <span class="meta-pill review-pill">🎯 Project Review: Sunday 6:00 PM WAT</span>
+      </div>
+      <h1 class="hero-title">APIs and Data Flow</h1>
+      <p class="hero-subtitle">
+        In Week 1 you learned that the parts of an app talk through <strong>APIs</strong>. This week you will look
+        <em>inside</em> those messages: what they contain, what the answers mean, and what goes wrong in real life —
+        like a customer being <strong>charged twice</strong>. You will follow a real payment step by step,
+        then send API requests yourself.
+      </p>
+
+      <div class="goals-box">
+        <h2 class="goals-title">By the end of this week, you will be able to:</h2>
+        <ul class="goals-list">
+          <li><span class="goal-check">✓</span> Explain what an API is, using the waiter-and-kitchen example</li>
+          <li><span class="goal-check">✓</span> Name the 5 parts of an API request: address, action, ID card, message and answer</li>
+          <li><span class="goal-check">✓</span> Use GET, POST, PATCH and DELETE, and read status codes like 200, 404 and 500</li>
+          <li><span class="goal-check">✓</span> Explain webhooks, rate limits and idempotency keys in plain words</li>
+          <li><span class="goal-check">✓</span> Write a simple API plan for your own product</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Topic Navigation -->
+  <nav class="sub-nav" aria-label="Lesson sections">
+    <div class="sub-nav-container">
+      <a href="#what-is-api" class="sub-link active">1. What is an API?</a>
+      <a href="#actions-answers" class="sub-link">2. Actions &amp; Answers</a>
+      <a href="#simulation" class="sub-link">3. ▶ Payment Simulation</a>
+      <a href="#playground" class="sub-link">4. 🧪 API Playground</a>
+      <a href="#case-studies" class="sub-link">5. Stripe &amp; Google Maps</a>
+      <a href="#quiz" class="sub-link">6. Quick Quiz</a>
+      <a href="#assignment" class="sub-link">7. Assignment</a>
+      <a href="#word-bank" class="sub-link">8. Word Bank</a>
+    </div>
+  </nav>
+
+  <main class="main-container">
+
+    <!-- 1. What is an API -->
+    <section id="what-is-api" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 1</span>
+        <h2>What is an API?</h2>
+      </div>
+
+      <div class="big-definition">
+        <p>An <strong>API</strong> (Application Programming Interface) is <strong>an agreed way for two pieces of software to talk</strong>.</p>
+        <p>Buttons and screens are how <em>people</em> use an app. An API is how <em>computers</em> use it.</p>
+      </div>
+
+      <div class="grid-3-col">
+        <div class="concept-card">
+          <div class="concept-icon">📖</div>
+          <h3>The menu = API documentation</h3>
+          <p>A restaurant menu tells you <strong>what you can order</strong> and how to ask for it. API documentation does the same for engineers: "here is everything you can ask our system to do."</p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-icon">🧾</div>
+          <h3>The order slip = a request</h3>
+          <p>The waiter writes your order on a slip with a <strong>fixed format</strong> the kitchen understands. A request is that slip, sent from one computer to another.</p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-icon">🍛</div>
+          <h3>The food = the response</h3>
+          <p>The kitchen sends back your food — or a message like <em>"sorry, we're out of fish"</em>. A response is the answer, with a short <strong>status code</strong> saying how it went.</p>
+        </div>
+      </div>
+
+      <h3 class="sub-h">The 5 parts of every API request</h3>
+      <p class="muted">Here is a real-looking request from the ChopNow app asking for a list of restaurants. Tap each part to see what it means.</p>
+
+      <div class="anatomy">
+        <div class="anatomy-code" role="group" aria-label="Example API request">
+          <button class="an-part an-method" data-part="method">GET</button>
+          <button class="an-part an-url" data-part="url">https://api.chopnow.ng/v1/restaurants?area=yaba</button>
+          <br>
+          <button class="an-part an-header" data-part="header">Authorization: Bearer key_7Hd92kQ</button>
+          <br><br>
+          <span class="an-arrow">⬇ the answer comes back</span>
+          <br><br>
+          <button class="an-part an-status" data-part="status">200 OK</button>
+          <br>
+          <button class="an-part an-body" data-part="body">{ "restaurants": [ { "id": 1, "name": "Mama Put Express" } ] }</button>
+        </div>
+        <div class="anatomy-explain" id="anatomyExplain" aria-live="polite"></div>
+      </div>
+
+      <div class="tpm-takeaway">
+        <strong>🎓 Why a TPM cares:</strong> APIs are <strong>promises</strong>. If ChopNow promises "send me <code>area</code> and I'll send back restaurants", other teams and companies build on that promise.
+        Changing it without warning breaks their apps — so changes must be planned, like adding <code>/v2/</code> instead of changing <code>/v1/</code>.
+      </div>
+    </section>
+
+    <!-- 2. Actions & answers -->
+    <section id="actions-answers" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 2</span>
+        <h2>Actions and answers: methods and status codes</h2>
+      </div>
+      <p>Every request says <strong>what action</strong> it wants (the <em>method</em>). Every response starts with a <strong>3-digit number</strong> saying how it went (the <em>status code</em>). You only need a few of each.</p>
+
+      <div class="grid-2-col">
+        <div class="info-callout primary">
+          <h3>🛠️ The 4 main actions</h3>
+          <p class="muted small">Think of your phone's contact list:</p>
+          <div class="verb-list">
+            <div class="verb"><span class="verb-tag v-get">GET</span><div><strong>Read / look at something</strong><span>Open a contact. Nothing changes.</span></div></div>
+            <div class="verb"><span class="verb-tag v-post">POST</span><div><strong>Create something new</strong><span>Add a new contact. Place a new order.</span></div></div>
+            <div class="verb"><span class="verb-tag v-patch">PATCH</span><div><strong>Change part of something</strong><span>Edit just the phone number.</span></div></div>
+            <div class="verb"><span class="verb-tag v-delete">DELETE</span><div><strong>Remove something</strong><span>Delete the contact.</span></div></div>
+          </div>
+          <p class="note-text">You may also see <strong>PUT</strong>: it replaces the <em>whole</em> thing at once, instead of one part.</p>
+        </div>
+
+        <div class="info-callout secondary">
+          <h3>🚦 Status codes are like traffic lights</h3>
+          <div class="status-families">
+            <div class="fam fam-2"><span class="fam-num">2xx</span><div><strong>It worked</strong><span><code>200</code> OK • <code>201</code> Created • <code>204</code> Deleted, nothing to show</span></div></div>
+            <div class="fam fam-4"><span class="fam-num">4xx</span><div><strong>The app (the one asking) made a mistake</strong><span><code>400</code> something wrong or missing • <code>401</code> who are you? • <code>403</code> not allowed • <code>404</code> not found • <code>429</code> too many requests</span></div></div>
+            <div class="fam fam-5"><span class="fam-num">5xx</span><div><strong>The server had a problem</strong><span><code>500</code> crash / bug • <code>503</code> too busy or down</span></div></div>
+          </div>
+          <p class="note-text">Easy trick: <strong>4</strong>xx = "<strong>for</strong> you to fix". <strong>5</strong>xx = "the server's fault".</p>
+        </div>
+      </div>
+
+      <!-- Status game -->
+      <div class="game-card" id="statusGame">
+        <div class="game-head">
+          <h3>🎮 Mini-game: What would the API answer?</h3>
+          <span class="game-score" id="statusScore">Score: 0 / 0</span>
+        </div>
+        <p class="game-instructions">Read what happened, then pick the type of answer. The explanation tells you the exact code.</p>
+        <div class="game-task" id="statusTask">Loading…</div>
+        <div class="game-choices">
+          <button class="choice-btn" data-pick="2">✅ 2xx It worked</button>
+          <button class="choice-btn" data-pick="4">🟠 4xx App's mistake</button>
+          <button class="choice-btn" data-pick="5">🔴 5xx Server's problem</button>
+        </div>
+        <div class="game-feedback" id="statusFeedback" aria-live="polite"></div>
+        <div class="game-foot">
+          <span id="statusProgress" class="game-progress"></span>
+          <button class="ghost-btn" id="statusNext" disabled>Next →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Payment simulation -->
+    <section id="simulation" class="content-card demo-section">
+      <div class="card-header">
+        <span class="section-tag tag-live">▶ Simulation</span>
+        <h2>Follow a real payment: what happens when you tap "Pay ₦6,500"?</h2>
+      </div>
+      <p class="lead-text">
+        You order jollof rice on ChopNow and pay by card. Behind that one tap, <strong>4 systems</strong> pass messages to each other.
+        Pick a situation, then press <strong>Next step</strong>. Watch the message move, read what is inside it, and see what the customer sees on their phone.
+      </p>
+
+      <div class="scenario-tabs" id="payScenarios" role="tablist">
+        <button class="scenario-btn active" data-scenario="happy">✅ Payment works</button>
+        <button class="scenario-btn" data-scenario="declined">💸 Not enough money</button>
+        <button class="scenario-btn" data-scenario="badkey">🔑 Wrong API key</button>
+        <button class="scenario-btn" data-scenario="double">📶 Network drops, user taps twice</button>
+        <button class="scenario-btn" data-scenario="otp">🔐 Bank asks for an OTP</button>
+        <button class="scenario-btn" data-scenario="rush">🚦 Flash sale: too many requests</button>
+      </div>
+
+      <div class="scenario-option" id="optDouble" hidden>
+        <span>🛡️ Idempotency key (a "this is the same payment" label):</span>
+        <button class="toggle-pill active" data-idem="on">ON</button>
+        <button class="toggle-pill" data-idem="off">OFF</button>
+        <span class="opt-hint">Try both and compare the bank alerts on the phone!</span>
+      </div>
+      <div class="scenario-option" id="optOtp" hidden>
+        <span>How does ChopNow find out the result?</span>
+        <button class="toggle-pill active" data-wait="webhook">🔔 Webhook (they call us)</button>
+        <button class="toggle-pill" data-wait="poll">🔁 Polling (we keep asking)</button>
+      </div>
+
+      <!-- The stage -->
+      <div class="flow-stage" id="flowStage">
+        <div class="flow-node" data-node="phone">
+          <div class="node-icon">📱</div>
+          <div class="node-name">ChopNow app</div>
+          <div class="node-sub">Your phone</div>
+        </div>
+        <div class="flow-node" data-node="backend">
+          <div class="node-icon">⚙️</div>
+          <div class="node-name">ChopNow backend</div>
+          <div class="node-sub">ChopNow's servers</div>
+        </div>
+        <div class="flow-node" data-node="outside">
+          <div class="node-icon">💳</div>
+          <div class="node-name">PayBridge</div>
+          <div class="node-sub">Payment company</div>
+        </div>
+        <div class="flow-node" data-node="bank">
+          <div class="node-icon">🏦</div>
+          <div class="node-name">Your bank</div>
+          <div class="node-sub">Holds your money</div>
+        </div>
+        <div class="flow-line" aria-hidden="true"></div>
+        <div class="packet" id="packet" aria-hidden="true"><span id="packetText">📨</span></div>
+      </div>
+
+      <!-- Step explanation -->
+      <div class="step-panel">
+        <div class="step-meta">
+          <span class="step-counter" id="stepCounter">Ready</span>
+          <span class="step-route" id="stepRoute"></span>
+          <span class="call-count" id="callCount">API calls so far: 0</span>
+        </div>
+        <h3 class="step-title" id="stepTitle">Press "Next step" to begin</h3>
+        <p class="step-text" id="stepText">You will see each system light up as the message travels.</p>
+        <div class="step-tip" id="stepTip" hidden></div>
+
+        <div class="step-controls">
+          <button class="ghost-btn" id="prevStep">← Back</button>
+          <button class="primary-btn" id="nextStep">Next step →</button>
+          <button class="ghost-btn" id="autoPlay">▶ Play all</button>
+          <button class="ghost-btn" id="resetSteps">↺ Start again</button>
+        </div>
+        <div class="step-dots" id="stepDots"></div>
+      </div>
+
+      <div class="sim-split">
+        <!-- Message inspector -->
+        <div class="inspector">
+          <div class="inspector-head">
+            <h3 id="inspTitle">🔍 Message inspector</h3>
+            <span class="insp-kind" id="inspKind"></span>
+          </div>
+          <pre class="insp-code" id="inspCode">The message for each step will appear here.</pre>
+          <ul class="insp-notes" id="inspNotes"></ul>
+        </div>
+
+        <!-- Phone -->
+        <div class="phone-wrap">
+          <div class="phone" aria-label="What the customer sees">
+            <div class="phone-notch"></div>
+            <div class="phone-alerts" id="phoneAlerts"></div>
+            <div class="phone-screen" id="phoneScreen"></div>
+          </div>
+          <p class="phone-caption">📱 What the customer sees</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. API playground -->
+    <section id="playground" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 4</span>
+        <h2>🧪 API Playground: send requests yourself</h2>
+      </div>
+      <p>This is a pretend version of ChopNow's API, with a small <strong>database</strong> you can see change. Engineers test APIs like this every day with tools such as <strong>Postman</strong>. Try the quick examples first, then edit things and see what breaks.</p>
+
+      <div class="pg-tries" id="pgTries"></div>
+
+      <div class="pg-grid">
+        <div class="pg-main">
+          <div class="pg-bar">
+            <select id="pgMethod" class="pg-method" aria-label="Method">
+              <option>GET</option><option>POST</option><option>PATCH</option><option>DELETE</option>
+            </select>
+            <span class="pg-host">api.chopnow.ng</span>
+            <input id="pgPath" class="pg-path" value="/v1/restaurants" aria-label="Path" spellcheck="false">
+            <button id="pgSend" class="primary-btn">Send ➤</button>
+          </div>
+          <label class="pg-key"><input type="checkbox" id="pgKey" checked> Send my API key <code>Authorization: Bearer key_7Hd92kQ</code></label>
+          <label class="pg-label" for="pgBody">Request body (JSON) <span id="pgBodyHint" class="muted small">— not used for GET</span></label>
+          <textarea id="pgBody" class="pg-body" spellcheck="false"></textarea>
+
+          <div class="pg-response">
+            <div class="pg-resp-head">
+              <span>Response</span>
+              <span class="status-badge" id="pgStatus">—</span>
+              <span class="pg-time" id="pgTime"></span>
+            </div>
+            <div class="pg-plain" id="pgPlain">Press <strong>Send</strong> to see the answer.</div>
+            <pre class="pg-json" id="pgJson"></pre>
+          </div>
+        </div>
+
+        <div class="pg-side">
+          <h3>🗄️ The database right now</h3>
+          <p class="muted small">Watch this change when you POST, PATCH or DELETE.</p>
+          <div class="db-table-wrap">
+            <table class="db-table">
+              <thead><tr><th>🔑 order id</th><th>food</th><th>address</th><th>status</th></tr></thead>
+              <tbody id="dbOrders"></tbody>
+            </table>
+          </div>
+          <div class="pg-endpoints">
+            <h4>📖 API menu (documentation)</h4>
+            <ul>
+              <li><span class="verb-tag v-get">GET</span><code>/v1/restaurants</code></li>
+              <li><span class="verb-tag v-get">GET</span><code>/v1/restaurants/{id}/menu</code></li>
+              <li><span class="verb-tag v-post">POST</span><code>/v1/orders</code></li>
+              <li><span class="verb-tag v-get">GET</span><code>/v1/orders/{id}</code></li>
+              <li><span class="verb-tag v-patch">PATCH</span><code>/v1/orders/{id}</code></li>
+              <li><span class="verb-tag v-delete">DELETE</span><code>/v1/orders/{id}</code></li>
+            </ul>
+            <p class="muted small">Limit: 10 requests every 10 seconds. Send too fast and see what happens!</p>
+          </div>
+          <button class="ghost-btn small" id="pgReset">↺ Reset database</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Case studies -->
+    <section id="case-studies" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 5</span>
+        <h2>Real examples: Stripe and Google Maps</h2>
+      </div>
+      <p>Both companies sell their API as the product. Engineers love Stripe's; businesses pay Google for every Maps request.</p>
+
+      <div class="tab-control">
+        <button class="tab-btn active" data-tab="stripe-case">💳 Stripe</button>
+        <button class="tab-btn" data-tab="maps-case">🗺️ Google Maps</button>
+      </div>
+
+      <div id="stripe-case" class="tab-pane active">
+        <p class="case-intro"><strong>The story:</strong> Stripe lets any business accept card payments with just a few lines of code. It grew into one of the world's most valuable private tech companies, largely because engineers found its API so <strong>clear and predictable</strong>. (Stripe also owns Paystack in Nigeria.)</p>
+        <div class="breakdown-grid">
+          <div class="breakdown-card bc-front">
+            <h4>🧭 Easy-to-guess addresses</h4>
+            <ul class="clean-list">
+              <li><code>POST /v1/payment_intents</code> starts a payment.</li>
+              <li><code>GET /v1/payment_intents/pi_123</code> checks it.</li>
+              <li>Every ID has a prefix (<code>pi_</code>, <code>cus_</code>) so you know what it is just by looking.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-back">
+            <h4>🛡️ No double charges</h4>
+            <ul class="clean-list">
+              <li>Apps send an <strong>Idempotency-Key</strong> with each payment.</li>
+              <li>If the same key comes twice, Stripe gives back the first answer instead of charging again — exactly what you saw in the simulation.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-ext">
+            <h4>🔔 Webhooks with a signature</h4>
+            <ul class="clean-list">
+              <li>Some payments finish later (e.g. bank approval). Stripe <strong>calls your server</strong> when it's done.</li>
+              <li>Each webhook is "signed", so a scammer can't send a fake "payment successful" message.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-data">
+            <h4>💬 Errors you can act on</h4>
+            <ul class="clean-list">
+              <li>Not just "error", but <code>card_declined</code> + <code>insufficient_funds</code>.</li>
+              <li>So the app can say exactly the right thing: "Not enough money — try another card."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tpm-takeaway">
+          <strong>🎓 TPM lesson from Stripe:</strong> a good API is a <strong>product</strong>. Clear names, safe retries and helpful errors make other teams faster — and make your users' experience better.
+        </div>
+      </div>
+
+      <div id="maps-case" class="tab-pane">
+        <p class="case-intro"><strong>The story:</strong> Uber, Bolt and Jumia all use Google's map APIs for addresses, routes and arrival times. Google charges for <strong>every request</strong>, so a careless design can cost a company a lot of money.</p>
+        <div class="breakdown-grid">
+          <div class="breakdown-card bc-front">
+            <h4>🔎 Asking with the address</h4>
+            <ul class="clean-list">
+              <li><code>GET …/directions/json?origin=Yaba&amp;destination=Ikeja</code></li>
+              <li>It's a GET because it only <em>reads</em> information. The details go in the address after the <code>?</code>.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-back">
+            <h4>🚦 Limits per key</h4>
+            <ul class="clean-list">
+              <li>Each company has a limit on requests per second.</li>
+              <li>Go over it and Google answers <code>429</code> / <code>OVER_QUERY_LIMIT</code> — the map stops working until you slow down.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-data">
+            <h4>📦 Squeezing the answer</h4>
+            <ul class="clean-list">
+              <li>A route has thousands of GPS points. Instead of a huge list, Google packs them into one short coded string.</li>
+              <li>Smaller answers = faster apps and less mobile data for users.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-ext">
+            <h4>💰 Every letter can cost money</h4>
+            <ul class="clean-list">
+              <li>The search box suggests addresses as you type. If the app asks Google on <strong>every letter</strong>, costs explode.</li>
+              <li>Smart apps wait until you pause typing. Try it below 👇</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="debounce">
+          <h3>⌨️ Try it: type a delivery address</h3>
+          <input type="text" id="debounceInput" class="search-input" placeholder="e.g. 12 Herbert Macaulay Way, Yaba" autocomplete="off">
+          <div class="debounce-grid">
+            <div class="db-box bad">
+              <span class="break-label">😬 Ask Google on every letter</span>
+              <strong id="dbEvery">0</strong><span>API calls</span>
+            </div>
+            <div class="db-box good">
+              <span class="break-label">😊 Wait until typing pauses (0.3 seconds)</span>
+              <strong id="dbWait">0</strong><span>API calls</span>
+            </div>
+          </div>
+          <p class="note-text" id="dbCost">If 100,000 customers type an address every day, the difference adds up fast. Start typing!</p>
+        </div>
+        <div class="tpm-takeaway">
+          <strong>🎓 TPM lesson from Google Maps:</strong> when an outside API charges per request, <strong>how often</strong> your app calls it is a product and budget decision — not just a technical one.
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Quiz -->
+    <section id="quiz" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 6</span>
+        <h2>Quick quiz: check your understanding</h2>
+      </div>
+      <p>7 short questions. Tap an answer to see if you are right. No marks — this is just for practice.</p>
+      <div id="quizBox" class="quiz-box"></div>
+      <div class="quiz-result" id="quizResult" hidden></div>
+    </section>
+
+    <!-- 7. Assignment -->
+    <section id="assignment" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 7</span>
+        <h2>This week's work</h2>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="deliverable-box">
+          <div class="deliv-badge individual">Individual Assignment • 10 Marks</div>
+          <h3>Plan 3 API requests for your product</h3>
+          <p class="deliv-deadline">⏰ Due: Sunday, Nov 22, 2026, before 11:59 PM WAT</p>
+          <p>Use the <strong>same app as Weeks 1 and 2</strong>. Write down 3 requests its app would send, like the ones in the Playground:</p>
+          <ol class="step-list">
+            <li><strong>Create something (POST):</strong> e.g. "place an order". Show the address, the request body, and the answer.</li>
+            <li><strong>Get a list (GET):</strong> e.g. "my past orders". Show any filters in the address (e.g. <code>?status=delivered</code>) and the answer.</li>
+            <li><strong>Change something (PATCH):</strong> e.g. "change delivery address". Say who is allowed to do it.</li>
+            <li><strong>Error table:</strong> 3 things that can go wrong, the status code for each, and <em>what the user should see</em>.</li>
+            <li><strong>Data flow:</strong> for request 1, list the steps the message takes (app → backend → database / outside services → back).</li>
+          </ol>
+          <div class="hint-box">💡 <strong>Tip:</strong> You are not writing code. You are writing a clear plan an engineer could build from. Use the Playground's answers as examples of the format.</div>
+
+          <div class="rubric-mini">
+            <h4>How you will be marked (10 marks)</h4>
+            <ul>
+              <li><span>Right methods (GET/POST/PATCH) and clear addresses</span><strong>3</strong></li>
+              <li><span>Complete request and response examples</span><strong>3</strong></li>
+              <li><span>Sensible errors and what the user sees</span><strong>2</strong></li>
+              <li><span>Clear data-flow steps</span><strong>2</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="deliverable-box">
+          <div class="deliv-badge team">Team Capstone • Phase 3 of 6</div>
+          <h3>Agree on your product's API</h3>
+          <p class="deliv-deadline">👥 Done together with your team</p>
+          <p>Using last week's architecture, decide how your parts will talk. Tick each item as you finish it (your ticks are saved on this device):</p>
+          <div class="checklist-card" id="capstoneChecklist">
+            <label class="check-item"><input type="checkbox" data-key="c1"> Listed at least 5 main API requests (method + address + what it does)</label>
+            <label class="check-item"><input type="checkbox" data-key="c2"> Agreed how users and apps prove who they are (login token / API key)</label>
+            <label class="check-item"><input type="checkbox" data-key="c3"> Listed outside APIs you need (payments, maps, SMS…) and their limits / costs</label>
+            <label class="check-item"><input type="checkbox" data-key="c4"> Marked which results arrive later (webhooks) and which actions need an idempotency key</label>
+            <label class="check-item"><input type="checkbox" data-key="c5"> Ready to present it at Sunday's Project Review</label>
+          </div>
+          <div class="check-progress"><div class="check-progress-fill" id="checkFill"></div></div>
+          <p class="check-progress-text" id="checkText">0 of 5 done</p>
+        </div>
+      </div>
+
+      <div class="template-box">
+        <div class="template-info">
+          <h4>📄 Assignment template</h4>
+          <p>Copy this, paste it into Google Docs, and fill in the blanks.</p>
+        </div>
+        <button id="copyTemplateBtn" class="primary-btn">📋 Copy template</button>
+      </div>
+      <textarea id="templateText" class="template-textarea" readonly>
+# API plan for [Product name]
+Student name: [Your full name]
+Track: Technical Product Management (PCIP)
+Date: [Date]
+
+## How the app proves who it is
+- Every request sends: Authorization: Bearer [user's login token]
+
+## Request 1 — Create something (POST)
+- What it does: ______ (e.g. place an order)
+- Address: POST /v1/______
+- Request body (what we send):
+  {
+    "______": "______",
+    "______": ______
+  }
+- Answer if it works: 201 Created
+  {
+    "id": "______",
+    "status": "______"
+  }
+
+## Request 2 — Get a list (GET)
+- What it does: ______ (e.g. show my past orders)
+- Address: GET /v1/______?______=______
+- Answer if it works: 200 OK
+  {
+    "______": [ ... ]
+  }
+
+## Request 3 — Change something (PATCH)
+- What it does: ______
+- Address: PATCH /v1/______/{id}
+- Request body: { "______": "______" }
+- Who is allowed to do this: ______
+
+## Error table
+| What went wrong | Status code | What the user should see |
+|-----------------|-------------|--------------------------|
+| ______          | 400         | ______                   |
+| ______          | 401         | ______                   |
+| ______          | 404 / 429 / 500 | ______               |
+
+## Data flow for Request 1
+1. The user taps: ______
+2. The app sends: ______ to ______
+3. The backend checks: ______
+4. It saves / asks: ______ (database or outside service)
+5. The answer goes back: ______
+6. The user sees: ______
+</textarea>
+    </section>
+
+    <!-- Discussion -->
+    <section class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Saturday class</span>
+        <h2>Questions we will discuss together</h2>
+      </div>
+      <p>Think about your answer first, then tap to see one good answer.</p>
+      <div class="faq-accordion">
+        <details class="faq-item">
+          <summary class="faq-q">1. Why should the secret payment API key never be inside the phone app?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> Anyone can download an app and dig through it. If the secret key is inside, a scammer could copy it and make payments or refunds as if they were ChopNow. Secret keys stay on the backend. The phone only talks to ChopNow's own backend.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">2. A customer was charged twice after their network dropped. What would you ask the engineers?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> "Do we send an idempotency key with every payment, and do we reuse the same key when we retry?" Also: "Does the app stop the user tapping Pay twice, and does it show a clear 'still processing' message instead of a frozen screen?"</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">3. Webhooks are better than polling — so why do good teams still poll sometimes?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> Webhooks can get lost (your server was down for a minute, or the network failed). A slow backup check — for example, asking about any payment still "pending" after 10 minutes — catches the ones that slipped through. Webhook first, polling as a safety net.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">4. The payment company returns "401 Unauthorized". Whose fault is it, and what should the customer see?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> It's ChopNow's fault — our key is wrong or expired. The customer should never see "401". Show a friendly message and a Plan B ("Card payments are down for a moment — pay on delivery?"), and alert the engineers automatically.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- 8. Word bank -->
+    <section id="word-bank" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 8</span>
+        <h2>Word bank: tech words in plain English</h2>
+      </div>
+      <p>You will hear these words in class and from engineers. Search for any word you're not sure about.</p>
+      <input type="search" id="glossarySearch" class="search-input" placeholder="Search a word, e.g. webhook" aria-label="Search the word bank">
+      <div class="glossary-grid" id="glossaryGrid"></div>
+      <p class="no-results" id="glossaryEmpty" hidden>No matching word. Ask about it on Slack!</p>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>Product Bosslady Academy (PBA) • Product Career Internship Program (PCIP) • Technical Product Management Track</p>
+      <p class="footer-sub">November 2026 – February 2027 • Facilitated by Oyindamola Oye-Daniel</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

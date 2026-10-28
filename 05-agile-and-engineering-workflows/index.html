@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 05: Agile and Engineering Workflows | PCIP TPM Track</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Navigation Header -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand-group">
+        <a href="../index.html" class="back-portal-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          All Weeks
+        </a>
+        <span class="divider">/</span>
+        <span class="badge-week">Week 05 of 12</span>
+      </div>
+      <div class="nav-title">Technical Product Management Track</div>
+      <div class="nav-actions">
+        <button id="themeToggle" class="icon-btn" title="Switch dark / light mode" aria-label="Switch dark or light mode">🌓</button>
+        <a href="../04-technical-prd-writing/index.html" class="nav-prev-btn">← Week 4</a>
+        <a href="../06-engineering-collaboration/index.html" class="nav-next-btn">
+          Next: Week 6
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Progress bar -->
+  <div class="read-progress"><div id="readProgress" class="read-progress-fill"></div></div>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="meta-pill-group">
+        <span class="meta-pill">📅 Nov 30 – Dec 6, 2026</span>
+        <span class="meta-pill live-pill">🔴 Class: Saturday 7:00 PM WAT</span>
+        <span class="meta-pill review-pill">🎯 Project Review: Sunday 6:00 PM WAT</span>
+      </div>
+      <h1 class="hero-title">Agile and Engineering Workflows</h1>
+      <p class="hero-subtitle">
+        Last week you wrote the plan (the PRD). This week you learn how teams actually <strong>build</strong> it:
+        in short, 2-week rounds called <strong>sprints</strong>. You will learn the team's regular meetings, how work is sized and chosen,
+        and why some time must go to "cleaning the kitchen". Then you will <strong>run a sprint yourself</strong> — with real surprises.
+      </p>
+
+      <div class="goals-box">
+        <h2 class="goals-title">By the end of this week, you will be able to:</h2>
+        <ul class="goals-list">
+          <li><span class="goal-check">✓</span> Explain Agile and sprints in plain words</li>
+          <li><span class="goal-check">✓</span> Name the 4 sprint meetings and what a TPM does in each</li>
+          <li><span class="goal-check">✓</span> Explain story points, velocity and "Definition of Done"</li>
+          <li><span class="goal-check">✓</span> Balance new features with tech debt (the 70 / 20 / 10 rule)</li>
+          <li><span class="goal-check">✓</span> Plan a sprint and handle surprises without losing the sprint goal</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Topic Navigation -->
+  <nav class="sub-nav" aria-label="Lesson sections">
+    <div class="sub-nav-container">
+      <a href="#what-is-agile" class="sub-link active">1. What is Agile?</a>
+      <a href="#meetings" class="sub-link">2. The 4 Meetings</a>
+      <a href="#sizing" class="sub-link">3. Sizing &amp; Choosing Work</a>
+      <a href="#simulation" class="sub-link">4. ▶ Sprint Simulation</a>
+      <a href="#case-studies" class="sub-link">5. Linear &amp; Slack</a>
+      <a href="#quiz" class="sub-link">6. Quick Quiz</a>
+      <a href="#assignment" class="sub-link">7. Assignment</a>
+      <a href="#word-bank" class="sub-link">8. Word Bank</a>
+    </div>
+  </nav>
+
+  <main class="main-container">
+
+    <!-- 1. What is Agile -->
+    <section id="what-is-agile" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 1</span>
+        <h2>What is Agile?</h2>
+      </div>
+
+      <div class="big-definition">
+        <p><strong>Agile</strong> means building a product in <strong>small pieces</strong>, showing each piece to real people, and improving as you go.</p>
+        <p>The most common way to do it is <strong>Scrum</strong>: the team works in fixed rounds of about 2 weeks, called <strong>sprints</strong>.</p>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="info-callout secondary">
+          <h3>🍲 Cooking for a wedding: two ways</h3>
+          <div class="comparison-card">
+            <div class="comp-col">
+              <span class="comp-label">The old way ("Waterfall")</span>
+              <p>Cook every dish for 6 hours, then taste for the first time when guests arrive. If the jollof is too salty, it's too late.</p>
+            </div>
+            <div class="comp-col highlight">
+              <span class="comp-label">The Agile way</span>
+              <p>Cook one pot, taste it, adjust, then cook the next. Problems are found early, when they are cheap to fix.</p>
+            </div>
+          </div>
+        </div>
+        <div class="info-callout primary">
+          <h3>📚 5 words you'll hear every day</h3>
+          <ul class="bullet-list">
+            <li><strong>Backlog</strong> — the full to-do list of everything the product might need, in priority order.</li>
+            <li><strong>Ticket / user story</strong> — one piece of work on that list, e.g. "Save card for next time".</li>
+            <li><strong>Sprint</strong> — a 2-week round. The team picks some tickets and finishes them.</li>
+            <li><strong>Sprint goal</strong> — the one main thing this sprint must achieve.</li>
+            <li><strong>Board</strong> — a screen with columns (To do → In progress → In review → Done) showing where each ticket is.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="cycle" aria-label="The sprint cycle">
+        <div class="cycle-step">📋<strong>Plan</strong><span>Pick tickets</span></div>
+        <div class="cycle-arrow">→</div>
+        <div class="cycle-step">🛠️<strong>Build</strong><span>2 weeks, daily check-ins</span></div>
+        <div class="cycle-arrow">→</div>
+        <div class="cycle-step">🎬<strong>Show</strong><span>Demo what's done</span></div>
+        <div class="cycle-arrow">→</div>
+        <div class="cycle-step">🔁<strong>Improve</strong><span>Learn, then repeat</span></div>
+      </div>
+    </section>
+
+    <!-- 2. Meetings -->
+    <section id="meetings" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 2</span>
+        <h2>The 4 sprint meetings — and what the TPM does</h2>
+      </div>
+      <p>Scrum calls these meetings <span class="term">ceremonies</span>. Each one has a clear job. Long, pointless meetings are a sign something is wrong.</p>
+
+      <div class="meeting-grid">
+        <div class="meeting m-plan">
+          <div class="meeting-top"><span class="meeting-icon">📋</span><span class="meeting-when">Day 1 • about 1 hour</span></div>
+          <h3>1. Sprint planning</h3>
+          <p class="meeting-q">"What will we finish in these 2 weeks?"</p>
+          <p><strong>TPM's job:</strong> bring the sprint goal and the top tickets, ready to build. Help the team pick only what fits — and say clearly what is left out.</p>
+        </div>
+        <div class="meeting m-stand">
+          <div class="meeting-top"><span class="meeting-icon">☀️</span><span class="meeting-when">Every day • 15 minutes</span></div>
+          <h3>2. Daily standup</h3>
+          <p class="meeting-q">"What did I do yesterday, what will I do today, is anything blocking me?"</p>
+          <p><strong>TPM's job:</strong> listen for <strong>blockers</strong> — and remove them that same day (chase another team, a partner, a decision).</p>
+        </div>
+        <div class="meeting m-review">
+          <div class="meeting-top"><span class="meeting-icon">🎬</span><span class="meeting-when">Last day • about 1 hour</span></div>
+          <h3>3. Sprint review (demo)</h3>
+          <p class="meeting-q">"Here is what we built — what do you think?"</p>
+          <p><strong>TPM's job:</strong> show working features to stakeholders, collect feedback, and update the backlog.</p>
+        </div>
+        <div class="meeting m-retro">
+          <div class="meeting-top"><span class="meeting-icon">🔁</span><span class="meeting-when">Last day • 45 minutes</span></div>
+          <h3>4. Retrospective (retro)</h3>
+          <p class="meeting-q">"How did we work together? What should we change?"</p>
+          <p><strong>TPM's job:</strong> keep it honest and blame-free, and turn it into 1–2 real <strong>action items</strong> for next sprint.</p>
+        </div>
+      </div>
+      <p class="note-text">➕ Many teams also hold <strong>backlog refinement</strong> once a week: going through upcoming tickets so they are clear and sized <em>before</em> planning day.</p>
+
+      <div class="game-card" id="meetGame">
+        <div class="game-head">
+          <h3>🎮 Mini-game: Which meeting is this?</h3>
+          <span class="game-score" id="meetScore">Score: 0 / 0</span>
+        </div>
+        <p class="game-instructions">Read what someone says, then pick the meeting it most likely happened in.</p>
+        <div class="game-task" id="meetTask">Loading…</div>
+        <div class="game-choices four-choices">
+          <button class="choice-btn" data-pick="plan">📋 Planning</button>
+          <button class="choice-btn" data-pick="stand">☀️ Standup</button>
+          <button class="choice-btn" data-pick="review">🎬 Review</button>
+          <button class="choice-btn" data-pick="retro">🔁 Retro</button>
+        </div>
+        <div class="game-feedback" id="meetFeedback" aria-live="polite"></div>
+        <div class="game-foot">
+          <span id="meetProgress" class="game-progress"></span>
+          <button class="ghost-btn" id="meetNext" disabled>Next →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Sizing & choosing -->
+    <section id="sizing" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 3</span>
+        <h2>Sizing and choosing work</h2>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="info-callout primary">
+          <h3>📏 Story points: size, not hours</h3>
+          <p>Instead of guessing hours, teams compare tickets: <em>"Is this bigger or smaller than the login screen we built?"</em> — like saying a watermelon is "about 5 oranges" without weighing it.</p>
+          <div class="points-scale">
+            <div><span class="pt">1</span>Tiny — change a word</div>
+            <div><span class="pt">2</span>Small — copy an existing pattern</div>
+            <div><span class="pt">3</span>Medium</div>
+            <div><span class="pt">5</span>Big — touches app, backend and database</div>
+            <div><span class="pt">8</span>Very big, some unknowns</div>
+            <div><span class="pt warn">13</span>Too big — split it into smaller tickets</div>
+          </div>
+          <p class="note-text">The numbers jump (1, 2, 3, 5, 8, 13) because big things are harder to guess exactly.</p>
+        </div>
+        <div class="info-callout secondary">
+          <h3>🏎️ Velocity: how much fits</h3>
+          <p><strong>Velocity</strong> is how many points a team usually finishes in one sprint. If the last 3 sprints were 28, 31 and 30 points, plan about <strong>30</strong> — not 45 because "we'll try hard".</p>
+          <h3 class="mt">✅ Ready and Done</h3>
+          <p><strong>Definition of Ready</strong> — a ticket can start only when it has a clear PRD, designs and acceptance criteria (Week 4!).</p>
+          <p><strong>Definition of Done</strong> — a ticket is done only when the code is reviewed, tested, and working for real users. "Done on my laptop" isn't done.</p>
+        </div>
+      </div>
+
+      <!-- Planning poker -->
+      <div class="poker">
+        <div class="game-head">
+          <h3>🃏 Try it: planning poker</h3>
+          <span class="game-progress">Engineers vote at the same time, so nobody copies the loudest person</span>
+        </div>
+        <div class="poker-ticket">🎫 <strong>Ticket:</strong> "Friends can split the bill for a group order"</div>
+        <div class="poker-cards" id="pokerCards">
+          <div class="poker-card" data-vote="3"><span class="pc-back">?</span><span class="pc-front">3</span><span class="pc-name">👨🏾‍💻 Tobi</span></div>
+          <div class="poker-card" data-vote="5"><span class="pc-back">?</span><span class="pc-front">5</span><span class="pc-name">👩🏽‍💻 Ada</span></div>
+          <div class="poker-card" data-vote="13"><span class="pc-back">?</span><span class="pc-front">13</span><span class="pc-name">🧑🏿‍💻 Musa</span></div>
+        </div>
+        <button class="primary-btn" id="pokerReveal">Reveal the votes</button>
+        <div class="poker-result" id="pokerResult" hidden>
+          <p><strong>3, 5 and 13 — very different!</strong> That's the useful part. Musa explains: <em>"Each friend pays separately. What if one card is declined? Who gets refunded if the order is cancelled? That's a lot of edge cases."</em></p>
+          <p>Tobi and Ada hadn't thought of that. The team votes again and agrees on <strong>8</strong>. 🎓 <strong>Lesson:</strong> big differences in votes reveal hidden risks — exactly what a TPM wants to find early.</p>
+        </div>
+      </div>
+
+      <div class="split-box">
+        <h3>🧹 The 70 / 20 / 10 rule: don't skip cleaning the kitchen</h3>
+        <p>If a restaurant only cooks and never cleans, it gets slower every week — then the health inspector closes it. Code is the same. Shortcuts pile up as <strong>tech debt</strong>, and every new feature takes longer. Many teams split each sprint like this:</p>
+        <div class="split-bar">
+          <div class="split-seg s-feat" style="flex: 70">70% New features</div>
+          <div class="split-seg s-debt" style="flex: 20">20% Tech debt</div>
+          <div class="split-seg s-spike" style="flex: 10">10%</div>
+        </div>
+        <div class="split-legend">
+          <div><span class="lg s-feat"></span><strong>Features</strong> — things customers will see and use.</div>
+          <div><span class="lg s-debt"></span><strong>Tech debt</strong> — cleaning messy code, updating old software, fixing slow parts.</div>
+          <div><span class="lg s-spike"></span><strong>Spikes</strong> — short, time-limited research: "Could we take orders on WhatsApp? Find out in 2 days."</div>
+        </div>
+        <p class="note-text">It's a guide, not a law. A TPM explains to leaders <em>why</em> that 20% protects future speed.</p>
+      </div>
+
+      <div class="rice">
+        <h3>🍚 How to choose what goes first: RICE</h3>
+        <p>When everything feels important, score each idea. Multiply the good things, divide by the cost:</p>
+        <div class="rice-formula"><span class="r">Reach</span> × <span class="i">Impact</span> × <span class="c">Confidence</span> ÷ <span class="e">Effort</span></div>
+        <div class="rice-grid">
+          <div><strong class="r">Reach</strong> How many people does it affect each month?</div>
+          <div><strong class="i">Impact</strong> How much does it help each person? (3 = a lot, 1 = some, 0.5 = a little)</div>
+          <div><strong class="c">Confidence</strong> How sure are we? (100%, 80%, 50%)</div>
+          <div><strong class="e">Effort</strong> How much work? (e.g. person-weeks)</div>
+        </div>
+        <p class="note-text"><strong>Example:</strong> "Save card" reaches 20,000 people × impact 2 × 80% sure ÷ 2 weeks of work = <strong>16,000</strong>. "Dark mode" reaches 5,000 × 0.5 × 100% ÷ 3 = <strong>833</strong>. Save card goes first.</p>
+      </div>
+    </section>
+
+    <!-- 4. Simulation -->
+    <section id="simulation" class="content-card demo-section">
+      <div class="card-header">
+        <span class="section-tag tag-live">▶ Simulation</span>
+        <h2>Run a sprint: can your team hit the goal?</h2>
+      </div>
+      <p class="lead-text">
+        You are the TPM for ChopNow's payments team: 3 engineers — <strong>Tobi, Ada and Musa</strong>. Their velocity is about <strong>30 points</strong> per sprint.
+        <strong>Sprint goal: "Customers can pay with a saved card."</strong> Plan the sprint, then guide the team through 10 working days of real surprises.
+      </p>
+
+      <div class="sim-steps">
+        <div class="sim-step active" data-stage="plan"><span>1</span> 📋 Sprint planning</div>
+        <div class="sim-step" data-stage="run"><span>2</span> 🛠️ The sprint (10 days)</div>
+        <div class="sim-step" data-stage="end"><span>3</span> 🎬 Review &amp; retro</div>
+      </div>
+
+      <!-- Stage 1: planning -->
+      <div class="stage" id="stagePlan">
+        <div class="plan-grid">
+          <div>
+            <div class="plan-head">
+              <h3>🗂️ Backlog</h3>
+              <span class="muted small">Tap a ticket to move it into the sprint. ⭐ = needed for the sprint goal.</span>
+            </div>
+            <div class="ticket-list" id="backlogList"></div>
+          </div>
+          <div>
+            <div class="plan-head">
+              <h3>🏃 This sprint</h3>
+              <span class="muted small">Tap again to take it out.</span>
+            </div>
+            <div class="ticket-list sprint-list" id="sprintList"></div>
+            <div class="capacity">
+              <div class="cap-head"><span>Committed: <strong id="capPoints">0</strong> / ~30 points</span><span id="capLabel" class="cap-label"></span></div>
+              <div class="cap-bar"><div class="cap-fill" id="capFill"></div><div class="cap-mark" title="Velocity: 30"></div></div>
+              <div class="mix-bar" id="mixBar"></div>
+              <div class="mix-legend" id="mixLegend"></div>
+            </div>
+            <ul class="plan-warnings" id="planWarnings"></ul>
+            <button class="primary-btn full" id="startSprint" disabled>▶ Start the sprint</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 2: run -->
+      <div class="stage" id="stageRun" hidden>
+        <div class="run-top">
+          <div class="day-box"><span>Day</span><strong id="dayNum">1</strong><span>of 10</span></div>
+          <div class="day-track" id="dayTrack"></div>
+          <div class="run-buttons">
+            <button class="primary-btn" id="nextDay">Next day →</button>
+            <button class="ghost-btn" id="autoDays">⏩ Auto-play</button>
+          </div>
+        </div>
+
+        <div class="decision-card" id="decisionCard" hidden>
+          <div class="decision-who" id="decWho"></div>
+          <h3 id="decTitle"></h3>
+          <p id="decText"></p>
+          <div class="decision-options" id="decOptions"></div>
+        </div>
+
+        <div class="board" id="board">
+          <div class="col" data-col="todo"><h4>📥 To do <span class="col-count"></span></h4><div class="col-body"></div></div>
+          <div class="col" data-col="doing"><h4>🛠️ In progress <span class="col-count"></span></h4><div class="col-body"></div></div>
+          <div class="col" data-col="review"><h4>👀 In review <span class="col-count"></span></h4><div class="col-body"></div></div>
+          <div class="col" data-col="done"><h4>✅ Done <span class="col-count"></span></h4><div class="col-body"></div></div>
+        </div>
+
+        <div class="run-bottom">
+          <div class="standup">
+            <h3>☀️ Daily standup</h3>
+            <div id="standup"></div>
+          </div>
+          <div class="team-meters">
+            <h3>📊 Team health</h3>
+            <div class="meter"><span>😊 Team morale</span><div class="meter-bar"><div id="mMorale"></div></div></div>
+            <div class="meter"><span>🤝 Stakeholder trust</span><div class="meter-bar"><div id="mTrust"></div></div></div>
+            <div class="meter"><span>🧹 Code health</span><div class="meter-bar"><div id="mHealth"></div></div></div>
+            <ul class="sim-log" id="runLog"></ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 3: end -->
+      <div class="stage" id="stageEnd" hidden>
+        <div class="end-banner" id="endBanner"></div>
+        <div class="end-stats" id="endStats"></div>
+        <div class="grid-2-col">
+          <div class="retro-col">
+            <h3>🎬 Sprint review: what was delivered</h3>
+            <ul class="end-list" id="endDelivered"></ul>
+          </div>
+          <div class="retro-col">
+            <h3>🔁 Retro: what happened</h3>
+            <div class="retro-board">
+              <div><h4>👍 Went well</h4><ul id="retroGood"></ul></div>
+              <div><h4>👎 Didn't go well</h4><ul id="retroBad"></ul></div>
+            </div>
+          </div>
+        </div>
+        <div class="action-pick">
+          <h3>🎯 Pick ONE action item for next sprint</h3>
+          <p class="muted small">Retros only help if they change something. Choose the change that would have helped this sprint most.</p>
+          <div class="action-options" id="actionOptions"></div>
+          <p class="action-result" id="actionResult" hidden></p>
+        </div>
+        <div class="stage-actions">
+          <button class="ghost-btn" id="replanSprint">✏️ Plan the sprint again</button>
+          <button class="ghost-btn" id="resetSprint">↺ Start over</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Case studies -->
+    <section id="case-studies" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 5</span>
+        <h2>Real examples: Linear and Slack</h2>
+      </div>
+      <p>One company builds a tool for running sprints. The other shows how big teams release work safely, many times a day.</p>
+
+      <div class="tab-control">
+        <button class="tab-btn active" data-tab="linear-case">⚡ Linear</button>
+        <button class="tab-btn" data-tab="slack-case">💬 Slack</button>
+      </div>
+
+      <div id="linear-case" class="tab-pane active">
+        <p class="case-intro"><strong>The story:</strong> Linear is a tool for tracking tickets — like Jira, which you'll also meet. Many startups switched to it because it is <strong>fast and simple</strong>, and it is built around how good teams like to work.</p>
+        <div class="breakdown-grid">
+          <div class="breakdown-card bc-front">
+            <h4>🔄 Cycles instead of stressful deadlines</h4>
+            <ul class="clean-list">
+              <li>Linear calls sprints "cycles". They repeat automatically.</li>
+              <li>Unfinished tickets roll into the next cycle by themselves — no blame, no busywork.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-back">
+            <h4>🤖 The board updates itself</h4>
+            <ul class="clean-list">
+              <li>When an engineer starts work or opens their code for review on GitHub, the ticket moves column on its own.</li>
+              <li>The board stays true without anyone dragging cards around.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-data">
+            <h4>📥 A "triage" inbox</h4>
+            <ul class="clean-list">
+              <li>New bug reports and requests don't jump straight into the sprint.</li>
+              <li>They land in a triage inbox first. Someone (often the PM/TPM) decides: accept, merge with another, or decline.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-ext">
+            <h4>⚡ Speed is a feature</h4>
+            <ul class="clean-list">
+              <li>Linear keeps a copy of your data in the browser, so clicks feel instant.</li>
+              <li>Teams use tools more when they're fast — and the board stays up to date.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tpm-takeaway">
+          <strong>🎓 TPM lesson from Linear:</strong> protect the sprint. New requests go to a <strong>queue to be sorted</strong>, not straight onto engineers' desks — just like the CEO request in the simulation.
+        </div>
+      </div>
+
+      <div id="slack-case" class="tab-pane">
+        <p class="case-intro"><strong>The story:</strong> millions of workplaces depend on Slack all day. Its engineers release new code <strong>many times a day</strong> — without breaking work for everyone. How?</p>
+        <div class="breakdown-grid">
+          <div class="breakdown-card bc-back">
+            <h4>🚩 Feature flags: an on/off switch</h4>
+            <ul class="clean-list">
+              <li>New code goes live but stays <strong>switched off</strong>, hidden behind a "flag".</li>
+              <li>The team turns it on for 1% of users, checks the numbers, then 10%, 50%, 100%.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-front">
+            <h4>🐶 Staff try it first</h4>
+            <ul class="clean-list">
+              <li>New versions go to Slack's own employees before customers.</li>
+              <li>This is called "dogfooding" — eating your own dog food.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-ext">
+            <h4>↩️ Quick switch-off</h4>
+            <ul class="clean-list">
+              <li>If errors jump after a release, the flag can be turned off in minutes.</li>
+              <li>No emergency rebuild needed — users go back to the old version.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-data">
+            <h4>🤝 Blameless reviews</h4>
+            <ul class="clean-list">
+              <li>When something breaks, the question is "what check was missing?", not "who did it?".</li>
+              <li>People report problems faster when they aren't afraid of blame.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tpm-takeaway">
+          <strong>🎓 TPM lesson from Slack:</strong> "deployed" (the code is live) and "released" (users can see it) are <strong>different moments</strong>. Flags let a TPM plan launches step by step, and stop quickly if something goes wrong.
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Quiz -->
+    <section id="quiz" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 6</span>
+        <h2>Quick quiz: check your understanding</h2>
+      </div>
+      <p>7 short questions. Tap an answer to see if you are right. No marks — this is just for practice.</p>
+      <div id="quizBox" class="quiz-box"></div>
+      <div class="quiz-result" id="quizResult" hidden></div>
+    </section>
+
+    <!-- 7. Assignment -->
+    <section id="assignment" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 7</span>
+        <h2>This week's work</h2>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="deliverable-box">
+          <div class="deliv-badge individual">Individual Assignment • 10 Marks</div>
+          <h3>Plan a sprint for your product</h3>
+          <p class="deliv-deadline">⏰ Due: Sunday, Dec 6, 2026, before 11:59 PM WAT</p>
+          <p>Use the feature from your <strong>Week 4 PRD</strong>. Pretend you are planning its first sprint:</p>
+          <ol class="step-list">
+            <li><strong>Backlog of 6 tickets:</strong> 3 features, 2 tech debt, 1 spike. Give each a clear title.</li>
+            <li><strong>Story points:</strong> size each one (1, 2, 3, 5, 8) and say in one line why.</li>
+            <li><strong>Priority:</strong> put them in order. Use RICE for at least 2 of them, showing your numbers.</li>
+            <li><strong>Sprint plan:</strong> the team's velocity is <strong>30 points</strong>. Write a sprint goal, pick the tickets that fit, and explain what you left out and why.</li>
+          </ol>
+          <div class="hint-box">💡 <strong>Tip:</strong> Check your plan against the simulation: is it under 30 points? Is there some tech debt? Are all the sprint-goal tickets in?</div>
+
+          <div class="rubric-mini">
+            <h4>How you will be marked (10 marks)</h4>
+            <ul>
+              <li><span>Good mix of features, tech debt and spike</span><strong>3</strong></li>
+              <li><span>Sensible story points with reasons</span><strong>2</strong></li>
+              <li><span>Clear priority with RICE workings</span><strong>3</strong></li>
+              <li><span>Sprint goal and clear trade-offs</span><strong>2</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="deliverable-box">
+          <div class="deliv-badge team">Team Capstone • Phase 5 of 6</div>
+          <h3>Turn your PRD into sprints</h3>
+          <p class="deliv-deadline">👥 Done together with your team</p>
+          <p>Take your team's PRD and plan how it would be built. Tick each item as you finish it (your ticks are saved on this device):</p>
+          <div class="checklist-card" id="capstoneChecklist">
+            <label class="check-item"><input type="checkbox" data-key="c1"> Set up a free board in Linear, Jira or Trello</label>
+            <label class="check-item"><input type="checkbox" data-key="c2"> Broke the PRD into at least 15 small tickets</label>
+            <label class="check-item"><input type="checkbox" data-key="c3"> Sized every ticket together using planning poker</label>
+            <label class="check-item"><input type="checkbox" data-key="c4"> Planned Sprint 1 and Sprint 2, each with a sprint goal</label>
+            <label class="check-item"><input type="checkbox" data-key="c5"> Ready to show the board at Sunday's Project Review</label>
+          </div>
+          <div class="check-progress"><div class="check-progress-fill" id="checkFill"></div></div>
+          <p class="check-progress-text" id="checkText">0 of 5 done</p>
+        </div>
+      </div>
+
+      <div class="template-box">
+        <div class="template-info">
+          <h4>📄 Sprint plan template</h4>
+          <p>Copy this, paste it into Google Docs, and fill in the blanks.</p>
+        </div>
+        <button id="copyTemplateBtn" class="primary-btn">📋 Copy template</button>
+      </div>
+      <textarea id="templateText" class="template-textarea" readonly>
+# Sprint plan for [Product name] — [Feature name]
+Student name: [Your full name]
+Track: Technical Product Management (PCIP)
+Date: [Date]
+
+## 1. The team
+- Sprint length: 2 weeks
+- Team velocity: 30 points
+- Sprint goal: "______"
+
+## 2. Backlog (in priority order)
+| # | Ticket | Type (feature / tech debt / spike) | Points | Why this size | In Sprint 1? |
+|---|--------|------------------------------------|--------|---------------|--------------|
+| 1 | ______ | ______ | __ | ______ | Yes / No |
+| 2 | ______ | ______ | __ | ______ | Yes / No |
+| 3 | ______ | ______ | __ | ______ | Yes / No |
+| 4 | ______ | ______ | __ | ______ | Yes / No |
+| 5 | ______ | ______ | __ | ______ | Yes / No |
+| 6 | ______ | ______ | __ | ______ | Yes / No |
+
+## 3. RICE for two tickets
+Ticket: ______
+- Reach: ______ people per month
+- Impact: ______ (3 = a lot, 2 = good, 1 = some, 0.5 = a little)
+- Confidence: ______ %
+- Effort: ______ person-weeks
+- Score: Reach × Impact × Confidence ÷ Effort = ______
+
+Ticket: ______
+- Reach: ______  Impact: ______  Confidence: ______  Effort: ______
+- Score: ______
+
+## 4. Sprint 1 summary
+- Total points: ______ / 30
+- Split: features ___ pts (__%), tech debt ___ pts (__%), spike ___ pts (__%)
+- What I left out and why: ______
+- Biggest risk in this sprint, and my plan for it: ______
+</textarea>
+    </section>
+
+    <!-- Discussion -->
+    <section class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Saturday class</span>
+        <h2>Questions we will discuss together</h2>
+      </div>
+      <p>Think about your answer first, then tap to see one good answer.</p>
+      <div class="faq-accordion">
+        <details class="faq-item">
+          <summary class="faq-q">1. In the middle of a sprint, the CEO asks for a new feature "by Friday". What do you do?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> Don't just say yes or no. Ask how urgent it really is, then show the trade-off: "We can add it, but then <em>this</em> comes out and the sprint goal may slip." If it can wait 1–2 weeks, put it at the top of the next sprint. Make the cost visible and let the right person decide.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">2. A team finished only 18 of 30 points. Should they be told to "work harder"?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> No — first find out <em>why</em> in the retro. Were they blocked? Were tickets unclear? Did urgent bugs interrupt them? Did they take on too much? Usually the fix is in the process (clearer tickets, fewer surprises, smaller commitments), not in longer hours.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">3. How would you explain to a non-technical leader why 20% of the sprint goes to tech debt?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> Compare it to servicing a car, or cleaning a kitchen. Skip it for a while and nothing seems wrong — until the car breaks down on the highway. Show proof where you can: "Since we cleaned up checkout, payment features take half as long."</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">4. Is a story point the same as a day of work?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> No. Points compare size and risk between tickets. A senior engineer and a new engineer may need different time for the same 5-point ticket. Over a few sprints, velocity tells you how many points this team finishes — that's what you plan with.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- 8. Word bank -->
+    <section id="word-bank" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 8</span>
+        <h2>Word bank: tech words in plain English</h2>
+      </div>
+      <p>You will hear these words in class and from engineers. Search for any word you're not sure about.</p>
+      <input type="search" id="glossarySearch" class="search-input" placeholder="Search a word, e.g. velocity" aria-label="Search the word bank">
+      <div class="glossary-grid" id="glossaryGrid"></div>
+      <p class="no-results" id="glossaryEmpty" hidden>No matching word. Ask about it on Slack!</p>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>Product Bosslady Academy (PBA) • Product Career Internship Program (PCIP) • Technical Product Management Track</p>
+      <p class="footer-sub">November 2026 – February 2027 • Facilitated by Oyindamola Oye-Daniel</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

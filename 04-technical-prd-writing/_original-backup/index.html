@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 04: Technical PRD Writing | PCIP TPM Track</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand-group">
+        <a href="../index.html" class="back-portal-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Master Portal
+        </a>
+        <span class="divider">/</span>
+        <span class="badge-week">Week 04 of 12</span>
+      </div>
+      <div class="nav-title">Technical PRD Writing</div>
+      <div class="nav-actions">
+        <button id="themeToggle" class="icon-btn" title="Toggle Theme">🌓</button>
+        <a href="../03-apis-and-data-flow/index.html" class="nav-prev-btn">← Week 3</a>
+        <a href="../05-agile-and-engineering-workflows/index.html" class="nav-next-btn">Next: Week 5 →</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="meta-pill-group">
+        <span class="meta-pill date-pill">📅 Nov 23 – 29, 2026</span>
+        <span class="meta-pill live-pill">🔴 Masterclass: Sat 7:00 PM WAT</span>
+        <span class="meta-pill review-pill">🎯 Project Review: Sun 6:00 PM WAT</span>
+      </div>
+      <h1 class="hero-title">Technical PRD Writing & Acceptance Criteria</h1>
+      <p class="hero-subtitle">
+        Write specifications that engineers love to build. Learn how to define functional vs. non-functional requirements, write Gherkin acceptance criteria (Given-When-Then), and dissect the PRD for <strong>Airbnb's Instant Book</strong> and <strong>WhatsApp's End-to-End Encryption</strong>.
+      </p>
+      <div class="hero-quick-stats">
+        <div class="stat-box">
+          <span class="stat-num">FR vs NFR</span>
+          <span class="stat-label">Requirement Precision</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">Given-When-Then</span>
+          <span class="stat-label">Gherkin Acceptance Criteria</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">Airbnb & WhatsApp</span>
+          <span class="stat-label">Production Feature PRDs</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">10 Marks</span>
+          <span class="stat-label">Individual Deliverable #4</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="sub-nav">
+    <div class="sub-nav-container">
+      <a href="#prd-anatomy" class="sub-link active">1. Anatomy of a Tech PRD</a>
+      <a href="#fr-vs-nfr" class="sub-link">2. Functional vs Non-Functional</a>
+      <a href="#acceptance-criteria" class="sub-link">3. Gherkin Acceptance Criteria</a>
+      <a href="#case-studies" class="sub-link">4. Airbnb & WhatsApp Case Studies</a>
+      <a href="#prd-builder" class="sub-link">5. Interactive PRD Builder</a>
+      <a href="#deliverables" class="sub-link">6. Deliverables & Template</a>
+    </div>
+  </nav>
+
+  <main class="main-container">
+
+    <!-- 1. Anatomy of a Tech PRD -->
+    <section id="prd-anatomy" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 4.1</span>
+        <h2>What Makes a Technical PRD Different?</h2>
+      </div>
+      <p class="lead-text">
+        A standard marketing PRD says: <em>"Allow users to instant-book homes."</em> A <strong>Technical PRD</strong> specifies the distributed concurrency lock, the database transaction isolation level (to prevent double bookings), API response schemas, latency SLAs, and edge-case fallbacks.
+      </p>
+
+      <div class="grid-3-col">
+        <div class="concept-card">
+          <div class="concept-icon">🎯</div>
+          <h3>1. Problem & Business Metrics</h3>
+          <p>Why are we building this now? What is the measurable metric of success (e.g. increase booking conversion by 14%, reduce API latency under 250ms)?</p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-icon">⚙️</div>
+          <h3>2. System Contracts & Data Schemas</h3>
+          <p>Direct references to API endpoints, JSON payload parameters, database entity mutations, and third-party service dependencies.</p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-icon">🛡️</div>
+          <h3>3. Edge Cases & Degraded States</h3>
+          <p>What happens if the SMS provider lags? What happens if two guests click "Book" in the exact same millisecond? What if payment times out?</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. FR vs NFR -->
+    <section id="fr-vs-nfr" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 4.2</span>
+        <h2>Functional Requirements (FR) vs. Non-Functional Requirements (NFR)</h2>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="info-callout primary">
+          <h3>Functional Requirements (FR)</h3>
+          <p><em>"What the system must explicitly do."</em></p>
+          <ul class="bullet-list">
+            <li><strong>FR-1:</strong> The system shall allow guests to filter listings by "Instant Bookable".</li>
+            <li><strong>FR-2:</strong> The system shall automatically charge the saved payment method upon booking confirmation.</li>
+            <li><strong>FR-3:</strong> The system shall dispatch a confirmation email and SMS to both host and guest within 10 seconds.</li>
+          </ul>
+        </div>
+        <div class="info-callout secondary">
+          <h3>Non-Functional Requirements (NFR)</h3>
+          <p><em>"How well the system must perform."</em></p>
+          <ul class="bullet-list">
+            <li><strong>Latency:</strong> The Instant Book API endpoint must return a response in &lt; 400ms at the P95 percentile.</li>
+            <li><strong>Concurrency / Idempotency:</strong> The calendar reservation engine must use Redis distributed locks (Redlock) to guarantee zero double bookings.</li>
+            <li><strong>Availability:</strong> 99.99% uptime SLA for checkout services.</li>
+            <li><strong>Security:</strong> All credit card data must be tokenized via PCI-DSS Level 1 compliant vault.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Acceptance Criteria & Gherkin -->
+    <section id="acceptance-criteria" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 4.3</span>
+        <h2>Acceptance Criteria: The Gherkin Standard (Given-When-Then)</h2>
+      </div>
+      <p class="lead-text">
+        Engineers and QA teams write automated integration tests directly against your acceptance criteria. Vague statements like "it should work quickly" cause bugs; explicit Gherkin specifications eliminate ambiguity.
+      </p>
+
+      <div class="gherkin-card">
+        <div class="gherkin-badge">Gherkin Syntax Example: Airbnb Instant Book</div>
+        <pre class="code-area"><code><strong>Scenario:</strong> Guest successfully completes an Instant Book on an available calendar date
+  <strong>Given</strong> a verified guest is logged in with a valid payment method on file
+  <strong>And</strong> listing #44021 has Instant Book enabled by host
+  <strong>And</strong> the dates 2026-12-01 to 2026-12-05 are marked as "Available"
+  <strong>When</strong> the guest clicks the "Instant Book Now" button
+  <strong>Then</strong> a distributed lock is acquired on listing #44021 for 60 seconds
+  <strong>And</strong> a payment authorization for $450 is submitted to Stripe
+  <strong>And</strong> the booking status transitions to "CONFIRMED"
+  <strong>And</strong> the dates are immediately marked as "RESERVED" in the calendar service
+  <strong>And</strong> an HTTP 201 response is returned to the client in &lt; 500ms.</code></pre>
+      </div>
+    </section>
+
+    <!-- 4. Public Product Case Studies -->
+    <section id="case-studies" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 4.4: Real-World Public Product Case Studies</span>
+        <h2>Case Studies: Airbnb "Instant Book" & WhatsApp E2EE</h2>
+      </div>
+
+      <div class="tab-control">
+        <button class="tab-btn active" data-tab="airbnb-case">🏡 Case Study 1: Airbnb Instant Book</button>
+        <button class="tab-btn" data-tab="whatsapp-case">💬 Case Study 2: WhatsApp End-to-End Encryption</button>
+      </div>
+
+      <!-- Airbnb Pane -->
+      <div id="airbnb-case" class="tab-pane active">
+        <div class="case-header">
+          <div class="case-badge">Airbnb, Inc.</div>
+          <h3>How Airbnb Solved the Double-Booking Race Condition</h3>
+          <p>Historically, Airbnb required guests to send a message and wait up to 24 hours for a host to accept. "Instant Book" transformed conversion, but introduced extreme technical concurrency challenges.</p>
+        </div>
+
+        <div class="breakdown-grid">
+          <div class="breakdown-card">
+            <div class="card-tag frontend">The Technical Problem</div>
+            <h4>Distributed Race Conditions</h4>
+            <p>What happens if Guest A and Guest B both click "Instant Book" for the same Parisian loft in the exact same second? If the database isn't isolated properly, both get charged and arrive at the same door!</p>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag backend">The TPM Solution</div>
+            <h4>Distributed Lock + Optimistic Locking</h4>
+            <p>Airbnb's TPM specified a temporary distributed lock on the listing date range using Redis. Guest A gets the lock; Guest B's transaction immediately fails with a clean UI notification: <em>"Someone is currently reserving these dates."</em></p>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag database">Data Consistency</div>
+            <h4>Host Rule Matrix Evaluation</h4>
+            <p>Before confirming, the backend evaluates 12 host rules in &lt; 50ms: Minimum star rating (&gt;4.5), government ID verified, no negative reviews, and minimum stay notice.</p>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag apis">Edge Case Handling</div>
+            <h4>Host Calendar Sync (iCal)</h4>
+            <p>If the host also lists on Booking.com, Airbnb continuously ingests background iCal feeds to block external bookings before an Instant Book is confirmed.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- WhatsApp Pane -->
+      <div id="whatsapp-case" class="tab-pane">
+        <div class="case-header">
+          <div class="case-badge">WhatsApp / Meta</div>
+          <h3>Technical Specs for 2 Billion Encrypted Users</h3>
+          <p>WhatsApp's End-to-End Encryption (Signal Protocol) ensures that not even WhatsApp servers or governments can read private chats.</p>
+        </div>
+
+        <div class="breakdown-grid">
+          <div class="breakdown-card">
+            <div class="card-tag backend">Cryptographic Architecture</div>
+            <h4>Double Ratchet Algorithm</h4>
+            <p>Every single message generates a brand new ephemeral encryption key. Even if a hacker compromises today's key, they cannot decrypt past or future messages (Forward Secrecy).</p>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag database">Store and Forward</div>
+            <h4>Zero Message Storage on Servers</h4>
+            <p>WhatsApp servers only act as transient relays. Once a message is delivered to the recipient's phone, it is permanently deleted from WhatsApp servers!</p>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag apis">Offline Queuing</div>
+            <h4>Handling Disconnected Clients</h4>
+            <p>If the recipient's phone is off, the encrypted blob stays in an Erlang server queue for up to 30 days, waiting for a push notification wakeup.</p>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag frontend">TPM Lesson</div>
+            <h4>Security vs User Experience</h4>
+            <p>The TPM designed security number verification: if a contact gets a new phone, WhatsApp displays a subtle chat notification rather than blocking the conversation entirely.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Interactive PRD Builder -->
+    <section id="prd-builder" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Interactive Teaching Tool</span>
+        <h2>Interactive Technical PRD Generator</h2>
+      </div>
+      <p>Configure your feature parameters below. The tool will automatically structure a production-grade Technical PRD with functional specs, non-functional requirements, and Gherkin acceptance criteria:</p>
+
+      <div class="prd-builder-wrapper">
+        <div class="prd-input-grid">
+          <div class="input-group">
+            <label>Feature Name:</label>
+            <input type="text" id="prdFeatureName" class="form-input" value="Instant Checkout with Biometrics">
+          </div>
+          <div class="input-group">
+            <label>Target Product:</label>
+            <input type="text" id="prdProductName" class="form-input" value="Fintech Mobile App">
+          </div>
+          <div class="input-group">
+            <label>Primary Success KPI:</label>
+            <input type="text" id="prdKpi" class="form-input" value="Reduce checkout abandonment from 32% to 18%">
+          </div>
+          <div class="input-group">
+            <label>Max Latency SLA (ms):</label>
+            <input type="number" id="prdLatency" class="form-input" value="350">
+          </div>
+        </div>
+
+        <div class="builder-actions">
+          <button id="generatePrdBtn" class="primary-btn">⚡ Generate Technical PRD Markdown</button>
+        </div>
+
+        <div class="prd-preview-pane">
+          <div class="pane-title">Generated Technical PRD Preview</div>
+          <textarea id="prdOutputArea" class="code-area" style="height: 280px;" readonly></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Student Deliverables -->
+    <section id="deliverables" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Course Deliverables</span>
+        <h2>Week 04 Assignment & Capstone Milestone</h2>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="deliverable-box">
+          <div class="deliv-badge individual">Individual Assignment (10 Marks)</div>
+          <h3>Feature PRD with Technical Specifications</h3>
+          <p class="deliv-deadline">⏰ Due: Sunday, Nov 29, 2026 before 11:59 PM WAT</p>
+          <p>Write a complete Feature PRD for one new feature in your case study product:</p>
+          <ol class="step-list">
+            <li><strong>Problem Statement & Business Goals:</strong> Quantifiable metric.</li>
+            <li><strong>3 Functional Requirements (FRs):</strong> Detailed system actions.</li>
+            <li><strong>3 Non-Functional Requirements (NFRs):</strong> Latency, uptime, security.</li>
+            <li><strong>2 Gherkin Acceptance Criteria:</strong> Given-When-Then scenarios (one happy path, one edge case/failure path).</li>
+            <li><strong>API Contract Draft:</strong> Primary endpoint URL, request body schema, and response.</li>
+          </ol>
+          <div class="rubric-mini">
+            <h4>Marking Rubric (Total: 10 Marks)</h4>
+            <ul>
+              <li>Problem clarity & measurable KPIs: <strong>2 Marks</strong></li>
+              <li>Precision of FRs & NFRs: <strong>3 Marks</strong></li>
+              <li>Gherkin acceptance criteria quality: <strong>3 Marks</strong></li>
+              <li>API contract & edge-case completeness: <strong>2 Marks</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="deliverable-box">
+          <div class="deliv-badge team">Team Capstone (Phase 4 of 6)</div>
+          <h3>Capstone Master PRD Draft</h3>
+          <p class="deliv-deadline">👥 Collaborative Team Milestone</p>
+          <p>Teams compile their comprehensive Capstone Product Requirements Document:</p>
+
+          <div class="checklist-card">
+            <h4>Week 4 Team Goals:</h4>
+            <label class="check-item"><input type="checkbox"> Assemble full Capstone PRD in Google Docs / Notion</label>
+            <label class="check-item"><input type="checkbox"> Consolidate architecture diagrams and ERD from Weeks 1-3</label>
+            <label class="check-item"><input type="checkbox"> Include all functional user stories with Gherkin acceptance criteria</label>
+            <label class="check-item"><input type="checkbox"> Review draft with facilitator in Sunday Project Review</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="template-box">
+        <div class="template-info">
+          <h4>📄 Week 4 Master PRD Markdown Template</h4>
+          <p>Copy this standardized markdown template for your submission:</p>
+        </div>
+        <button id="copyTemplateBtn" class="primary-btn">📋 Copy Markdown Template</button>
+      </div>
+      <textarea id="templateText" class="template-textarea" readonly>
+# Technical Product Requirements Document (PRD)
+**Feature Name:** [Feature Title]
+**Product:** [Product Name]
+**Author (TPM):** [Your Full Name]
+**Target Release:** Q1 2027
+**Status:** [Draft / Under Review / Approved]
+
+## 1. Problem Statement & Objectives
+- **User Problem:** 
+- **Business Impact:** 
+- **Success Metrics (KPIs):** 
+
+## 2. Scope & User Personas
+- **In Scope:** 
+- **Out of Scope (Post-MVP):** 
+- **Target Persona:** 
+
+## 3. Functional Requirements (FR)
+- **FR-1:** 
+- **FR-2:** 
+- **FR-3:** 
+
+## 4. Non-Functional Requirements (NFR)
+- **Performance / Latency SLA:** Maximum [X]ms at P95 percentile.
+- **Availability / Reliability:** 99.9% uptime with automated health checks.
+- **Security & Compliance:** 
+- **Data Retention & Caching:** 
+
+## 5. Acceptance Criteria (Gherkin Syntax)
+### Scenario 1: Happy Path
+- **Given** [Initial system state]
+- **When** [User triggers action]
+- **Then** [Expected outcome and database state]
+
+### Scenario 2: Error / Fallback State
+- **Given** [Degraded condition or invalid input]
+- **When** [User submits request]
+- **Then** [Error code and recovery guidance displayed]
+
+## 6. Technical Architecture & API Contract
+- **Endpoint:** `POST /api/v1/...`
+- **Request Schema:**
+- **Response Schema:**
+- **Failure Modes & Fallback:**
+      </textarea>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>Product Bosslady Academy (PBA) • Product Career Internship Program (PCIP) • Technical Product Management Track</p>
+      <p class="footer-sub">Week 04 Curriculum • November 2026 – February 2027 • Facilitated by Oyindamola Oye-Daniel</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

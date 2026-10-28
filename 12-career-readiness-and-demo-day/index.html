@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 12: Career Readiness and Demo Day | PCIP TPM Track</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand-group">
+        <a href="../index.html" class="back-portal-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Master Portal
+        </a>
+        <span class="divider">/</span>
+        <span class="badge-week">Week 12 of 12 (FINALE)</span>
+      </div>
+      <div class="nav-title">Career Readiness and Demo Day</div>
+      <div class="nav-actions">
+        <button id="themeToggle" class="icon-btn" title="Toggle Theme">🌓</button>
+        <a href="../11-portfolio-and-career-in-tpm/index.html" class="nav-prev-btn">← Week 11</a>
+        <a href="../index.html" class="nav-next-btn">Master Portal 🏆</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="meta-pill-group">
+        <span class="meta-pill date-pill">📅 Jan 31 – Feb 5, 2027</span>
+        <span class="meta-pill live-pill">🔴 Demo Day Masterclass: Sat 7:00 PM WAT</span>
+        <span class="meta-pill review-pill">🎓 Graduation & Certification</span>
+      </div>
+      <h1 class="hero-title">Career Readiness, Capstone Defense & Demo Day</h1>
+      <p class="hero-subtitle">
+        The culmination of your 12-week Technical Product Management journey. Deliver your 10-minute executive architecture presentation, defend technical decisions before senior engineering facilitators, celebrate completion, and calculate your final standing on the <strong>300-Mark PBA Grading Scale</strong>.
+      </p>
+      <div class="hero-quick-stats">
+        <div class="stat-box">
+          <span class="stat-num">10 Mins</span>
+          <span class="stat-label">Capstone Pitch Duration</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">300 Marks</span>
+          <span class="stat-label">Total Assessment System</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">Executive Defense</span>
+          <span class="stat-label">Facilitator Technical Q&A</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">Certificate</span>
+          <span class="stat-label">PBA Graduation Credential</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="sub-nav">
+    <div class="sub-nav-container">
+      <a href="#pitch-breakdown" class="sub-link active">1. 10-Min Pitch Blueprint</a>
+      <a href="#technical-defense" class="sub-link">2. Defending Your Architecture</a>
+      <a href="#grading-system" class="sub-link">3. 300-Mark Assessment System</a>
+      <a href="#demo-timer" class="sub-link">4. Pitch Timer & Presentation Tool</a>
+      <a href="#final-rubric" class="sub-link">5. Final Presentation Rubric</a>
+    </div>
+  </nav>
+
+  <main class="main-container">
+
+    <!-- 1. 10-Min Pitch Blueprint -->
+    <section id="pitch-breakdown" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 12.1</span>
+        <h2>The 10-Minute Executive Technical Pitch Architecture</h2>
+      </div>
+      <p class="lead-text">
+        In executive tech reviews, time is ruthless. Every minute must demonstrate technical rigor, strategic clarity, and confident delivery:
+      </p>
+
+      <div class="table-responsive">
+        <table class="tpm-table">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Slide / Topic</th>
+              <th>What to Present</th>
+              <th>TPM Pro Tip</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>00:00 – 01:00</strong></td>
+              <td>1. Problem & Product Scope</td>
+              <td>Target user, business pain point, quantifiable success KPI.</td>
+              <td>Do not linger on storyboards; get to system architecture fast!</td>
+            </tr>
+            <tr>
+              <td><strong>01:00 – 03:00</strong></td>
+              <td>2. System Architecture Blueprint</td>
+              <td>3-tier architecture, API Gateway, microservices, and external APIs.</td>
+              <td>Highlight synchronous vs asynchronous paths clearly.</td>
+            </tr>
+            <tr>
+              <td><strong>03:00 – 04:30</strong></td>
+              <td>3. ERD & Data Relationships</td>
+              <td>Core relational entities, primary/foreign keys, and data indexing.</td>
+              <td>Explain why you picked PostgreSQL over MongoDB (or vice versa).</td>
+            </tr>
+            <tr>
+              <td><strong>04:30 – 06:00</strong></td>
+              <td>4. API Design & Webhook Contracts</td>
+              <td>Primary endpoint payloads, idempotency keys, and error status codes.</td>
+              <td>Show a real JSON request/response schema on the slide.</td>
+            </tr>
+            <tr>
+              <td><strong>06:00 – 07:30</strong></td>
+              <td>5. Scalability & Performance Strategy</td>
+              <td>Peak traffic model (RPS), Redis caching layer, read replicas.</td>
+              <td>Explain what component would fail first without optimizations.</td>
+            </tr>
+            <tr>
+              <td><strong>07:30 – 08:30</strong></td>
+              <td>6. Security & SRE Reliability</td>
+              <td>OAuth 2.0 / JWT auth flow, OWASP mitigation (BOLA), and 99.9% SLO.</td>
+              <td>State your allowed monthly downtime in minutes.</td>
+            </tr>
+            <tr>
+              <td><strong>08:30 – 10:00</strong></td>
+              <td>7. Live Demo & Facilitator Q&A</td>
+              <td>Walk through the compiled documentation artifact or live prototype.</td>
+              <td>Defend decisions calmly with data and benchmarks.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 2. Technical Defense -->
+    <section id="technical-defense" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 12.2</span>
+        <h2>How to Defend Technical Decisions Under Fire</h2>
+      </div>
+      <p class="lead-text">
+        During Demo Day, facilitators will test your architectural conviction. Here is how to answer challenging facilitator prompts:
+      </p>
+
+      <div class="grid-2-col">
+        <div class="info-callout primary">
+          <h3>Facilitator: <em>"Why did you choose PostgreSQL instead of MongoDB?"</em></h3>
+          <p><strong>Strong TPM Defense:</strong> <em>"Our core product domain involves financial checkout transactions and strict inventory counts. We required ACID guarantees with foreign key constraints so an order can never exist without a valid user ID. While MongoDB offers flexible schemas, our data model is highly structured and relational. We chose PostgreSQL and added Redis for flexible caching."</em></p>
+        </div>
+        <div class="info-callout secondary">
+          <h3>Facilitator: <em>"What happens if your third-party payment gateway goes down?"</em></h3>
+          <p><strong>Strong TPM Defense:</strong> <em>"We implemented a Netflix Hystrix circuit-breaker pattern. If Stripe exceeds a 500ms timeout for 5 consecutive calls, the circuit trips. The checkout UI degrades gracefully: we notify the user with an expected wait timer and queue the order in a Kafka Dead-Letter Queue rather than dropping the transaction."</em></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. PBA 300-Mark Grading System -->
+    <section id="grading-system" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 12.3</span>
+        <h2>The PBA 300-Mark Assessment & Grading Classification</h2>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="table-responsive">
+          <table class="tpm-table">
+            <thead>
+              <tr>
+                <th>Assessment Category</th>
+                <th>Marks</th>
+                <th>Weight</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Weekly learning & individual assignments (12 × 10 marks)</td>
+                <td><strong>120</strong></td>
+                <td>40%</td>
+              </tr>
+              <tr>
+                <td>Team capstone project (Milestones 40, Demo 35, Feasibility 15, Collab 10)</td>
+                <td><strong>100</strong></td>
+                <td>33.3%</td>
+              </tr>
+              <tr>
+                <td>Individual final project & portfolio (Quality 20, Decisions 10, Presentation 10, Defense 10)</td>
+                <td><strong>50</strong></td>
+                <td>16.7%</td>
+              </tr>
+              <tr>
+                <td>Attendance & participation (24 sessions × 1 mark + 6 conduct)</td>
+                <td><strong>30</strong></td>
+                <td>10%</td>
+              </tr>
+              <tr style="background: rgba(245, 158, 11, 0.1);">
+                <td><strong>TOTAL</strong></td>
+                <td><strong style="color: #f59e0b;">300</strong></td>
+                <td><strong>100%</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-responsive">
+          <table class="tpm-table">
+            <thead>
+              <tr>
+                <th>Final Percentage</th>
+                <th>Grade</th>
+                <th>Remarks</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>90–100%</td><td><span class="grade-pill a-plus">A+</span></td><td>Distinction / Outstanding</td></tr>
+              <tr><td>80–89%</td><td><span class="grade-pill a">A</span></td><td>Excellent Performance</td></tr>
+              <tr><td>70–79%</td><td><span class="grade-pill b-plus">B+</span></td><td>Very Good</td></tr>
+              <tr><td>60–69%</td><td><span class="grade-pill b">B</span></td><td>Good Competence</td></tr>
+              <tr><td>50–59%</td><td><span class="grade-pill c">C</span></td><td>Pass (Minimum for Certificate)</td></tr>
+              <tr><td>Below 50%</td><td><span class="grade-pill f">F</span></td><td>Did not meet requirements</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Interactive Pitch Timer -->
+    <section id="demo-timer" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Interactive Teaching Tool</span>
+        <h2>Interactive 10-Minute Pitch Countdown Timer</h2>
+      </div>
+      <p>Rehearse your Demo Day presentation. Start the timer to follow real-time slide pacing reminders:</p>
+
+      <div class="timer-wrapper">
+        <div class="timer-display">
+          <span id="timerClock">10:00</span>
+          <span id="timerSlideReminder" class="timer-cue">Slide 1: Problem & Product Scope</span>
+        </div>
+
+        <div class="timer-controls">
+          <button id="startTimerBtn" class="primary-btn" style="background: #10b981;">▶ Start Rehearsal</button>
+          <button id="pauseTimerBtn" class="primary-btn" style="background: #f59e0b;">⏸ Pause</button>
+          <button id="resetTimerBtn" class="primary-btn" style="background: rgba(255,255,255,0.08);">🔄 Reset (10:00)</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Final Presentation Rubric -->
+    <section id="final-rubric" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Graduation Criteria</span>
+        <h2>Final Presentation & Individual Defense Rubric</h2>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="deliverable-box">
+          <div class="deliv-badge individual">Individual Defense (50 Marks)</div>
+          <h3>Individual Project & Portfolio Defense</h3>
+          <ul class="bullet-list">
+            <li><strong>Project Quality & Completeness (20 Marks):</strong> PRD, ERD, API contracts, and architecture depth.</li>
+            <li><strong>Technical Analysis & Decisions (10 Marks):</strong> Sound reasoning for database, caching, and network choices.</li>
+            <li><strong>Documentation Presentation (10 Marks):</strong> Clarity, readability, and visual diagram formatting.</li>
+            <li><strong>Explain & Defend Decisions (10 Marks):</strong> Poise and accuracy answering facilitator questions.</li>
+          </ul>
+        </div>
+
+        <div class="deliverable-box">
+          <div class="deliv-badge team">Team Capstone (100 Marks)</div>
+          <h3>Team Capstone Demonstration</h3>
+          <ul class="bullet-list">
+            <li><strong>Progress Milestones & Reviews (40 Marks):</strong> Consistent weekly delivery across Weeks 1–10.</li>
+            <li><strong>Final Deliverable & Live Demo (35 Marks):</strong> Functioning prototype or compiled architecture artifact.</li>
+            <li><strong>Product Thinking & Feasibility (15 Marks):</strong> Solves real user need with viable tech stack.</li>
+            <li><strong>Team Collaboration & Contribution (10 Marks):</strong> Demonstrated contribution from all members.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="congrats-card">
+        <h3>🎉 Congratulations on Completing the PCIP Technical PM Track!</h3>
+        <p>You now possess the foundational systems thinking, API specifications, and architectural frameworks to lead engineering teams and shape world-class digital products.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #9ca3af;"><em>"Build. Grow. Scale Your Product Journey." — Oyindamola Oye-Daniel, Product Bosslady Academy</em></p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>Product Bosslady Academy (PBA) • Product Career Internship Program (PCIP) • Technical Product Management Track</p>
+      <p class="footer-sub">Curriculum Session: November 2026 – February 2027 • Facilitated by Oyindamola Oye-Daniel</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

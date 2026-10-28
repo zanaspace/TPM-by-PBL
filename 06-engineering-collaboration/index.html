@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 06: Engineering Collaboration | PCIP TPM Track</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Navigation Header -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand-group">
+        <a href="../index.html" class="back-portal-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          All Weeks
+        </a>
+        <span class="divider">/</span>
+        <span class="badge-week">Week 06 of 12</span>
+      </div>
+      <div class="nav-title">Technical Product Management Track</div>
+      <div class="nav-actions">
+        <button id="themeToggle" class="icon-btn" title="Switch dark / light mode" aria-label="Switch dark or light mode">🌓</button>
+        <a href="../05-agile-and-engineering-workflows/index.html" class="nav-prev-btn">← Week 5</a>
+        <a href="../07-debugging-and-issue-tracking/index.html" class="nav-next-btn">
+          Next: Week 7
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Progress bar -->
+  <div class="read-progress"><div id="readProgress" class="read-progress-fill"></div></div>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="meta-pill-group">
+        <span class="meta-pill">📅 Dec 7 – 13, 2026</span>
+        <span class="meta-pill live-pill">🔴 Class: Saturday 7:00 PM WAT</span>
+        <span class="meta-pill review-pill">🎯 Project Review: Sunday 6:00 PM WAT</span>
+      </div>
+      <h1 class="hero-title">Working Well with Engineers</h1>
+      <p class="hero-subtitle">
+        You've planned the work (Weeks 4 and 5). Now engineers write the code. This week you'll learn how code travels from an
+        engineer's laptop to customers — using <strong>Git</strong> and <strong>pull requests</strong> — how to talk with engineers so they trust you,
+        and how to break features into tasks. Then you'll sit at the <strong>PR Review Desk</strong> and decide which changes are ready to ship.
+      </p>
+
+      <div class="goals-box">
+        <h2 class="goals-title">By the end of this week, you will be able to:</h2>
+        <ul class="goals-list">
+          <li><span class="goal-check">✓</span> Explain branches, commits, pull requests and merging in plain words</li>
+          <li><span class="goal-check">✓</span> Say what automatic checks (CI) do, and why a red check matters</li>
+          <li><span class="goal-check">✓</span> Review a pull request as a TPM — and know what to leave to engineers</li>
+          <li><span class="goal-check">✓</span> Communicate clearly and respectfully with engineers</li>
+          <li><span class="goal-check">✓</span> Break a feature into tasks across database, backend, frontend and testing</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Topic Navigation -->
+  <nav class="sub-nav" aria-label="Lesson sections">
+    <div class="sub-nav-container">
+      <a href="#code-journey" class="sub-link active">1. How Code Travels</a>
+      <a href="#talking" class="sub-link">2. Talking with Engineers</a>
+      <a href="#breakdown" class="sub-link">3. Breaking Work Down</a>
+      <a href="#simulation" class="sub-link">4. ▶ PR Review Desk</a>
+      <a href="#case-studies" class="sub-link">5. GitHub &amp; GitLab</a>
+      <a href="#quiz" class="sub-link">6. Quick Quiz</a>
+      <a href="#assignment" class="sub-link">7. Assignment</a>
+      <a href="#word-bank" class="sub-link">8. Word Bank</a>
+    </div>
+  </nav>
+
+  <main class="main-container">
+
+    <!-- 1. Code journey -->
+    <section id="code-journey" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 1</span>
+        <h2>How code travels from a laptop to customers</h2>
+      </div>
+
+      <div class="big-definition">
+        <p><strong>Git</strong> is a tool that keeps every version of the code, so many engineers can work at the same time without overwriting each other.</p>
+        <p>Think of a <strong>shared recipe book</strong> in a restaurant. Nobody scribbles straight into the main book. You copy a recipe, try your changes, and ask the head chef to check before it goes into the book.</p>
+      </div>
+
+      <div class="grid-3-col">
+        <div class="concept-card">
+          <div class="concept-icon">🌿</div>
+          <h3>Branch = your own copy</h3>
+          <p>The <code>main</code> branch is the code customers use. An engineer makes a <strong>branch</strong> (e.g. <code>feature/save-card</code>) to work safely without breaking <code>main</code>.</p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-icon">💾</div>
+          <h3>Commit = a save point</h3>
+          <p>Like a checkpoint in a video game. Each <strong>commit</strong> saves a small change with a note, e.g. "Add save-card checkbox". You can always go back.</p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-icon">🙋🏽</div>
+          <h3>Pull request = "please check my work"</h3>
+          <p>A <strong>pull request (PR)</strong> asks the team to review the changes before they are <strong>merged</strong> (joined) into <code>main</code>. GitLab calls it a <em>merge request</em>.</p>
+        </div>
+      </div>
+
+      <!-- Journey stepper -->
+      <div class="journey">
+        <div class="journey-head">
+          <h3>▶ Watch it happen: Tobi builds "Save card"</h3>
+          <span class="step-counter" id="jCounter">Step 1 of 10</span>
+        </div>
+        <svg class="git-graph" id="gitGraph" viewBox="0 0 760 210" role="img" aria-label="Git branch diagram that grows step by step">
+          <!-- main line -->
+          <line class="g-line g-main" x1="20" y1="60" x2="740" y2="60" data-step="1"/>
+          <text class="g-label g-main-label" x="20" y="38" data-step="1">main (what customers use)</text>
+          <circle class="g-dot g-main-dot" cx="60" cy="60" r="9" data-step="1"/>
+          <!-- branch -->
+          <path class="g-line g-branch" d="M60 60 C 100 60, 110 150, 150 150 L 470 150 C 510 150, 520 60, 560 60" data-step="2"/>
+          <text class="g-label g-branch-label" x="60" y="194" data-step="2">feature/save-card (Tobi's copy)</text>
+          <circle class="g-dot g-branch-dot" cx="200" cy="150" r="9" data-step="3"/>
+          <text class="g-tiny" x="200" y="128" data-step="3">💾 1</text>
+          <circle class="g-dot g-branch-dot" cx="280" cy="150" r="9" data-step="4"/>
+          <text class="g-tiny" x="280" y="128" data-step="4">💾 2</text>
+          <g data-step="5"><rect class="g-pr" x="315" y="88" width="90" height="26" rx="13"/><text class="g-pr-text" x="360" y="106">PR #41</text></g>
+          <g data-step="6"><text class="g-tiny" x="390" y="194">🤖 checks ✅</text></g>
+          <circle class="g-dot g-branch-dot" cx="440" cy="150" r="9" data-step="7"/>
+          <text class="g-tiny" x="440" y="128" data-step="7">💾 3 fix</text>
+          <circle class="g-dot g-main-dot g-other" cx="330" cy="60" r="9" data-step="8"/>
+          <text class="g-tiny" x="330" y="38" data-step="8">Ada's change</text>
+          <circle class="g-dot g-merge-dot" cx="560" cy="60" r="12" data-step="9"/>
+          <text class="g-tiny" x="560" y="38" data-step="9">🔀 merged</text>
+          <g data-step="10"><rect class="g-live" x="610" y="80" width="130" height="30" rx="8"/><text class="g-live-text" x="675" y="100">🚀 live (flag: 5%)</text></g>
+        </svg>
+        <div class="journey-text">
+          <h4 id="jTitle"></h4>
+          <p id="jText"></p>
+          <p class="journey-tpm" id="jTpm"></p>
+        </div>
+        <div class="step-controls">
+          <button class="ghost-btn" id="jPrev">← Back</button>
+          <button class="primary-btn" id="jNext">Next step →</button>
+          <button class="ghost-btn" id="jReset">↺ Start again</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Talking with engineers -->
+    <section id="talking" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 2</span>
+        <h2>Talking with engineers so they trust you</h2>
+      </div>
+      <p>Engineers work best with TPMs who are clear, curious and respectful of their time. You don't need to write code — but how you ask matters a lot.</p>
+
+      <div class="tips-grid">
+        <div class="tip"><span class="tip-icon">🎯</span><div><strong>Bring the problem, not the solution</strong><p>Say <em>what</em> users need and <em>why</em>. Let engineers suggest <em>how</em> — they often find a simpler way.</p></div></div>
+        <div class="tip"><span class="tip-icon">🚫</span><div><strong>Avoid the word "just"</strong><p>"Can you <em>just</em> add a button?" makes hard work sound easy. Ask "How big is this?" instead.</p></div></div>
+        <div class="tip"><span class="tip-icon">🎧</span><div><strong>Protect focus time</strong><p>Coding needs long, quiet blocks. Group your questions, and don't ping someone for every small thing.</p></div></div>
+        <div class="tip"><span class="tip-icon">📝</span><div><strong>Write it down</strong><p>Decisions made in a hallway get forgotten. Put them in the ticket or PRD so everyone sees the same thing.</p></div></div>
+        <div class="tip"><span class="tip-icon">❓</span><div><strong>Ask, don't guess</strong><p>"I don't understand — can you explain it like I'm new?" builds trust. Pretending to understand breaks it.</p></div></div>
+        <div class="tip"><span class="tip-icon">⚖️</span><div><strong>Talk in trade-offs</strong><p>"If we do X this sprint, what do we give up?" is better than "Can we have everything by Friday?"</p></div></div>
+      </div>
+
+      <div class="game-card" id="sayGame">
+        <div class="game-head">
+          <h3>🎮 Mini-game: Which message is better?</h3>
+          <span class="game-score" id="sayScore">Score: 0 / 0</span>
+        </div>
+        <p class="game-instructions">Read the situation. Which message would you send to the engineer?</p>
+        <div class="game-task say-task" id="sayTask">Loading…</div>
+        <div class="game-choices two-choices">
+          <button class="choice-btn say-btn" data-pick="a" id="sayA">A</button>
+          <button class="choice-btn say-btn" data-pick="b" id="sayB">B</button>
+        </div>
+        <div class="game-feedback" id="sayFeedback" aria-live="polite"></div>
+        <div class="game-foot">
+          <span id="sayProgress" class="game-progress"></span>
+          <button class="ghost-btn" id="sayNext" disabled>Next →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Breakdown -->
+    <section id="breakdown" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 3</span>
+        <h2>Breaking a feature into engineering tasks</h2>
+      </div>
+      <p>"Save my card for next time" is one line in the PRD, but several pieces of work for engineers — across the 4 parts of an app from Week 1. Small, clear tasks can be shared out, built in parallel and reviewed quickly.</p>
+
+      <div class="table-wrap">
+        <table class="task-table">
+          <thead><tr><th>Ticket</th><th>Part</th><th>What needs doing</th><th>Points</th><th>Needs first</th></tr></thead>
+          <tbody>
+            <tr><td><strong>ENG-201</strong></td><td><span class="layer l-data">🗄️ Database</span></td><td>Add a place to store a saved card's <strong>token</strong> (from the payment company) — never the real card number.</td><td>2</td><td>—</td></tr>
+            <tr><td><strong>ENG-202</strong></td><td><span class="layer l-back">⚙️ Backend</span></td><td>New API request <code>POST /v1/cards</code>: save the token after a successful payment.</td><td>3</td><td>ENG-201</td></tr>
+            <tr><td><strong>ENG-203</strong></td><td><span class="layer l-ext">🤝 Outside service</span></td><td>Ask PayBridge for a reusable card token (and handle their errors).</td><td>3</td><td>—</td></tr>
+            <tr><td><strong>ENG-204</strong></td><td><span class="layer l-front">📱 Frontend</span></td><td>"Save this card" checkbox (unticked by default) and showing "•••• 4081" next time.</td><td>3</td><td>— (can use fake data until ENG-202 is ready)</td></tr>
+            <tr><td><strong>ENG-205</strong></td><td><span class="layer l-qa">🔍 Testing</span></td><td>End-to-end tests: save, reuse, card expired, PayBridge down.</td><td>2</td><td>ENG-202, 203, 204</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note-text">💡 Notice ENG-204: the app team doesn't have to wait. If the API request is agreed first (Week 3!), they can build against <strong>fake (mock) data</strong> while the backend is being built.</p>
+
+      <div class="order-game" id="orderGame">
+        <div class="game-head">
+          <h3>🧩 Try it: put the tasks in a workable order</h3>
+          <span class="game-progress">Tap the tasks in the order they could be finished</span>
+        </div>
+        <p class="game-instructions">Feature: <strong>"Reorder your favourite meal"</strong>. Some tasks depend on others. There is more than one right answer — just don't build something before the thing it needs!</p>
+        <div class="order-pool" id="orderPool"></div>
+        <ol class="order-picked" id="orderPicked"></ol>
+        <div class="order-actions">
+          <button class="primary-btn" id="orderCheck" disabled>Check my order</button>
+          <button class="ghost-btn" id="orderReset">↺ Reset</button>
+        </div>
+        <div class="order-result" id="orderResult" hidden></div>
+      </div>
+    </section>
+
+    <!-- 4. Simulation -->
+    <section id="simulation" class="content-card demo-section">
+      <div class="card-header">
+        <span class="section-tag tag-live">▶ Simulation</span>
+        <h2>The PR Review Desk: what's ready to ship?</h2>
+      </div>
+      <p class="lead-text">
+        It's Thursday. Five pull requests for the <strong>saved-cards</strong> project are waiting. Engineers review the <em>code</em>; your job as TPM is to check
+        that each change does <strong>what customers need</strong> and is <strong>safe to ship</strong>. Open each PR, look at every tab, then decide.
+      </p>
+
+      <div class="desk">
+        <aside class="inbox">
+          <div class="inbox-head">
+            <h3>📥 Waiting for you</h3>
+            <span class="game-score" id="deskScore">0 / 5 reviewed</span>
+          </div>
+          <div class="inbox-list" id="inboxList"></div>
+          <div class="checklist-mini">
+            <h4>🧾 TPM review checklist</h4>
+            <ul>
+              <li>Does it match the ticket's acceptance criteria?</li>
+              <li>Are error states handled for the user?</li>
+              <li>Are the automatic checks green?</li>
+              <li>Is it small enough to review safely?</li>
+              <li>Did you try it in the preview?</li>
+            </ul>
+            <p class="muted small">Code style and naming? Leave those to engineers.</p>
+          </div>
+        </aside>
+
+        <div class="pr-view" id="prView">
+          <div class="pr-top">
+            <div class="pr-title-row">
+              <span class="pr-state" id="prState">🟢 Open</span>
+              <h3 id="prTitle"></h3>
+            </div>
+            <div class="pr-meta" id="prMeta"></div>
+          </div>
+
+          <div class="pr-tabs" role="tablist">
+            <button class="pr-tab active" data-tab="overview" role="tab">📝 Overview</button>
+            <button class="pr-tab" data-tab="files" role="tab">📄 Files changed</button>
+            <button class="pr-tab" data-tab="checks" role="tab">🤖 Checks</button>
+            <button class="pr-tab" data-tab="preview" role="tab">📱 Preview</button>
+          </div>
+
+          <div class="pr-panel" id="prPanel"></div>
+          <p class="seen-note" id="seenNote"></p>
+
+          <div class="pr-decide" id="prDecide">
+            <h4>Your decision</h4>
+            <div class="decide-buttons">
+              <button class="decide-btn d-approve" data-decision="approve">✅ Approve</button>
+              <button class="decide-btn d-changes" data-decision="changes">💬 Request changes</button>
+              <button class="decide-btn d-leave" data-decision="leave">👩🏽‍💻 Leave it to the engineers</button>
+            </div>
+            <div class="reason-box" id="reasonBox" hidden>
+              <p class="muted small">What exactly needs changing? Pick the main reason:</p>
+              <div class="reason-list" id="reasonList"></div>
+            </div>
+          </div>
+          <div class="pr-verdict" id="prVerdict" hidden></div>
+        </div>
+      </div>
+
+      <div class="desk-summary" id="deskSummary" hidden></div>
+    </section>
+
+    <!-- 5. Case studies -->
+    <section id="case-studies" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 5</span>
+        <h2>Real examples: GitHub and GitLab</h2>
+      </div>
+      <p>The two most popular homes for code. Both shape how millions of engineers work together.</p>
+
+      <div class="tab-control">
+        <button class="tab-btn active" data-tab="github-case">🐙 GitHub</button>
+        <button class="tab-btn" data-tab="gitlab-case">🦊 GitLab</button>
+      </div>
+
+      <div id="github-case" class="tab-pane active">
+        <p class="case-intro"><strong>The story:</strong> GitHub (owned by Microsoft) is where most of the world's open-source code lives, with over 100 million developers. Pull requests, as most teams use them today, were made popular by GitHub.</p>
+        <div class="breakdown-grid">
+          <div class="breakdown-card bc-front">
+            <h4>🛡️ Rules on main</h4>
+            <ul class="clean-list">
+              <li>Teams can protect <code>main</code>: no merging unless, for example, 2 people approved and all checks are green.</li>
+              <li>The rules work even when people are in a hurry.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-back">
+            <h4>🤖 GitHub Actions</h4>
+            <ul class="clean-list">
+              <li>Robots run on every change: tests, style checks, security scans.</li>
+              <li>They can also build a <strong>preview</strong> link, so non-engineers (like you!) can try the change.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-data">
+            <h4>🐜 Small and often</h4>
+            <ul class="clean-list">
+              <li>Many teams merge small PRs into <code>main</code> several times a day, instead of keeping big branches for weeks.</li>
+              <li>Unfinished features stay hidden behind feature flags (Week 5).</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-ext">
+            <h4>⏱️ Size matters</h4>
+            <ul class="clean-list">
+              <li>A 50-line PR can be reviewed properly in minutes.</li>
+              <li>A 2,000-line PR often waits days — and reviewers miss more problems.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tpm-takeaway">
+          <strong>🎓 TPM lesson from GitHub:</strong> when you break work into small tickets (Part 3), you also get small PRs — which are reviewed faster and ship with fewer bugs.
+        </div>
+      </div>
+
+      <div id="gitlab-case" class="tab-pane">
+        <p class="case-intro"><strong>The story:</strong> GitLab is a similar tool — and a company with <strong>no offices</strong>. Thousands of staff work remotely across many countries, so they had to get very good at working <strong>in writing</strong>.</p>
+        <div class="breakdown-grid">
+          <div class="breakdown-card bc-front">
+            <h4>📖 A public handbook</h4>
+            <ul class="clean-list">
+              <li>GitLab's company handbook is public, with thousands of pages on how they work.</li>
+              <li>Anyone can suggest a change to it — with a merge request, just like code.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-back">
+            <h4>✍️ Write first, meet second</h4>
+            <ul class="clean-list">
+              <li>Big ideas start as a written proposal people comment on, in their own time zone.</li>
+              <li>Meetings are for what writing couldn't settle.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-data">
+            <h4>🗂️ Remember the "why"</h4>
+            <ul class="clean-list">
+              <li>Teams record important decisions (often called <strong>decision records</strong>): what was decided, and why.</li>
+              <li>A year later, new people understand why things are the way they are.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-ext">
+            <h4>🌍 Async by default</h4>
+            <ul class="clean-list">
+              <li>Nobody should need to be online at the same moment to make progress.</li>
+              <li>Clear tickets, PRs and docs replace "quick calls".</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tpm-takeaway">
+          <strong>🎓 TPM lesson from GitLab:</strong> clear writing is a superpower. A good ticket, PRD or PR comment saves hours of meetings — especially in remote teams.
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Quiz -->
+    <section id="quiz" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 6</span>
+        <h2>Quick quiz: check your understanding</h2>
+      </div>
+      <p>7 short questions. Tap an answer to see if you are right. No marks — this is just for practice.</p>
+      <div id="quizBox" class="quiz-box"></div>
+      <div class="quiz-result" id="quizResult" hidden></div>
+    </section>
+
+    <!-- 7. Assignment -->
+    <section id="assignment" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 7</span>
+        <h2>This week's work</h2>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="deliverable-box">
+          <div class="deliv-badge individual">Individual Assignment • 10 Marks</div>
+          <h3>Break one feature into engineering tasks</h3>
+          <p class="deliv-deadline">⏰ Due: Sunday, Dec 13, 2026, before 11:59 PM WAT</p>
+          <p>Take one feature from your <strong>Week 4 PRD</strong> and turn it into <strong>5 engineering tickets</strong>, like the table in Part 3:</p>
+          <ol class="step-list">
+            <li><strong>Cover the whole app:</strong> include database, backend, frontend and testing tasks (and outside services if needed).</li>
+            <li><strong>Clear description and acceptance criteria</strong> for each ticket.</li>
+            <li><strong>Order and dependencies:</strong> which ticket needs another one first? Which can happen at the same time?</li>
+            <li><strong>Story points</strong> for each ticket (1, 2, 3, 5, 8).</li>
+          </ol>
+          <div class="hint-box">💡 <strong>Tip:</strong> If a ticket is bigger than 5 points, try to split it. Small tickets mean small PRs — and faster, safer reviews.</div>
+
+          <div class="rubric-mini">
+            <h4>How you will be marked (10 marks)</h4>
+            <ul>
+              <li><span>Tasks cover all the parts of the app</span><strong>3</strong></li>
+              <li><span>Clear descriptions and acceptance criteria</span><strong>3</strong></li>
+              <li><span>Sensible order and dependencies</span><strong>2</strong></li>
+              <li><span>Neat layout and on-time submission</span><strong>2</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="deliverable-box">
+          <div class="deliv-badge team">Team Capstone • Phase 6 of 6</div>
+          <h3>Agree how your team works together</h3>
+          <p class="deliv-deadline">👥 Done together with your team</p>
+          <p>Set up the habits a real product team would use. Tick each item as you finish it (your ticks are saved on this device):</p>
+          <div class="checklist-card" id="capstoneChecklist">
+            <label class="check-item"><input type="checkbox" data-key="c1"> Created a shared GitHub (or GitLab) space for the team's documents</label>
+            <label class="check-item"><input type="checkbox" data-key="c2"> Agreed branch names, e.g. <code>feature/…</code> and <code>fix/…</code></label>
+            <label class="check-item"><input type="checkbox" data-key="c3"> Wrote a simple PR template (what changed, why, how to test, screenshots)</label>
+            <label class="check-item"><input type="checkbox" data-key="c4"> Agreed your team's Definition of Done</label>
+            <label class="check-item"><input type="checkbox" data-key="c5"> Ready to show it at Sunday's Project Review</label>
+          </div>
+          <div class="check-progress"><div class="check-progress-fill" id="checkFill"></div></div>
+          <p class="check-progress-text" id="checkText">0 of 5 done</p>
+        </div>
+      </div>
+
+      <div class="template-box">
+        <div class="template-info">
+          <h4>📄 Task breakdown template</h4>
+          <p>Copy this, paste it into Google Docs, and fill in the blanks.</p>
+        </div>
+        <button id="copyTemplateBtn" class="primary-btn">📋 Copy template</button>
+      </div>
+      <textarea id="templateText" class="template-textarea" readonly>
+# Task breakdown: [Feature name]
+Student name: [Your full name]
+Track: Technical Product Management (PCIP)
+Date: [Date]
+From PRD: [link or name of your Week 4 PRD]
+
+## Feature in one sentence
+______
+
+## Ticket 1 — Database
+- ID: ENG-101
+- What needs doing: ______
+- Points: __
+- Needs first: none
+- Done when:
+  - [ ] ______
+  - [ ] ______
+
+## Ticket 2 — Backend (API)
+- ID: ENG-102
+- What needs doing: ______ (e.g. POST /v1/______)
+- Points: __
+- Needs first: ENG-101
+- Done when:
+  - [ ] ______
+  - [ ] ______
+
+## Ticket 3 — Frontend (screens)
+- ID: ENG-103
+- What needs doing: ______
+- Points: __
+- Needs first: none (can use fake data until ENG-102 is ready)
+- Done when:
+  - [ ] ______
+
+## Ticket 4 — Outside service (if needed)
+- ID: ENG-104
+- What needs doing: ______
+- Points: __
+- Needs first: ______
+- Done when:
+  - [ ] ______
+
+## Ticket 5 — Testing
+- ID: ENG-105
+- What needs doing: test the happy path and these edge cases: ______
+- Points: __
+- Needs first: ENG-102, ENG-103 (and ENG-104)
+- Done when:
+  - [ ] ______
+
+## Order
+- Can start straight away: ______
+- Must wait: ______ (because ______)
+</textarea>
+    </section>
+
+    <!-- Discussion -->
+    <section class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Saturday class</span>
+        <h2>Questions we will discuss together</h2>
+      </div>
+      <p>Think about your answer first, then tap to see one good answer.</p>
+      <div class="faq-accordion">
+        <details class="faq-item">
+          <summary class="faq-q">1. Should a TPM ever comment on a pull request? Isn't that the engineers' job?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> Yes — but on the right things. Engineers judge the code. The TPM checks the <em>outcome</em>: does it match the acceptance criteria, are error screens there, are analytics events included, does it work in the preview? Leave naming, style and design patterns to engineers.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">2. An engineer says: "This change is huge, but it's fine — just approve it." What do you do?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> Politely push back. Big PRs are hard to review, so problems slip through. Ask if it can be split into smaller PRs (for example by screen, or by backend and frontend). If it truly can't, ask for an extra reviewer and more testing time.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">3. The automatic checks are red, but the engineer says "the test is flaky, ignore it". Should you approve?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> Not yet. Ask them to re-run it or fix the flaky test first. If the team learns to ignore red checks, one day a real problem will be ignored too. A green check is a team promise.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">4. Two engineers disagree on how to build something. How can a TPM help?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> Don't pick a side on the technology. Bring them back to the facts the TPM owns: what users need, the deadline, the risk, the cost. Ask each for the trade-offs, write them down, and if needed let the tech lead decide. Then record the decision and the reason.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- 8. Word bank -->
+    <section id="word-bank" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 8</span>
+        <h2>Word bank: tech words in plain English</h2>
+      </div>
+      <p>You will hear these words in class and from engineers. Search for any word you're not sure about.</p>
+      <input type="search" id="glossarySearch" class="search-input" placeholder="Search a word, e.g. merge" aria-label="Search the word bank">
+      <div class="glossary-grid" id="glossaryGrid"></div>
+      <p class="no-results" id="glossaryEmpty" hidden>No matching word. Ask about it on Slack!</p>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>Product Bosslady Academy (PBA) • Product Career Internship Program (PCIP) • Technical Product Management Track</p>
+      <p class="footer-sub">November 2026 – February 2027 • Facilitated by Oyindamola Oye-Daniel</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

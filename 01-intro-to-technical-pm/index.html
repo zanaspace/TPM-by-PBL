@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 01: Introduction to Technical Product Management | PCIP TPM Track</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Navigation Header -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand-group">
+        <a href="../index.html" class="back-portal-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          All Weeks
+        </a>
+        <span class="divider">/</span>
+        <span class="badge-week">Week 01 of 12</span>
+      </div>
+      <div class="nav-title">Technical Product Management Track</div>
+      <div class="nav-actions">
+        <button id="themeToggle" class="icon-btn" title="Switch dark / light mode" aria-label="Switch dark or light mode">🌓</button>
+        <a href="../02-systems-thinking-and-architecture/index.html" class="nav-next-btn">
+          Next: Week 2
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Progress bar -->
+  <div class="read-progress"><div id="readProgress" class="read-progress-fill"></div></div>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="meta-pill-group">
+        <span class="meta-pill">📅 Nov 2 – 8, 2026</span>
+        <span class="meta-pill live-pill">🔴 Class: Saturday 7:00 PM WAT</span>
+        <span class="meta-pill review-pill">🎯 Project Review: Sunday 6:00 PM WAT</span>
+      </div>
+      <h1 class="hero-title">Introduction to Technical Product Management</h1>
+      <p class="hero-subtitle">
+        Every app you use — Uber, Spotify, WhatsApp — has parts you can see and parts you can't.
+        This week you will learn what those hidden parts are, how they work together, and what a
+        <strong>Technical Product Manager (TPM)</strong> does with that knowledge.
+      </p>
+
+      <div class="goals-box">
+        <h2 class="goals-title">By the end of this week, you will be able to:</h2>
+        <ul class="goals-list">
+          <li><span class="goal-check">✓</span> Explain what a Technical Product Manager does, in one sentence</li>
+          <li><span class="goal-check">✓</span> Tell the difference between a PM, a TPM and an Engineering Manager</li>
+          <li><span class="goal-check">✓</span> Name the 4 main parts of any app: frontend, backend, database and outside services</li>
+          <li><span class="goal-check">✓</span> Follow what happens inside an app when you tap a button</li>
+          <li><span class="goal-check">✓</span> Break down a real product for your first assignment</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Topic Navigation -->
+  <nav class="sub-nav" aria-label="Lesson sections">
+    <div class="sub-nav-container">
+      <a href="#what-is-tpm" class="sub-link active">1. What is a TPM?</a>
+      <a href="#who-does-what" class="sub-link">2. PM vs TPM vs EM</a>
+      <a href="#app-parts" class="sub-link">3. The 4 Parts of an App</a>
+      <a href="#live-demo" class="sub-link">4. ▶ Interactive Demo</a>
+      <a href="#case-studies" class="sub-link">5. Uber &amp; Spotify</a>
+      <a href="#quiz" class="sub-link">6. Quick Quiz</a>
+      <a href="#assignment" class="sub-link">7. Assignment</a>
+      <a href="#word-bank" class="sub-link">8. Word Bank</a>
+    </div>
+  </nav>
+
+  <main class="main-container">
+
+    <!-- 1. What is a TPM -->
+    <section id="what-is-tpm" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 1</span>
+        <h2>What is a Technical Product Manager?</h2>
+      </div>
+
+      <div class="big-definition">
+        <p>A <strong>Product Manager (PM)</strong> decides <em>what</em> to build and <em>why</em>.</p>
+        <p>A <strong>Technical Product Manager (TPM)</strong> does that too — but also understands <em>how</em> the product works on the inside, so they can make better decisions with engineers.</p>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="info-callout primary">
+          <h3>🎯 What a TPM does every day</h3>
+          <ul class="bullet-list">
+            <li><strong>Talks with engineers</strong> and understands what they are saying.</li>
+            <li><strong>Spots problems early</strong> — like "this will be slow when 1 million people use it".</li>
+            <li><strong>Makes trade-offs</strong> — "Do we launch fast, or launch later but more solid?"</li>
+            <li><strong>Writes clear plans</strong> so engineers know exactly what to build.</li>
+          </ul>
+          <p class="note-text">You do <strong>not</strong> need to write code every day. You need to understand how the pieces fit.</p>
+        </div>
+
+        <div class="info-callout secondary">
+          <h3>💡 Same problem, two ways of thinking</h3>
+          <p>A user complains: <em>"Searching for songs in the app is very slow."</em></p>
+          <div class="comparison-card">
+            <div class="comp-col">
+              <span class="comp-label">A PM might say:</span>
+              <p>"Let's show a loading animation so users know we are searching."</p>
+            </div>
+            <div class="comp-col highlight">
+              <span class="comp-label">A TPM also asks:</span>
+              <p>"<em>Why</em> is it slow? Is the app searching through millions of songs one by one? Can we keep popular searches ready so they come back instantly?"</p>
+            </div>
+          </div>
+          <p class="note-text">The TPM fixes the <strong>cause</strong>, not just the symptom.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. PM vs TPM vs EM -->
+    <section id="who-does-what" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 2</span>
+        <h2>Who does what? PM vs TPM vs Engineering Manager</h2>
+      </div>
+      <p>These three people work closely together. Think of building a house:</p>
+
+      <div class="role-grid">
+        <div class="role-card role-pm">
+          <div class="role-emoji">🧭</div>
+          <h3>Product Manager (PM)</h3>
+          <p class="role-house">Like the person who decides <strong>what kind of house</strong> the family needs.</p>
+          <p class="role-q">Main question: <em>"What should we build, and why?"</em></p>
+          <p><strong>Works with:</strong> users, designers, marketing, sales, leaders</p>
+          <p><strong>Writes:</strong> product plans, user stories, user research</p>
+        </div>
+        <div class="role-card role-tpm">
+          <div class="role-emoji">🛠️</div>
+          <h3>Technical PM (TPM)</h3>
+          <p class="role-house">Like the person who checks <strong>the pipes, wiring and foundation</strong> will hold up.</p>
+          <p class="role-q">Main question: <em>"Can the system handle this, and what does it depend on?"</em></p>
+          <p><strong>Works with:</strong> engineers, data teams, outside partners</p>
+          <p><strong>Writes:</strong> technical plans, how data moves, what can go wrong</p>
+        </div>
+        <div class="role-card role-em">
+          <div class="role-emoji">👷</div>
+          <h3>Engineering Manager (EM)</h3>
+          <p class="role-house">Like the <strong>head builder</strong> who leads the builders and checks the work.</p>
+          <p class="role-q">Main question: <em>"How do we build it well and on time?"</em></p>
+          <p><strong>Works with:</strong> developers, testers</p>
+          <p><strong>Writes:</strong> build plans, task lists, code reviews</p>
+        </div>
+      </div>
+
+      <!-- Interactive sorting game -->
+      <div class="game-card" id="roleGame">
+        <div class="game-head">
+          <h3>🎮 Mini-game: Who does this job?</h3>
+          <span class="game-score" id="roleScore">Score: 0 / 0</span>
+        </div>
+        <p class="game-instructions">Read the task, then tap who you think does it most. You will get a short explanation.</p>
+        <div class="game-task" id="roleTask">Loading…</div>
+        <div class="game-choices">
+          <button class="choice-btn" data-role="PM">🧭 PM</button>
+          <button class="choice-btn" data-role="TPM">🛠️ TPM</button>
+          <button class="choice-btn" data-role="EM">👷 EM</button>
+        </div>
+        <div class="game-feedback" id="roleFeedback" aria-live="polite"></div>
+        <div class="game-foot">
+          <span id="roleProgress" class="game-progress"></span>
+          <button class="ghost-btn" id="roleNext" disabled>Next task →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. The 4 parts of an app -->
+    <section id="app-parts" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 3</span>
+        <h2>The 4 parts of every app</h2>
+      </div>
+      <p>Almost every app is made of the same 4 parts. The easiest way to remember them is to think of a <strong>restaurant</strong>.</p>
+
+      <div class="parts-grid">
+        <div class="part-card part-front">
+          <div class="part-top"><span class="part-num">1</span><span class="part-icon">📱</span></div>
+          <h3>Frontend</h3>
+          <p class="part-simple">What you see and touch: screens, buttons, the map.</p>
+          <div class="part-analogy">🍽️ <strong>Restaurant:</strong> the dining room and the waiter who takes your order.</div>
+          <div class="part-example"><strong>Examples:</strong> the Uber app on your phone, Spotify on your laptop.</div>
+        </div>
+        <div class="part-card part-back">
+          <div class="part-top"><span class="part-num">2</span><span class="part-icon">⚙️</span></div>
+          <h3>Backend</h3>
+          <p class="part-simple">The "brain" you can't see. It follows the rules and makes decisions.</p>
+          <div class="part-analogy">👨‍🍳 <strong>Restaurant:</strong> the kitchen, where the cooks prepare your order.</div>
+          <div class="part-example"><strong>Examples:</strong> finding the nearest driver, checking your password.</div>
+        </div>
+        <div class="part-card part-data">
+          <div class="part-top"><span class="part-num">3</span><span class="part-icon">🗄️</span></div>
+          <h3>Database</h3>
+          <p class="part-simple">The app's memory. It saves information so it is there tomorrow.</p>
+          <div class="part-analogy">📦 <strong>Restaurant:</strong> the storeroom and the order book.</div>
+          <div class="part-example"><strong>Examples:</strong> your account, past trips, your playlists.</div>
+        </div>
+        <div class="part-card part-ext">
+          <div class="part-top"><span class="part-num">4</span><span class="part-icon">🤝</span></div>
+          <h3>Outside services</h3>
+          <p class="part-simple">Other companies' tools the app "borrows" instead of building them.</p>
+          <div class="part-analogy">🚚 <strong>Restaurant:</strong> suppliers — the fish seller, the gas supplier, the POS machine.</div>
+          <div class="part-example"><strong>Examples:</strong> Google Maps, Paystack (payments), SMS codes.</div>
+        </div>
+      </div>
+
+      <div class="api-explainer">
+        <div class="api-icon">🔌</div>
+        <div>
+          <h3>How do the parts talk? Through an <span class="term">API</span>.</h3>
+          <p>An <strong>API</strong> is like the <strong>order slip</strong> the waiter carries to the kitchen. It has a fixed format, so the kitchen always understands it. When the Uber app asks the backend "find me a driver", it sends that request through an API.</p>
+          <p class="note-text">You will learn much more about APIs in Week 3. For now: <strong>API = the agreed way two parts of software talk to each other.</strong></p>
+        </div>
+      </div>
+
+      <div class="tpm-takeaway">
+        <strong>🎓 Why a TPM cares about outside services:</strong> your app depends on them, but you don't control them.
+        If Paystack is down, can people still book a ride? If SMS codes are late, can people still log in? A good TPM plans a <strong>"Plan B"</strong> for each one.
+      </div>
+    </section>
+
+    <!-- 4. Interactive Demo -->
+    <section id="live-demo" class="content-card demo-section">
+      <div class="card-header">
+        <span class="section-tag tag-live">▶ Interactive Demo</span>
+        <h2>Follow the request: what happens when you tap a button?</h2>
+      </div>
+      <p class="lead-text">Pick an app, then press <strong>Next step</strong> to watch the message travel between the 4 parts. After that, try <strong>Break something</strong> to see what a TPM must plan for.</p>
+
+      <div class="scenario-tabs" role="tablist">
+        <button class="scenario-btn active" data-scenario="uber" role="tab">🚗 Uber: Book a ride</button>
+        <button class="scenario-btn" data-scenario="spotify" role="tab">🎧 Spotify: Play a song</button>
+        <button class="scenario-btn" data-scenario="whatsapp" role="tab">💬 WhatsApp: Send a message</button>
+      </div>
+
+      <div class="view-toggle">
+        <span>Explain it as:</span>
+        <button class="toggle-pill active" data-view="app">📱 The app</button>
+        <button class="toggle-pill" data-view="food">🍽️ A restaurant</button>
+      </div>
+
+      <!-- The stage -->
+      <div class="flow-stage" id="flowStage">
+        <div class="flow-node" data-node="phone">
+          <div class="node-icon">📱</div>
+          <div class="node-name">Frontend</div>
+          <div class="node-sub" data-app="Your phone" data-food="Waiter / dining room">Your phone</div>
+        </div>
+        <div class="flow-node" data-node="backend">
+          <div class="node-icon">⚙️</div>
+          <div class="node-name">Backend</div>
+          <div class="node-sub" data-app="The brain" data-food="Kitchen">The brain</div>
+        </div>
+        <div class="flow-node" data-node="database">
+          <div class="node-icon">🗄️</div>
+          <div class="node-name">Database</div>
+          <div class="node-sub" data-app="The memory" data-food="Storeroom / order book">The memory</div>
+        </div>
+        <div class="flow-node" data-node="outside">
+          <div class="node-icon">🤝</div>
+          <div class="node-name">Outside services</div>
+          <div class="node-sub" data-app="Maps, payments, etc." data-food="Suppliers">Maps, payments, etc.</div>
+        </div>
+        <div class="flow-line" aria-hidden="true"></div>
+        <div class="packet" id="packet" aria-hidden="true"><span id="packetText">📨</span></div>
+      </div>
+
+      <!-- Step explanation -->
+      <div class="step-panel">
+        <div class="step-meta">
+          <span class="step-counter" id="stepCounter">Ready</span>
+          <span class="step-route" id="stepRoute"></span>
+        </div>
+        <h3 class="step-title" id="stepTitle">Press "Next step" to begin</h3>
+        <p class="step-text" id="stepText">You will see each part light up as the message moves through the app.</p>
+        <div class="step-carry" id="stepCarry" hidden></div>
+        <div class="step-tip" id="stepTip" hidden></div>
+
+        <div class="step-controls">
+          <button class="ghost-btn" id="prevStep">← Back</button>
+          <button class="primary-btn" id="nextStep">Next step →</button>
+          <button class="ghost-btn" id="autoPlay">▶ Play all</button>
+          <button class="ghost-btn" id="resetSteps">↺ Start again</button>
+        </div>
+        <div class="step-dots" id="stepDots"></div>
+      </div>
+
+      <!-- Break something -->
+      <div class="break-card">
+        <h3>💥 Break something: what could go wrong?</h3>
+        <p>Real apps break. A TPM's job is to think about this <em>before</em> it happens. Pick a problem:</p>
+        <div class="break-buttons" id="breakButtons"></div>
+        <div class="break-result" id="breakResult" hidden>
+          <div class="break-row bad">
+            <span class="break-label">😫 Without a plan, the user sees:</span>
+            <p id="breakBad"></p>
+          </div>
+          <div class="break-row good">
+            <span class="break-label">😊 With a good TPM plan:</span>
+            <p id="breakGood"></p>
+          </div>
+          <div class="break-row lesson">
+            <span class="break-label">🎓 Lesson:</span>
+            <p id="breakLesson"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Case studies -->
+    <section id="case-studies" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 5</span>
+        <h2>Real examples: Uber and Spotify, broken into parts</h2>
+      </div>
+      <p>This is exactly what you will do in your assignment: take a real app and sort it into the 4 parts.</p>
+
+      <div class="tab-control">
+        <button class="tab-btn active" data-tab="uber-case">🚗 Uber</button>
+        <button class="tab-btn" data-tab="spotify-case">🎧 Spotify</button>
+      </div>
+
+      <div id="uber-case" class="tab-pane active">
+        <p class="case-intro"><strong>What it does:</strong> connects people who need a ride with drivers nearby — in real time, for millions of people at once.</p>
+        <div class="breakdown-grid">
+          <div class="breakdown-card bc-front">
+            <h4>📱 Frontend</h4>
+            <ul class="clean-list">
+              <li>Two apps: one for <strong>riders</strong>, one for <strong>drivers</strong>.</li>
+              <li>The driver's app sends its location every few seconds.</li>
+              <li>Must not crash if the phone loses network in a tunnel.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-back">
+            <h4>⚙️ Backend</h4>
+            <ul class="clean-list">
+              <li><strong>Matching:</strong> finds the nearest free driver.</li>
+              <li><strong>Pricing:</strong> raises prices when many people want rides and few drivers are free ("surge").</li>
+              <li>Splits the city into small areas so it only searches near you, not the whole world.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-data">
+            <h4>🗄️ Database</h4>
+            <ul class="clean-list">
+              <li>Saves rider and driver accounts, trips and receipts.</li>
+              <li>Keeps driver locations in very fast, short-term memory (they change every few seconds).</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-ext">
+            <h4>🤝 Outside services</h4>
+            <ul class="clean-list">
+              <li><strong>Maps:</strong> routes, traffic and arrival time.</li>
+              <li><strong>Payments:</strong> charges your card at the end of the trip.</li>
+              <li><strong>Calls / SMS:</strong> lets rider and driver call without seeing each other's real number.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tpm-takeaway">
+          <strong>🎓 TPM lesson from Uber:</strong> speed matters. If finding a driver takes too long, people leave. So Uber only searches the small area around you, and keeps driver locations in fast memory.
+        </div>
+      </div>
+
+      <div id="spotify-case" class="tab-pane">
+        <p class="case-intro"><strong>What it does:</strong> lets you play almost any song instantly, on any device, even on a weak network.</p>
+        <div class="breakdown-grid">
+          <div class="breakdown-card bc-front">
+            <h4>📱 Frontend</h4>
+            <ul class="clean-list">
+              <li>Apps for phone, computer, web, TV and car.</li>
+              <li>Saves recently played songs on your phone so they start instantly.</li>
+              <li>Starts loading the next song before the current one ends.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-back">
+            <h4>⚙️ Backend</h4>
+            <ul class="clean-list">
+              <li>Checks if you are Free or Premium (what you are allowed to play).</li>
+              <li>Makes recommendations like "Discover Weekly" from what similar people enjoy.</li>
+              <li>Counts plays longer than 30 seconds so artists get paid.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-data">
+            <h4>🗄️ Database</h4>
+            <ul class="clean-list">
+              <li>Stores song <strong>details</strong>: title, artist, album, playlists.</li>
+              <li>The music files themselves are kept in a separate large file store — not in the database.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-ext">
+            <h4>🤝 Outside services</h4>
+            <ul class="clean-list">
+              <li><strong>Delivery networks (CDN):</strong> copies of songs kept on computers in many cities, so the music comes from somewhere close to you.</li>
+              <li><strong>Payments:</strong> for Premium subscriptions.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tpm-takeaway">
+          <strong>🎓 TPM lesson from Spotify:</strong> keep the small information (song name, artist) separate from the big files (the actual music). Small details go in the database; big files go to storage close to the user.
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Quiz -->
+    <section id="quiz" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 6</span>
+        <h2>Quick quiz: check your understanding</h2>
+      </div>
+      <p>6 short questions. Tap an answer to see if you are right. No marks — this is just for practice.</p>
+      <div id="quizBox" class="quiz-box"></div>
+      <div class="quiz-result" id="quizResult" hidden></div>
+    </section>
+
+    <!-- 7. Assignment -->
+    <section id="assignment" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 7</span>
+        <h2>This week's work</h2>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="deliverable-box">
+          <div class="deliv-badge individual">Individual Assignment • 10 Marks</div>
+          <h3>Break down a real product</h3>
+          <p class="deliv-deadline">⏰ Due: Sunday, Nov 8, 2026, before 11:59 PM WAT</p>
+          <p>Pick <strong>one real app</strong> you know well (for example WhatsApp, Netflix, Duolingo, Paystack, Bolt, Jumia). Pretend you are its TPM and answer:</p>
+          <ol class="step-list">
+            <li><strong>Purpose:</strong> What problem does it solve, and for whom?</li>
+            <li><strong>Frontend:</strong> Where do people use it? (phone app, website, TV…) What do the screens do?</li>
+            <li><strong>Backend:</strong> What are the main jobs the "brain" does? (e.g. login, search, payments)</li>
+            <li><strong>Database:</strong> What information must it remember?</li>
+            <li><strong>Outside services:</strong> Name 3 it depends on. What happens if each one stops working?</li>
+            <li><strong>One improvement:</strong> One thing that is slow, risky or annoying — and how you would fix it.</li>
+          </ol>
+          <div class="hint-box">💡 <strong>Tip:</strong> You don't need secret company information. Make smart, reasonable guesses based on how the app behaves, and say <em>why</em> you think so.</div>
+
+          <div class="rubric-mini">
+            <h4>How you will be marked (10 marks)</h4>
+            <ul>
+              <li><span>Do you understand the 4 parts?</span><strong>3</strong></li>
+              <li><span>How deep and clear is your breakdown?</span><strong>3</strong></li>
+              <li><span>Is your improvement idea useful and clear?</span><strong>2</strong></li>
+              <li><span>Neat layout and on-time submission</span><strong>2</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="deliverable-box">
+          <div class="deliv-badge team">Team Capstone • Phase 1 of 6</div>
+          <h3>Choose your team's product idea</h3>
+          <p class="deliv-deadline">👥 Done together with your team</p>
+          <p>Over 12 weeks, your team will plan a new tech product from start to finish. This week, agree on the idea. Tick each item as you finish it (your ticks are saved on this device):</p>
+          <div class="checklist-card" id="capstoneChecklist">
+            <label class="check-item"><input type="checkbox" data-key="c1"> Team name and product idea chosen</label>
+            <label class="check-item"><input type="checkbox" data-key="c2"> Problem written clearly: <em>who has the problem, and how bad is it?</em></label>
+            <label class="check-item"><input type="checkbox" data-key="c3"> Scope agreed: what the product <strong>will</strong> do and what it <strong>won't</strong> do (for now)</label>
+            <label class="check-item"><input type="checkbox" data-key="c4"> 3 types of users described (who they are and what they need)</label>
+            <label class="check-item"><input type="checkbox" data-key="c5"> Shared team folder created (Google Drive, Linear or Jira)</label>
+          </div>
+          <div class="check-progress"><div class="check-progress-fill" id="checkFill"></div></div>
+          <p class="check-progress-text" id="checkText">0 of 5 done</p>
+        </div>
+      </div>
+
+      <div class="template-box">
+        <div class="template-info">
+          <h4>📄 Assignment template</h4>
+          <p>Copy this, paste it into Google Docs, and fill in the blanks.</p>
+        </div>
+        <button id="copyTemplateBtn" class="primary-btn">📋 Copy template</button>
+      </div>
+      <textarea id="templateText" class="template-textarea" readonly>
+# Product Breakdown: [Product name]
+Student name: [Your full name]
+Track: Technical Product Management (PCIP)
+Date: [Date]
+
+## 1. Purpose
+- What problem does it solve?
+- Who is it for?
+
+## 2. Frontend (what users see and touch)
+- Where can people use it? (phone app, website, TV, etc.)
+- What are the main screens or actions?
+
+## 3. Backend (the "brain")
+- Main jobs it does: (e.g. login, search, matching, payments, notifications)
+
+## 4. Database (the "memory")
+- What information must it save? (e.g. accounts, orders, messages)
+
+## 5. Outside services (what it borrows from other companies)
+- Service 1: ______  →  If it stops working, the app should: ______
+- Service 2: ______  →  If it stops working, the app should: ______
+- Service 3: ______  →  If it stops working, the app should: ______
+
+## 6. One improvement I would make as TPM
+- The problem I noticed:
+- My idea to fix it:
+- Why it would help users or the business:
+</textarea>
+    </section>
+
+    <!-- Discussion -->
+    <section class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Saturday class</span>
+        <h2>Questions we will discuss together</h2>
+      </div>
+      <p>Think about your answer first, then tap to see one good answer.</p>
+      <div class="faq-accordion">
+        <details class="faq-item">
+          <summary class="faq-q">1. Uber sends you a code by SMS to log in. What if the SMS company stops working?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> Never let one outside company lock all your users out. Have a Plan B: send the code by WhatsApp or email instead, or switch to a second SMS company. Also show the user a clear message like <em>"Code delayed — try WhatsApp instead"</em>, not just an error.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">2. Why doesn't Spotify keep the music files inside its main database?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> A database is great for small pieces of information (names, prices, playlists). Music files are big. If millions of people pulled big files from the database at once, it would become very slow. So the files live in a separate store, with copies placed close to users in many cities.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">3. How can a TPM tell if the backend is "healthy"?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> Watch four simple things:</p>
+            <ul class="bullet-list">
+              <li><strong>Speed:</strong> how long does it take to answer? (called <em>latency</em>)</li>
+              <li><strong>Traffic:</strong> how many requests is it getting right now?</li>
+              <li><strong>Errors:</strong> how many requests are failing?</li>
+              <li><strong>How full it is:</strong> are the computers close to their limit? (called <em>saturation</em>)</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- 8. Word bank -->
+    <section id="word-bank" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 8</span>
+        <h2>Word bank: tech words in plain English</h2>
+      </div>
+      <p>You will hear these words in class and from engineers. Search for any word you're not sure about.</p>
+      <input type="search" id="glossarySearch" class="search-input" placeholder="Search a word, e.g. API" aria-label="Search the word bank">
+      <div class="glossary-grid" id="glossaryGrid"></div>
+      <p class="no-results" id="glossaryEmpty" hidden>No matching word. Ask about it on Slack!</p>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>Product Bosslady Academy (PBA) • Product Career Internship Program (PCIP) • Technical Product Management Track</p>
+      <p class="footer-sub">November 2026 – February 2027 • Facilitated by Oyindamola Oye-Daniel</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

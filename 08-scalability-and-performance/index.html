@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 08: Scalability and Performance | PCIP TPM Track</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Navigation Header -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand-group">
+        <a href="../index.html" class="back-portal-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          All Weeks
+        </a>
+        <span class="divider">/</span>
+        <span class="badge-week">Week 08 of 12</span>
+      </div>
+      <div class="nav-title">Technical Product Management Track</div>
+      <div class="nav-actions">
+        <button id="themeToggle" class="icon-btn" title="Switch dark / light mode" aria-label="Switch dark or light mode">🌓</button>
+        <a href="../07-debugging-and-issue-tracking/index.html" class="nav-prev-btn">← Week 7</a>
+        <a href="../09-security-and-system-reliability/index.html" class="nav-next-btn">
+          Next: Week 9
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Progress bar -->
+  <div class="read-progress"><div id="readProgress" class="read-progress-fill"></div></div>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="meta-pill-group">
+        <span class="meta-pill">📅 Jan 4 – 10, 2027</span>
+        <span class="meta-pill live-pill">🔴 Class: Saturday 7:00 PM WAT</span>
+        <span class="meta-pill review-pill">🎯 Project Review: Sunday 6:00 PM WAT</span>
+      </div>
+      <h1 class="hero-title">Scalability and Performance</h1>
+      <p class="hero-subtitle">
+        An app that works for 2,000 people can fall over when 60,000 arrive at once — usually at the worst moment, like a big sale.
+        This week you'll learn how apps <strong>grow to handle more people</strong> (scalability) and <strong>stay fast</strong> (performance).
+        Then you'll prepare ChopNow for a <strong>lunchtime promo</strong> and watch it survive — or melt.
+      </p>
+
+      <div class="goals-box">
+        <h2 class="goals-title">By the end of this week, you will be able to:</h2>
+        <ul class="goals-list">
+          <li><span class="goal-check">✓</span> Explain "scaling up" vs "scaling out", and what a load balancer does</li>
+          <li><span class="goal-check">✓</span> Explain caching and CDNs, and choose how long to keep data (TTL)</li>
+          <li><span class="goal-check">✓</span> Explain read replicas and sharding for busy databases</li>
+          <li><span class="goal-check">✓</span> Find the bottleneck — the part that breaks first</li>
+          <li><span class="goal-check">✓</span> Plan for a 50× traffic spike for your own product</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Topic Navigation -->
+  <nav class="sub-nav" aria-label="Lesson sections">
+    <div class="sub-nav-container">
+      <a href="#scaling" class="sub-link active">1. Handling More People</a>
+      <a href="#caching" class="sub-link">2. Caching &amp; CDNs</a>
+      <a href="#databases" class="sub-link">3. Busy Databases</a>
+      <a href="#simulation" class="sub-link">4. ▶ Promo Simulation</a>
+      <a href="#case-studies" class="sub-link">5. Shopify &amp; Twitter</a>
+      <a href="#quiz" class="sub-link">6. Quick Quiz</a>
+      <a href="#assignment" class="sub-link">7. Assignment</a>
+      <a href="#word-bank" class="sub-link">8. Word Bank</a>
+    </div>
+  </nav>
+
+  <main class="main-container">
+
+    <!-- 1. Scaling -->
+    <section id="scaling" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 1</span>
+        <h2>Handling more people: scale up or scale out?</h2>
+      </div>
+
+      <div class="big-definition">
+        <p><strong>Scalability</strong> = can the app keep working as more and more people use it?</p>
+        <p><strong>Performance</strong> = how fast it feels for each person. Users notice after about 1 second, and many leave after 3.</p>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="info-callout primary">
+          <h3>⬆️ Scale up (vertical): a bigger computer</h3>
+          <p class="muted small">🍳 Restaurant: buy a bigger stove for your one cook.</p>
+          <ul class="bullet-list">
+            <li><strong>Good:</strong> simple — no changes to how the app is built.</li>
+            <li><strong>Watch out:</strong> there's a limit to how big one computer can get, big ones get very expensive, and upgrading often means a short shutdown.</li>
+            <li><strong>Risk:</strong> if that one computer fails, everything stops.</li>
+          </ul>
+        </div>
+        <div class="info-callout secondary">
+          <h3>➡️ Scale out (horizontal): more computers</h3>
+          <p class="muted small">👩🏾‍🍳 Restaurant: hire more cooks, each with their own stove.</p>
+          <ul class="bullet-list">
+            <li><strong>Good:</strong> add as many as you need; if one fails, the others keep going.</li>
+            <li><strong>Good:</strong> with <strong>auto-scaling</strong>, servers are added when it gets busy and removed when it's quiet — you only pay for what you use.</li>
+            <li><strong>Watch out:</strong> the app must be built so any server can handle any customer.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lb-demo">
+        <div class="lb-row">
+          <div class="lb-users">👥👥👥<span>Customers</span></div>
+          <div class="lb-arrow">→</div>
+          <div class="lb-box">⚖️<strong>Load balancer</strong><span>Sends each request to a free server</span></div>
+          <div class="lb-arrow">→</div>
+          <div class="lb-servers"><span>🖥️</span><span>🖥️</span><span>🖥️</span><span class="lb-dead">🖥️</span></div>
+        </div>
+        <p class="note-text">🍽️ The <strong>load balancer</strong> is like the host at the door who seats each guest with a waiter who isn't busy. If one waiter goes home sick (🖥️ red), guests go to the others.</p>
+        <p class="note-text">🧾 For this to work, servers must be <span class="term">stateless</span>: nothing important is kept only in one server's memory. It's like keeping orders on the shared ticket rail, not in one cook's head — so any cook can pick up any order.</p>
+      </div>
+    </section>
+
+    <!-- 2. Caching -->
+    <section id="caching" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 2</span>
+        <h2>Caching and CDNs: don't do the same work twice</h2>
+      </div>
+
+      <div class="grid-3-col">
+        <div class="concept-card">
+          <div class="concept-icon">🍲</div>
+          <h3>Cache = food on the warmer</h3>
+          <p>If 500 people order jollof every lunchtime, keep a pot ready instead of cooking each plate from scratch. A <strong>cache</strong> keeps popular answers ready in fast memory, so the database isn't asked the same question again and again.</p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-icon">⏲️</div>
+          <h3>TTL = when to throw it out</h3>
+          <p><strong>Time To Live</strong> is how long a cached answer is kept. Long TTL = less work, but data may be <em>old</em> (stale). Short TTL = always fresh, but more work. Choosing it is a product decision!</p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-icon">🌍</div>
+          <h3>CDN = branches near customers</h3>
+          <p>A <strong>Content Delivery Network</strong> keeps copies of images and files on servers in many cities. A customer in Lagos gets photos from Lagos, not from a server in Europe — faster, and your own servers do less work.</p>
+        </div>
+      </div>
+
+      <div class="game-card" id="ttlGame">
+        <div class="game-head">
+          <h3>🎮 Mini-game: How long should we cache it?</h3>
+          <span class="game-score" id="ttlScore">Score: 0 / 0</span>
+        </div>
+        <p class="game-instructions">For each piece of data in ChopNow, how long can a saved copy be used before we must check for a fresh one?</p>
+        <div class="game-task" id="ttlTask">Loading…</div>
+        <div class="game-choices four-choices">
+          <button class="choice-btn" data-pick="none">🚫 Don't cache</button>
+          <button class="choice-btn" data-pick="sec">⏱️ Seconds</button>
+          <button class="choice-btn" data-pick="min">🕐 Minutes</button>
+          <button class="choice-btn" data-pick="day">📅 Hours or days</button>
+        </div>
+        <div class="game-feedback" id="ttlFeedback" aria-live="polite"></div>
+        <div class="game-foot">
+          <span id="ttlProgress" class="game-progress"></span>
+          <button class="ghost-btn" id="ttlNext" disabled>Next →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Databases -->
+    <section id="databases" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 3</span>
+        <h2>When the database gets too busy</h2>
+      </div>
+      <p>The database (the app's memory, from Week 1) is usually the <strong>first part to break</strong>, because almost every request needs it. Most apps <strong>read</strong> far more than they <strong>write</strong> — people browse the menu 20 times for every order they place. That shapes the fix.</p>
+
+      <div class="grid-2-col">
+        <div class="info-callout primary">
+          <h3>📚 Read replicas: copies for reading</h3>
+          <p>Keep <strong>one main database</strong> for writing (new orders, payments) and several <strong>copies</strong> that are only used for reading (menus, order history). The main one keeps the copies up to date.</p>
+          <div class="db-visual">
+            <div class="dbv-main">✍️ Main<br><small>writes</small></div>
+            <div class="dbv-arrow">⇒</div>
+            <div class="dbv-copies"><span>📖 Copy</span><span>📖 Copy</span><span>📖 Copy</span></div>
+          </div>
+          <p class="note-text">🍽️ Like giving each waiter a photocopy of the menu book, instead of all of them queueing for the one original.</p>
+          <p class="note-text">⚠️ Copies can be a second or two behind. Fine for menus — not for a bank balance.</p>
+        </div>
+        <div class="info-callout secondary">
+          <h3>✂️ Sharding: split the data</h3>
+          <p>When even writing is too much for one database, split the data across several databases. For example, customers whose names start with A–M go to database 1, and N–Z go to database 2.</p>
+          <div class="db-visual">
+            <div class="dbv-shard">🗄️ A–M</div>
+            <div class="dbv-shard">🗄️ N–Z</div>
+          </div>
+          <p class="note-text">🍽️ Like a big restaurant with two order books — one per floor.</p>
+          <p class="note-text">⚠️ Powerful but complex. Big apps like Instagram (Week 2) do it; most apps should try caching and replicas first.</p>
+        </div>
+      </div>
+
+      <div class="bottleneck-box">
+        <h3>🍾 The bottleneck: the narrowest part decides</h3>
+        <p>Water can only pour out of a bottle as fast as its neck allows. A system is only as fast as its <strong>slowest part</strong>. Adding 10 more app servers does nothing if the database is the one choking. A TPM's first question during a slowdown is: <em>"Which part is at 100%?"</em></p>
+      </div>
+    </section>
+
+    <!-- 4. Simulation -->
+    <section id="simulation" class="content-card demo-section">
+      <div class="card-header">
+        <span class="section-tag tag-live">▶ Simulation</span>
+        <h2>Survive the 12:00 promo</h2>
+      </div>
+      <p class="lead-text">
+        At 12:00, ChopNow sends an SMS to 2 million people: <strong>"50% off lunch — next hour only!"</strong> Normally about 2,000 people use the app at lunchtime.
+        Today, up to <strong>60,000</strong> could arrive within minutes. Set up the system, run a load test if you like, then go live. Changes during the rush are possible — but slow, like in real life.
+      </p>
+
+      <div class="sim-steps">
+        <div class="sim-step active" data-stage="prep"><span>1</span> 🧰 Prepare</div>
+        <div class="sim-step" data-stage="live"><span>2</span> 📈 Live: 11:55 → 13:00</div>
+        <div class="sim-step" data-stage="end"><span>3</span> 📊 Results</div>
+      </div>
+
+      <!-- Controls (shared by prep and live) -->
+      <div class="setup" id="setup">
+        <div class="setup-item">
+          <div class="si-head"><span>🖥️ App servers</span><strong id="sServersVal">2</strong></div>
+          <div class="si-ctl"><button class="srv-btn" data-srv="-1" aria-label="Remove a server">−</button><input type="range" id="sServers" min="1" max="20" value="2" aria-label="Number of app servers"><button class="srv-btn" data-srv="1" aria-label="Add a server">+</button></div>
+          <p class="si-note">Each handles about 2,500 requests a second. ₦20,000/hour each.</p>
+        </div>
+        <label class="setup-item toggle">
+          <div class="si-head"><span>🤖 Auto-scaling</span><input type="checkbox" id="sAuto"></div>
+          <p class="si-note">Adds servers automatically when they get busy (up to 20), removes them when it's quiet. New servers take 2 minutes to start.</p>
+        </label>
+        <label class="setup-item toggle">
+          <div class="si-head"><span>🌍 CDN for images</span><input type="checkbox" id="sCdn"></div>
+          <p class="si-note">Food photos come from servers near customers. Takes 60% of requests off your app servers. ₦15,000/hour.</p>
+        </label>
+        <div class="setup-item">
+          <div class="si-head"><span>🍲 Cache</span><select id="sCache" aria-label="Cache setting">
+            <option value="off">Off</option>
+            <option value="10s">On — keep 10 seconds</option>
+            <option value="5m">On — keep 5 minutes</option>
+            <option value="1h">On — keep 1 hour</option>
+          </select></div>
+          <p class="si-note">Saves database reads. Longer = fewer reads, but menus and stock may be out of date. ₦10,000/hour.</p>
+        </div>
+        <div class="setup-item">
+          <div class="si-head"><span>🗄️ Main database size</span><select id="sDb" aria-label="Database size">
+            <option value="small">Small — 5,000 queries/sec (₦30,000/hr)</option>
+            <option value="large">Large — 15,000 queries/sec (₦90,000/hr)</option>
+          </select></div>
+          <p class="si-note">Upgrading during the rush = 2 minutes of downtime.</p>
+        </div>
+        <div class="setup-item">
+          <div class="si-head"><span>📚 Read replicas</span><strong id="sRepVal">0</strong></div>
+          <div class="si-ctl"><button class="srv-btn" data-rep="-1" aria-label="Remove a replica">−</button><input type="range" id="sRep" min="0" max="3" value="0" aria-label="Number of read replicas"><button class="srv-btn" data-rep="1" aria-label="Add a replica">+</button></div>
+          <p class="si-note">Copies of the database for reading. Same price as the main one. Take 8 minutes to set up during the rush.</p>
+        </div>
+      </div>
+      <div class="cost-line">💰 Cost right now: <strong id="costNow">₦0</strong> per hour <span class="muted small" id="pendingNote"></span></div>
+
+      <!-- Stage: prep -->
+      <div class="stage" id="stagePrep">
+        <div class="prep-actions">
+          <button class="ghost-btn" id="loadTest">🧪 Run a load test (pretend 60,000 users)</button>
+          <button class="primary-btn" id="goLive">▶ Go live at 11:55</button>
+        </div>
+        <div class="load-test" id="loadTestResult" hidden></div>
+      </div>
+
+      <!-- Stage: live -->
+      <div class="stage" id="stageLive" hidden>
+        <div class="live-top">
+          <div class="clock"><span>🕛</span><strong id="lClock">11:55</strong></div>
+          <div class="live-stat"><span>👥 People online</span><strong id="lUsers">2,000</strong></div>
+          <div class="live-stat"><span>⏱️ Page load (95% of users)</span><strong id="lLatency">0.6s</strong></div>
+          <div class="live-stat"><span>❌ Requests failing</span><strong id="lErr">0%</strong></div>
+          <div class="live-stat"><span>🛵 Orders this hour</span><strong id="lOrders">0</strong></div>
+          <div class="live-controls">
+            <button class="ghost-btn small" id="lPause">⏸ Pause</button>
+            <button class="ghost-btn small" id="lFast">⏩ Faster</button>
+          </div>
+        </div>
+
+        <div class="arch" id="arch">
+          <div class="arch-node an-users"><span class="an-icon">👥</span><strong>Customers</strong><span class="an-sub" id="aUsers">2,000 online</span></div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node an-cdn" id="aCdnNode"><span class="an-icon">🌍</span><strong>CDN</strong><span class="an-sub" id="aCdn">off</span></div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node an-app"><span class="an-icon">🖥️</span><strong>App servers</strong><div class="srv-grid" id="srvGrid"></div><div class="load-bar"><div class="load-fill" id="aAppBar"></div><span class="load-text" id="aAppTxt">0%</span></div></div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node an-cache" id="aCacheNode"><span class="an-icon">🍲</span><strong>Cache</strong><span class="an-sub" id="aCache">off</span></div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node an-db"><span class="an-icon">🗄️</span><strong>Database</strong><span class="an-sub" id="aDbSub">small, 0 replicas</span><div class="load-bar"><div class="load-fill" id="aDbBar"></div><span class="load-text" id="aDbTxt">0%</span></div></div>
+        </div>
+
+        <div class="charts">
+          <div class="chart"><div class="chart-title">👥 People online</div><div class="chart-bars" id="cUsers"></div></div>
+          <div class="chart"><div class="chart-title">⏱️ Page load time (seconds)</div><div class="chart-bars" id="cLatency"></div></div>
+        </div>
+
+        <div class="live-bottom">
+          <div class="explain-box" id="liveExplain"></div>
+          <div class="live-log-wrap"><h3>🗒️ What's happening</h3><ul class="live-log" id="liveLog"></ul></div>
+        </div>
+      </div>
+
+      <!-- Stage: end -->
+      <div class="stage" id="stageEnd" hidden>
+        <div class="end-banner" id="endBanner"></div>
+        <div class="end-stats" id="endStats"></div>
+        <div class="grid-2-col">
+          <div class="retro-col"><h3>👍 What worked</h3><ul id="endGood"></ul></div>
+          <div class="retro-col"><h3>🔧 What to change next time</h3><ul id="endBad"></ul></div>
+        </div>
+        <div class="stage-actions">
+          <button class="primary-btn" id="tryAgain">🔁 Change the setup and try again</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Case studies -->
+    <section id="case-studies" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 5</span>
+        <h2>Real examples: Shopify and Twitter</h2>
+      </div>
+      <p>One company plans for its busiest weekend of the year. The other solved a very unusual problem: a few accounts with enormous audiences.</p>
+
+      <div class="tab-control">
+        <button class="tab-btn active" data-tab="shopify-case">🛍️ Shopify</button>
+        <button class="tab-btn" data-tab="twitter-case">🐦 Twitter / X</button>
+      </div>
+
+      <div id="shopify-case" class="tab-pane active">
+        <p class="case-intro"><strong>The story:</strong> millions of online shops run on Shopify. On <strong>Black Friday and Cyber Monday</strong>, all of them have their biggest sales at the same time, and Shopify handles tens of millions of requests per minute at the peak. Being down for even a few minutes would cost shop owners a fortune.</p>
+        <div class="breakdown-grid">
+          <div class="breakdown-card bc-back">
+            <h4>🏘️ "Pods": separate neighbourhoods</h4>
+            <ul class="clean-list">
+              <li>Shopify splits shops into groups called pods, each with its own databases.</li>
+              <li>If one huge shop has a massive flash sale, it mostly affects its own pod — not every shop on Shopify.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-front">
+            <h4>🧪 Practise the big day</h4>
+            <ul class="clean-list">
+              <li>For months before, teams run <strong>load tests</strong>: pretend traffic bigger than they expect.</li>
+              <li>They find the bottleneck before customers do — just like the load-test button in the simulation.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-data">
+            <h4>🧊 A "freeze" before the rush</h4>
+            <ul class="clean-list">
+              <li>Many companies stop risky changes in the days before a huge event.</li>
+              <li>Fewer changes = fewer surprises (remember Week 7's Friday night).</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-ext">
+            <h4>🚦 Waiting rooms</h4>
+            <ul class="clean-list">
+              <li>Many shops and ticket sites use a "waiting room" when demand is extreme: you queue for a moment instead of everyone getting an error.</li>
+              <li>A short, honest wait beats a crashed site.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tpm-takeaway">
+          <strong>🎓 TPM lesson from Shopify:</strong> you know when your big days are coming. Plan capacity <strong>weeks ahead</strong>, load-test, and keep changes small near the event.
+        </div>
+      </div>
+
+      <div id="twitter-case" class="tab-pane">
+        <p class="case-intro"><strong>The story:</strong> on Twitter (now X), when you post, your followers should see it in their home timeline. For most people that's a few hundred followers. But some accounts have <strong>tens of millions</strong> of followers. Copying one post into 100 million timelines, instantly, is a huge job.</p>
+        <div class="breakdown-grid">
+          <div class="breakdown-card bc-front">
+            <h4>📮 Most people: deliver straight away</h4>
+            <ul class="clean-list">
+              <li>When a normal user posts, the system copies the post into each follower's ready-made timeline right away.</li>
+              <li>So timelines open instantly — reading is fast, because it's prepared in advance.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-back">
+            <h4>⭐ Celebrities: collect when you open the app</h4>
+            <ul class="clean-list">
+              <li>Posts from accounts with enormous followings are <strong>not</strong> copied to everyone.</li>
+              <li>Instead, they're mixed into your timeline when you open it.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-data">
+            <h4>⚖️ The trade-off</h4>
+            <ul class="clean-list">
+              <li>Prepare in advance = fast reading, heavy writing.</li>
+              <li>Collect on demand = light writing, slower reading. Twitter uses each where it fits best.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-ext">
+            <h4>🔗 Same idea as Instagram</h4>
+            <ul class="clean-list">
+              <li>You saw the same pattern in Week 2 with Instagram's celebrities.</li>
+              <li>Big social apps keep arriving at the same answer.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tpm-takeaway">
+          <strong>🎓 TPM lesson from Twitter:</strong> averages hide the hard cases. Ask "what about our <strong>biggest</strong> user?" — the busiest restaurant, the most-followed account, the largest order.
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Quiz -->
+    <section id="quiz" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 6</span>
+        <h2>Quick quiz: check your understanding</h2>
+      </div>
+      <p>7 short questions. Tap an answer to see if you are right. No marks — this is just for practice.</p>
+      <div id="quizBox" class="quiz-box"></div>
+      <div class="quiz-result" id="quizResult" hidden></div>
+    </section>
+
+    <!-- 7. Assignment -->
+    <section id="assignment" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 7</span>
+        <h2>This week's work</h2>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="deliverable-box">
+          <div class="deliv-badge individual">Individual Assignment • 10 Marks</div>
+          <h3>What happens at 50× the traffic?</h3>
+          <p class="deliv-deadline">⏰ Due: Sunday, Jan 10, 2027, before 11:59 PM WAT</p>
+          <p>For the app you've studied, imagine a day with <strong>50 times</strong> the usual number of users (a big sale, a viral moment, a holiday). Write a short plan:</p>
+          <ol class="step-list">
+            <li><strong>The busy moment:</strong> what event could cause it? Roughly how many people, and do they mostly read or write?</li>
+            <li><strong>The bottleneck:</strong> which part would break first, and why?</li>
+            <li><strong>Caching:</strong> what would you cache (cache or CDN), and for how long (TTL)? What could go wrong if it's too old?</li>
+            <li><strong>The database:</strong> bigger database, read replicas, or something else? Why?</li>
+            <li><strong>If it still breaks:</strong> what do users see? (e.g. a waiting room instead of an error)</li>
+          </ol>
+          <div class="hint-box">💡 <strong>Tip:</strong> You don't need exact numbers — sensible guesses with your reasons are what matter. Use the simulation to test your thinking.</div>
+
+          <div class="rubric-mini">
+            <h4>How you will be marked (10 marks)</h4>
+            <ul>
+              <li><span>Realistic busy moment and read/write thinking</span><strong>2</strong></li>
+              <li><span>Correct bottleneck, clearly explained</span><strong>3</strong></li>
+              <li><span>Sensible caching plan with TTLs</span><strong>3</strong></li>
+              <li><span>Database plan and a graceful fallback</span><strong>2</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="deliverable-box">
+          <div class="deliv-badge team">Team Capstone • Phase 8</div>
+          <h3>Plan for your product's busiest day</h3>
+          <p class="deliv-deadline">👥 Done together with your team</p>
+          <p>Add a "scale and speed" section to your team's PRD. Tick each item as you finish it (your ticks are saved on this device):</p>
+          <div class="checklist-card" id="capstoneChecklist">
+            <label class="check-item"><input type="checkbox" data-key="c1"> Estimated normal and peak users (and when the peak happens)</label>
+            <label class="check-item"><input type="checkbox" data-key="c2"> Set speed targets, e.g. "pages load in under 2s for 95% of users"</label>
+            <label class="check-item"><input type="checkbox" data-key="c3"> Listed what you'll cache and for how long</label>
+            <label class="check-item"><input type="checkbox" data-key="c4"> Named your likely bottleneck and your plan for it</label>
+            <label class="check-item"><input type="checkbox" data-key="c5"> Ready to present it at Sunday's Project Review</label>
+          </div>
+          <div class="check-progress"><div class="check-progress-fill" id="checkFill"></div></div>
+          <p class="check-progress-text" id="checkText">0 of 5 done</p>
+        </div>
+      </div>
+
+      <div class="template-box">
+        <div class="template-info">
+          <h4>📄 Scaling plan template</h4>
+          <p>Copy this, paste it into Google Docs, and fill in the blanks.</p>
+        </div>
+        <button id="copyTemplateBtn" class="primary-btn">📋 Copy template</button>
+      </div>
+      <textarea id="templateText" class="template-textarea" readonly>
+# Scaling plan for [Product name]: 50× traffic
+Student name: [Your full name]
+Track: Technical Product Management (PCIP)
+Date: [Date]
+
+## 1. The busy moment
+- What could cause it: ______ (e.g. a big sale, a match final, payday)
+- Normal number of users at once: about ______
+- Peak (50×): about ______
+- Mostly reading or writing? ______ (e.g. "people browse 20× for every order")
+
+## 2. The bottleneck
+- The part I think breaks first: ______
+- Why: ______
+
+## 3. Caching plan
+| What | Cache or CDN? | How long (TTL) | What if it's too old? |
+|------|---------------|----------------|-----------------------|
+| ______ | ______ | ______ | ______ |
+| ______ | ______ | ______ | ______ |
+| ______ | ______ | ______ | ______ |
+- Something I would NOT cache, and why: ______
+
+## 4. Database plan
+- My choice: bigger database / read replicas / both / other: ______
+- Why: ______
+
+## 5. Servers
+- Fixed number or auto-scaling? ______
+- Why: ______
+
+## 6. If it still breaks
+- What users will see: ______ (e.g. "You're in the queue — about 1 minute")
+- How we'll know it's happening: ______ (e.g. an alert when pages take over 3 seconds)
+</textarea>
+    </section>
+
+    <!-- Discussion -->
+    <section class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Saturday class</span>
+        <h2>Questions we will discuss together</h2>
+      </div>
+      <p>Think about your answer first, then tap to see one good answer.</p>
+      <div class="faq-accordion">
+        <details class="faq-item">
+          <summary class="faq-q">1. The app is slow, and the CEO says "just buy more servers". What do you ask first?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> "Which part is actually at its limit?" If the database is the bottleneck, more app servers won't help — they'll just send more requests to the struggling database. Find the narrowest part first, then fix that.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">2. Why not just cache everything for a whole day?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> Because customers would see old information — sold-out food still for sale, old prices, closed restaurants that look open. That leads to cancellations and angry customers. Things that change often, or that involve money, need short TTLs or no cache at all.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">3. Auto-scaling sounds perfect. Is there any downside?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> New servers take time to start, so a very sudden spike can arrive faster than they do — you may still need some extra servers ready <em>before</em> a planned event. Costs can also surprise you if a bug or attack creates fake traffic, so teams set a maximum.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">4. Nothing you do will handle 10 million users at once. What should the product do?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> Fail gracefully. Show a waiting room ("You're in line — about 2 minutes") instead of errors, keep the most important actions working (like paying for orders already started), and turn off nice-to-have features for a while. A TPM decides in advance what matters most.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- 8. Word bank -->
+    <section id="word-bank" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 8</span>
+        <h2>Word bank: tech words in plain English</h2>
+      </div>
+      <p>You will hear these words in class and from engineers. Search for any word you're not sure about.</p>
+      <input type="search" id="glossarySearch" class="search-input" placeholder="Search a word, e.g. cache" aria-label="Search the word bank">
+      <div class="glossary-grid" id="glossaryGrid"></div>
+      <p class="no-results" id="glossaryEmpty" hidden>No matching word. Ask about it on Slack!</p>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>Product Bosslady Academy (PBA) • Product Career Internship Program (PCIP) • Technical Product Management Track</p>
+      <p class="footer-sub">November 2026 – February 2027 • Facilitated by Oyindamola Oye-Daniel</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 08: Scalability and Performance | PCIP TPM Track</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand-group">
+        <a href="../index.html" class="back-portal-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Master Portal
+        </a>
+        <span class="divider">/</span>
+        <span class="badge-week">Week 08 of 12</span>
+      </div>
+      <div class="nav-title">Scalability and Performance</div>
+      <div class="nav-actions">
+        <button id="themeToggle" class="icon-btn" title="Toggle Theme">🌓</button>
+        <a href="../07-debugging-and-issue-tracking/index.html" class="nav-prev-btn">← Week 7</a>
+        <a href="../09-security-and-system-reliability/index.html" class="nav-next-btn">Next: Week 9 →</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="meta-pill-group">
+        <span class="meta-pill date-pill">📅 Jan 3 – 9, 2027</span>
+        <span class="meta-pill live-pill">🔴 Masterclass: Sat 7:00 PM WAT</span>
+        <span class="meta-pill review-pill">🎯 Project Review: Sun 6:00 PM WAT</span>
+      </div>
+      <h1 class="hero-title">Scalability, Performance & High-Load Architecture</h1>
+      <p class="hero-subtitle">
+        Design systems that withstand massive traffic surges without melting down. Learn how <strong>Shopify</strong> survives Black Friday (76M requests/minute) and how <strong>Twitter / X</strong> solves the 50-million-follower fan-out bottleneck using caching, read replicas, and horizontal scaling.
+      </p>
+      <div class="hero-quick-stats">
+        <div class="stat-box">
+          <span class="stat-num">Horizontal Scaling</span>
+          <span class="stat-label">Stateless Server Clusters</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">Shopify & Twitter</span>
+          <span class="stat-label">Massive Traffic Case Studies</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">Redis & CDN</span>
+          <span class="stat-label">Multi-Tier Caching</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">10 Marks</span>
+          <span class="stat-label">Individual Deliverable #8</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="sub-nav">
+    <div class="sub-nav-container">
+      <a href="#scaling-laws" class="sub-link active">1. Laws of Scalability</a>
+      <a href="#caching-strategies" class="sub-link">2. Caching & CDNs</a>
+      <a href="#db-scaling" class="sub-link">3. Database Scaling</a>
+      <a href="#case-studies" class="sub-link">4. Shopify & Twitter Case Studies</a>
+      <a href="#traffic-simulator" class="sub-link">5. High-Traffic Simulator</a>
+      <a href="#deliverables" class="sub-link">6. Deliverables & Template</a>
+    </div>
+  </nav>
+
+  <main class="main-container">
+
+    <!-- 1. Laws of Scalability -->
+    <section id="scaling-laws" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 8.1</span>
+        <h2>Vertical Scaling (Scale Up) vs. Horizontal Scaling (Scale Out)</h2>
+      </div>
+      <p class="lead-text">
+        When an app gets slow under traffic, you have two architectural choices. A Technical PM understands the financial and technical boundaries of both:
+      </p>
+
+      <div class="grid-2-col">
+        <div class="info-callout primary">
+          <h3>Vertical Scaling (Scale Up)</h3>
+          <p>Buying a bigger single computer (e.g. upgrading an AWS EC2 instance from 8GB RAM to 128GB RAM).</p>
+          <ul class="bullet-list">
+            <li><strong>Pros:</strong> Zero code changes; no distributed system complexity.</li>
+            <li><strong>Cons:</strong> Hard physical ceiling; exponentially expensive; single point of failure (if that box dies, everything dies).</li>
+          </ul>
+        </div>
+        <div class="info-callout secondary">
+          <h3>Horizontal Scaling (Scale Out)</h3>
+          <p>Adding more commodity servers behind a Load Balancer (e.g. running 10 micro-instances instead of 1 monster).</p>
+          <ul class="bullet-list">
+            <li><strong>Pros:</strong> Virtually infinite scale; high resilience (if 1 server dies, 9 keep serving).</li>
+            <li><strong>Cons:</strong> Servers must be strictly <strong>stateless</strong> (sessions stored in Redis, not server memory).</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Caching Strategies -->
+    <section id="caching-strategies" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 8.2</span>
+        <h2>Multi-Tier Caching: The Secret to Sub-50ms Latency</h2>
+      </div>
+
+      <div class="grid-3-col">
+        <div class="concept-card">
+          <div class="concept-icon">⚡</div>
+          <h3>1. In-Memory Cache (Redis)</h3>
+          <p>RAM is 100,000x faster than disk. Storing hot objects (user profiles, active sessions, product prices) in Redis avoids expensive database queries.</p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-icon">🌐</div>
+          <h3>2. Content Delivery Networks (CDN)</h3>
+          <p>Placing images, CSS, JavaScript, and static JSON at edge servers in London, Tokyo, and Lagos means data travels 5ms instead of crossing oceans.</p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-icon">💣</div>
+          <h3>3. Cache Invalidation Pitfalls</h3>
+          <p><em>"There are only two hard things in Computer Science: cache invalidation and naming things."</em> — Phil Karlton. Setting proper Time-To-Live (TTL) is a core TPM responsibility.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Database Scaling -->
+    <section id="db-scaling" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 8.3</span>
+        <h2>Database Scaling Techniques: Read Replicas & Sharding</h2>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="info-callout primary">
+          <h3>Read Replicas (Primary-Replica Pattern)</h3>
+          <p>In most products, reads outnumber writes 10:1 or 100:1. We configure <strong>1 Primary DB</strong> (handles all INSERT, UPDATE, DELETE) that continuously streams changes to <strong>3 Read Replicas</strong> (handles all SELECT queries). This quadruples read throughput instantly!</p>
+        </div>
+        <div class="info-callout secondary">
+          <h3>Database Sharding (Horizontal Partitioning)</h3>
+          <p>When a single table reaches 100 million rows, queries slow down even with indexes. Sharding splits the table across multiple physical databases using a <strong>Shard Key</strong> (e.g. Users with ID 1–1M on DB-1, Users 1M–2M on DB-2).</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Public Product Case Studies -->
+    <section id="case-studies" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 8.4: Real-World Public Product Case Studies</span>
+        <h2>Case Studies: Shopify & Twitter / X</h2>
+      </div>
+
+      <div class="tab-control">
+        <button class="tab-btn active" data-tab="shopify-case">🛍️ Case Study 1: Shopify Black Friday Cyber Monday</button>
+        <button class="tab-btn" data-tab="twitter-case">🐦 Case Study 2: Twitter / X Timeline Fan-Out</button>
+      </div>
+
+      <div id="shopify-case" class="tab-pane active">
+        <div class="case-header">
+          <div class="case-badge">Shopify Inc.</div>
+          <h3>Handling 76+ Million Requests Per Minute with Zero Downtime</h3>
+          <p>During BFCM (Black Friday Cyber Monday), Shopify merchants generate billions of dollars in hours. A 10-second crash means millions in lost sales.</p>
+        </div>
+
+        <div class="breakdown-grid">
+          <div class="breakdown-card">
+            <div class="card-tag backend">Pod Architecture</div>
+            <h4>Isolated Tenant Pods</h4>
+            <p>Shopify partitions merchants into "Pods". If Gymshark runs a mega flash sale with 10M visitors, their pod auto-scales without impacting other stores!</p>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag database">Database Connection Pooling</div>
+            <h4>PgBouncer Tuning</h4>
+            <p>Prevented thousands of worker threads from exhausting MySQL connections by sharing a pool of pre-warmed idle database handles.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="twitter-case" class="tab-pane">
+        <div class="case-header">
+          <div class="case-badge">Twitter / X</div>
+          <h3>The Celebrity Fan-Out Problem</h3>
+          <p>When Elon Musk or Taylor Swift posts a tweet, writing that tweet to 100 million follower timelines simultaneously would melt Redis memory.</p>
+        </div>
+
+        <div class="breakdown-grid">
+          <div class="breakdown-card">
+            <div class="card-tag backend">Hybrid Fan-Out Architecture</div>
+            <h4>Fan-Out on Write vs Read</h4>
+            <p>For ordinary users with &lt; 25,000 followers, tweets are pushed directly into follower home timelines. For mega accounts, tweets are merged at read time when the user opens the app.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Interactive Traffic Spike Simulator -->
+    <section id="traffic-simulator" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Interactive Teaching Tool</span>
+        <h2>High-Traffic Spike & Scalability Simulator</h2>
+      </div>
+      <p>Simulate a traffic spike on your backend. Adjust the traffic volume and toggle scaling optimizations to observe system latency and server crash thresholds:</p>
+
+      <div class="traffic-sim-wrapper">
+        <div class="sim-slider-row">
+          <label>Simulated Traffic Volume: <strong id="trafficValText" style="color: #38bdf8;">10,000 Requests/Sec</strong></label>
+          <input type="range" id="trafficSlider" min="1000" max="100000" step="1000" value="10000" class="slider-input">
+        </div>
+
+        <div class="toggles-grid">
+          <label class="toggle-card">
+            <input type="checkbox" id="toggleCdn" checked>
+            <span>🌐 Cloudflare Edge CDN</span>
+          </label>
+          <label class="toggle-card">
+            <input type="checkbox" id="toggleRedis" checked>
+            <span>⚡ Redis In-Memory Cache</span>
+          </label>
+          <label class="toggle-card">
+            <input type="checkbox" id="toggleReplicas">
+            <span>🗄️ Database Read Replicas (x3)</span>
+          </label>
+          <label class="toggle-card">
+            <input type="checkbox" id="toggleAutoscale">
+            <span>🚀 Horizontal Auto-Scaling (K8s)</span>
+          </label>
+        </div>
+
+        <div class="sim-dashboard">
+          <div class="dash-card">
+            <span class="dash-label">Database CPU Load</span>
+            <span id="dbCpuText" class="dash-val">28%</span>
+            <div class="dash-bar"><div id="dbCpuBar" class="dash-fill" style="width: 28%;"></div></div>
+          </div>
+          <div class="dash-card">
+            <span class="dash-label">P95 Latency</span>
+            <span id="latencyText" class="dash-val">42ms</span>
+            <div class="dash-bar"><div id="latencyBar" class="dash-fill" style="width: 15%; background: #10b981;"></div></div>
+          </div>
+          <div class="dash-card">
+            <span class="dash-label">System Health Status</span>
+            <span id="healthText" class="dash-val" style="color: #10b981;">HEALTHY</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Student Deliverables -->
+    <section id="deliverables" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Course Deliverables</span>
+        <h2>Week 08 Assignment & Capstone Milestone</h2>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="deliverable-box">
+          <div class="deliv-badge individual">Individual Assignment (10 Marks)</div>
+          <h3>Scaling Analysis & Bottleneck Improvements</h3>
+          <p class="deliv-deadline">⏰ Due: Sunday, Jan 9, 2027 before 11:59 PM WAT</p>
+          <p>For your individual case study product, analyze what happens when user traffic multiplies 50x:</p>
+          <ol class="step-list">
+            <li><strong>Traffic Profile:</strong> Read/Write ratio and peak Requests Per Second (RPS).</li>
+            <li><strong>Primary Bottleneck Identification:</strong> Identify the exact component that fails first (e.g. database thread pool exhaustion).</li>
+            <li><strong>Caching Strategy:</strong> What data is cached in Redis vs CDN, with TTL rationale.</li>
+            <li><strong>Database Scaling Strategy:</strong> Read replicas vs sharding justification.</li>
+          </ol>
+          <div class="rubric-mini">
+            <h4>Marking Rubric (Total: 10 Marks)</h4>
+            <ul>
+              <li>Traffic estimation realism & analysis: <strong>2 Marks</strong></li>
+              <li>Accuracy of bottleneck identification: <strong>3 Marks</strong></li>
+              <li>Caching & CDN architecture design: <strong>3 Marks</strong></li>
+              <li>Database scaling strategy feasibility: <strong>2 Marks</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="deliverable-box">
+          <div class="deliv-badge team">Team Capstone (Phase 8 of 6)</div>
+          <h3>Capstone Scalability & Performance Strategy</h3>
+          <p class="deliv-deadline">👥 Collaborative Team Milestone</p>
+          <p>Teams document load-handling specifications for their capstone platform:</p>
+
+          <div class="checklist-card">
+            <h4>Week 8 Team Goals:</h4>
+            <label class="check-item"><input type="checkbox"> Calculate expected peak throughput (RPS)</label>
+            <label class="check-item"><input type="checkbox"> Specify caching policy and Redis key schema</label>
+            <label class="check-item"><input type="checkbox"> Document database read-replica distribution</label>
+            <label class="check-item"><input type="checkbox"> Present scalability architecture in Sunday review</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="template-box">
+        <div class="template-info">
+          <h4>📄 Week 8 Scaling Analysis Template</h4>
+          <p>Copy this standardized markdown template for your submission:</p>
+        </div>
+        <button id="copyTemplateBtn" class="primary-btn">📋 Copy Markdown Template</button>
+      </div>
+      <textarea id="templateText" class="template-textarea" readonly>
+# Week 08 Scaling Analysis & Performance Strategy: [Product Name]
+**Student Name:** [Your Full Name]
+**PCIP Track:** Technical Product Management
+**Date:** [Submission Date]
+
+## 1. Baseline vs Peak Traffic Model
+- **Current Baseline Traffic:** 500 RPS
+- **Target Peak Scale (50x Surge):** 25,000 RPS
+- **Read-to-Write Ratio:** 90% Reads / 10% Writes
+
+## 2. Identified System Bottlenecks
+- **Bottleneck 1 (Database):** Primary PostgreSQL instance runs out of connections during traffic spikes above 2,500 RPS.
+- **Bottleneck 2 (Media Delivery):** Large profile photo downloads consume 85% of origin server bandwidth.
+
+## 3. Caching & Edge Strategy
+- **Edge Layer (CDN):** Cloudflare CDN configured for all static assets and `/api/v1/public/catalog` with 5-minute TTL.
+- **In-Memory Cache (Redis):** Cache user session tokens and hot listing records with 15-minute TTL. Cache-Aside pattern.
+
+## 4. Database Scaling Implementation
+- **Read Replicas:** 3 Read Replicas deployed behind an AWS Aurora Read Endpoint.
+- **Connection Pooling:** PgBouncer introduced to multiplex 5,000 application client connections down to 50 physical DB connections.
+      </textarea>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>Product Bosslady Academy (PBA) • Product Career Internship Program (PCIP) • Technical Product Management Track</p>
+      <p class="footer-sub">Week 08 Curriculum • November 2026 – February 2027 • Facilitated by Oyindamola Oye-Daniel</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
