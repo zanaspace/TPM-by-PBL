@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 09: Security and System Reliability | PCIP TPM Track</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand-group">
+        <a href="../index.html" class="back-portal-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Master Portal
+        </a>
+        <span class="divider">/</span>
+        <span class="badge-week">Week 09 of 12</span>
+      </div>
+      <div class="nav-title">Security and System Reliability</div>
+      <div class="nav-actions">
+        <button id="themeToggle" class="icon-btn" title="Toggle Theme">🌓</button>
+        <a href="../08-scalability-and-performance/index.html" class="nav-prev-btn">← Week 8</a>
+        <a href="../10-full-system-integration/index.html" class="nav-next-btn">Next: Week 10 →</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="meta-pill-group">
+        <span class="meta-pill date-pill">📅 Jan 10 – 16, 2027</span>
+        <span class="meta-pill live-pill">🔴 Masterclass: Sat 7:00 PM WAT</span>
+        <span class="meta-pill review-pill">🎯 Project Review: Sun 6:00 PM WAT</span>
+      </div>
+      <h1 class="hero-title">Security, OWASP & System Reliability (SRE)</h1>
+      <p class="hero-subtitle">
+        Protect user privacy and build rock-solid systems. Master the OWASP Top 10 vulnerabilities (BOLA, SQLi), navigate OAuth 2.0 and JWT authentication, calculate Service Level Objectives (SLOs) and error budgets, and examine security architectures from <strong>Apple</strong> and <strong>Cloudflare</strong>.
+      </p>
+      <div class="hero-quick-stats">
+        <div class="stat-box">
+          <span class="stat-num">OWASP Top 10</span>
+          <span class="stat-label">BOLA, IDOR & Injection</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">SLAs, SLOs & SLIs</span>
+          <span class="stat-label">Nines of Availability</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">Apple & Cloudflare</span>
+          <span class="stat-label">Security & Zero Trust</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">10 Marks</span>
+          <span class="stat-label">Individual Deliverable #9</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="sub-nav">
+    <div class="sub-nav-container">
+      <a href="#auth-fundamentals" class="sub-link active">1. AuthN vs AuthZ</a>
+      <a href="#owasp-vulnerabilities" class="sub-link">2. OWASP Top 10 for PMs</a>
+      <a href="#sre-framework" class="sub-link">3. SLAs, SLOs & Error Budgets</a>
+      <a href="#case-studies" class="sub-link">4. Apple & Cloudflare Case Studies</a>
+      <a href="#availability-calc" class="sub-link">5. Downtime & Threat Calculator</a>
+      <a href="#deliverables" class="sub-link">6. Deliverables & Template</a>
+    </div>
+  </nav>
+
+  <main class="main-container">
+
+    <!-- 1. AuthN vs AuthZ -->
+    <section id="auth-fundamentals" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 9.1</span>
+        <h2>Authentication (AuthN) vs. Authorization (AuthZ)</h2>
+      </div>
+      <p class="lead-text">
+        Confusing these two concepts leads to catastrophic data breaches. Here is the exact distinction every Technical PM must draw:
+      </p>
+
+      <div class="grid-2-col">
+        <div class="info-callout primary">
+          <h3>Authentication (AuthN) — <em>"Who are you?"</em></h3>
+          <p>Verifying identity credentials before granting entry.</p>
+          <ul class="bullet-list">
+            <li>Passwords with bcrypt/Argon2 hashing and salting.</li>
+            <li>Multi-Factor Authentication (MFA / TOTP Authenticator apps).</li>
+            <li>OAuth 2.0 Social Login ("Sign in with Google / Apple").</li>
+            <li>Returns an identity token (JWT) verifying the user's ID.</li>
+          </ul>
+        </div>
+        <div class="info-callout secondary">
+          <h3>Authorization (AuthZ) — <em>"What can you do?"</em></h3>
+          <p>Enforcing permissions and access boundaries once authenticated.</p>
+          <ul class="bullet-list">
+            <li><strong>Role-Based Access Control (RBAC):</strong> Admin, Editor, Viewer roles.</li>
+            <li><strong>Object-Level Access:</strong> Can User #402 view the medical records belonging to User #905?</li>
+            <li>Enforced by backend middleware on every single API request.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. OWASP Top 10 -->
+    <section id="owasp-vulnerabilities" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 9.2</span>
+        <h2>The OWASP Top 10 Vulnerabilities Every TPM Must Guard Against</h2>
+      </div>
+
+      <div class="table-responsive">
+        <table class="tpm-table">
+          <thead>
+            <tr>
+              <th>Vulnerability</th>
+              <th>How It Happens</th>
+              <th>Real-World Example</th>
+              <th>TPM Mitigation Spec</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>BOLA / IDOR (#1 API Threat)</strong></td>
+              <td>API takes an object ID directly from the URL without checking if the requester owns it.</td>
+              <td>Attacker changes <code>GET /api/invoices/100</code> to <code>/api/invoices/101</code> and reads someone else's invoice!</td>
+              <td>Require middleware to verify <code>invoice.user_id === current_user.id</code>; use non-sequential UUIDs.</td>
+            </tr>
+            <tr>
+              <td><strong>SQL Injection (SQLi)</strong></td>
+              <td>User input is concatenated directly into a database SQL query string.</td>
+              <td>User enters <code>' OR 1=1; --</code> into login email field, bypassing authentication.</td>
+              <td>Mandate parameterized queries and Object-Relational Mappers (ORMs).</td>
+            </tr>
+            <tr>
+              <td><strong>Lack of Rate Limiting</strong></td>
+              <td>API allows infinite requests with no throttling, enabling brute-force password attacks.</td>
+              <td>Bot tests 100,000 passwords in 2 minutes against <code>/api/login</code>.</td>
+              <td>Specify Redis sliding-window rate limit (e.g. max 5 login attempts per 15 minutes per IP).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 3. SRE Framework -->
+    <section id="sre-framework" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 9.3</span>
+        <h2>Reliability Engineering: SLAs, SLOs, SLIs & Error Budgets</h2>
+      </div>
+
+      <div class="grid-3-col">
+        <div class="concept-card">
+          <div class="concept-icon">📊</div>
+          <h3>SLI (Indicator)</h3>
+          <p>The metric actually measured in real time. (e.g. <em>"Percentage of API requests returning HTTP 200 in &lt; 200ms over the last 30 days"</em>).</p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-icon">🎯</div>
+          <h3>SLO (Objective)</h3>
+          <p>The internal engineering target agreed upon between TPM and EM. (e.g. <em>"99.9% of requests succeed"</em>).</p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-icon">📜</div>
+          <h3>SLA (Agreement)</h3>
+          <p>The external legal contract with customers with financial penalties if breached (e.g. refunding 25% of AWS bill if uptime drops below 99.5%).</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Public Product Case Studies -->
+    <section id="case-studies" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 9.4: Real-World Public Product Case Studies</span>
+        <h2>Case Studies: Apple & Cloudflare</h2>
+      </div>
+
+      <div class="tab-control">
+        <button class="tab-btn active" data-tab="apple-case">🍏 Case Study 1: Apple Secure Enclave & Private Relay</button>
+        <button class="tab-btn" data-tab="cloudflare-case">☁️ Case Study 2: Cloudflare Zero Trust & DDoS Shield</button>
+      </div>
+
+      <div id="apple-case" class="tab-pane active">
+        <div class="case-header">
+          <div class="case-badge">Apple Inc.</div>
+          <h3>Hardware-Isolated Security: The Secure Enclave</h3>
+          <p>How Apple protects FaceID, Apple Pay, and biometric master keys from even root-level iOS exploits.</p>
+        </div>
+
+        <div class="breakdown-grid">
+          <div class="breakdown-card">
+            <div class="card-tag backend">Secure Enclave Processor (SEP)</div>
+            <h4>Separate Hardware Chip</h4>
+            <p>Biometric FaceID mathematical models are stored on a physically isolated coprocessor with its own encrypted memory. The main iOS operating system never touches raw biometric data.</p>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag apis">iCloud Private Relay</div>
+            <h4>Dual-Hop Privacy Architecture</h4>
+            <p>Uses dual-hop encryption: Apple knows your IP but not what site you visit; Cloudflare knows what site you visit but not your IP. No single entity has complete information.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="cloudflare-case" class="tab-pane">
+        <div class="case-header">
+          <div class="case-badge">Cloudflare, Inc.</div>
+          <h3>Absorbing 71 Million Requests/Sec DDoS Attacks</h3>
+          <p>Cloudflare uses Anycast routing and automated BGP routing to diffuse global volumetric cyberattacks across 300+ data centers.</p>
+        </div>
+
+        <div class="breakdown-grid">
+          <div class="breakdown-card">
+            <div class="card-tag frontend">Anycast Network</div>
+            <h4>Distributed Blast Diffusion</h4>
+            <p>Instead of 10 million bot requests hitting your origin server in New York, Anycast distributes the attack traffic to local edge nodes in Paris, Sydney, and Singapore where it is scrubbed.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Interactive Availability & Downtime Calculator -->
+    <section id="availability-calc" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Interactive Teaching Tool</span>
+        <h2>Availability "Nines" & Downtime Calculator</h2>
+      </div>
+      <p>Select an Availability Target to see allowed downtime minutes and calculate your team's monthly error budget:</p>
+
+      <div class="sla-calc-wrapper">
+        <div class="sla-select-row">
+          <label>Select Availability SLA Target:</label>
+          <select id="slaSelect" class="form-input" style="max-width: 320px;">
+            <option value="99.0">99.0% ("Two Nines" - Basic)</option>
+            <option value="99.9" selected>99.9% ("Three Nines" - Modern SaaS Standard)</option>
+            <option value="99.95">99.95% ("High Availability Standard")</option>
+            <option value="99.99">99.99% ("Four Nines" - Enterprise FinTech)</option>
+            <option value="99.999">99.999% ("Five Nines" - Telecom / AWS S3)</option>
+          </select>
+        </div>
+
+        <div class="sla-results-grid" id="slaResultsGrid">
+          <!-- Dynamically populated by script.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Student Deliverables -->
+    <section id="deliverables" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Course Deliverables</span>
+        <h2>Week 09 Assignment & Capstone Milestone</h2>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="deliverable-box">
+          <div class="deliv-badge individual">Individual Assignment (10 Marks)</div>
+          <h3>Technical Risk Analysis: Security & Reliability</h3>
+          <p class="deliv-deadline">⏰ Due: Sunday, Jan 16, 2027 before 11:59 PM WAT</p>
+          <p>For your individual case study product, prepare a comprehensive Risk & Security Audit:</p>
+          <ol class="step-list">
+            <li><strong>Authentication & Token Lifecycle:</strong> JWT vs session tokens, refresh token flow, and storage security.</li>
+            <li><strong>OWASP Threat Assessment:</strong> Analyze vulnerability to BOLA (IDOR) and SQL Injection with prevention specs.</li>
+            <li><strong>Encryption Standards:</strong> Data at Rest (AES-256) vs Data in Transit (TLS 1.3).</li>
+            <li><strong>Reliability Targets:</strong> Define SLI, SLO, and SLA availability percentage with allowed downtime calculation.</li>
+          </ol>
+          <div class="rubric-mini">
+            <h4>Marking Rubric (Total: 10 Marks)</h4>
+            <ul>
+              <li>Auth architecture & token lifecycle: <strong>2 Marks</strong></li>
+              <li>OWASP threat modeling & mitigation: <strong>3 Marks</strong></li>
+              <li>Data encryption & regulatory compliance: <strong>2 Marks</strong></li>
+              <li>SLA/SLO calculation & error budget policy: <strong>3 Marks</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="deliverable-box">
+          <div class="deliv-badge team">Team Capstone (Phase 9 of 6)</div>
+          <h3>Capstone Security & Reliability Framework</h3>
+          <p class="deliv-deadline">👥 Collaborative Team Milestone</p>
+          <p>Teams compile the security and compliance chapter of their capstone system build:</p>
+
+          <div class="checklist-card">
+            <h4>Week 9 Team Goals:</h4>
+            <label class="check-item"><input type="checkbox"> Define RBAC permission matrix for all capstone roles</label>
+            <label class="check-item"><input type="checkbox"> Establish rate-limiting rules across public API endpoints</label>
+            <label class="check-item"><input type="checkbox"> Calculate system error budget and downtime recovery SLA</label>
+            <label class="check-item"><input type="checkbox"> Review security posture in Sunday review session</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="template-box">
+        <div class="template-info">
+          <h4>📄 Week 9 Security & Reliability Audit Template</h4>
+          <p>Copy this standardized markdown template for your submission:</p>
+        </div>
+        <button id="copyTemplateBtn" class="primary-btn">📋 Copy Markdown Template</button>
+      </div>
+      <textarea id="templateText" class="template-textarea" readonly>
+# Week 09 Security & Reliability Audit: [Product Name]
+**Student Name:** [Your Full Name]
+**PCIP Track:** Technical Product Management
+**Date:** [Submission Date]
+
+## 1. Authentication & Token Architecture
+- **Auth Protocol:** OAuth 2.0 with PKCE for mobile; JWT session tokens.
+- **Access Token Lifetime:** 15 Minutes (short-lived).
+- **Refresh Token Lifetime:** 30 Days with automated token rotation and revocation.
+- **Client Storage:** Secure Enclave / iOS Keychain / Encrypted HTTP-only Cookie.
+
+## 2. OWASP Threat Modeling & Mitigation Matrix
+| Threat | Risk Level | Potential Impact | Technical Mitigation Spec |
+|--------|------------|------------------|---------------------------|
+| BOLA / IDOR | Critical | Unauthorized access to user records | Enforce `owner_id == jwt.sub` middleware on every API endpoint. |
+| SQL Injection | High | Database exfiltration | Use SQLAlchemy ORM with strictly parameterized inputs. |
+| Rate Limit Abuse | Medium | Denial of Service / Credential stuffing | Redis sliding window: max 5 login attempts per 15 min per IP. |
+
+## 3. Data Protection & Compliance
+- **Data in Transit:** Enforced HTTPS with TLS 1.3 and HSTS header.
+- **Data at Rest:** AWS RDS PostgreSQL encrypted with KMS (AES-256).
+- **Privacy Compliance:** GDPR "Right to be Forgotten" endpoint that cascades hard deletes across all replica databases.
+
+## 4. System Reliability (SRE) Framework
+- **Service Level Indicator (SLI):** Percentage of `/api/v1/checkout` requests returning HTTP 200 in < 300ms.
+- **Service Level Objective (SLO):** 99.95% availability over any rolling 30-day window.
+- **Allowed Monthly Downtime (Error Budget):** 21.9 minutes.
+      </textarea>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>Product Bosslady Academy (PBA) • Product Career Internship Program (PCIP) • Technical Product Management Track</p>
+      <p class="footer-sub">Week 09 Curriculum • November 2026 – February 2027 • Facilitated by Oyindamola Oye-Daniel</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -6,332 +6,504 @@
   <title>Week 09: Security and System Reliability | PCIP TPM Track</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Navigation Header -->
   <header class="navbar">
     <div class="nav-container">
       <div class="brand-group">
         <a href="../index.html" class="back-portal-btn">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-          Master Portal
+          All Weeks
         </a>
         <span class="divider">/</span>
         <span class="badge-week">Week 09 of 12</span>
       </div>
-      <div class="nav-title">Security and System Reliability</div>
+      <div class="nav-title">Technical Product Management Track</div>
       <div class="nav-actions">
-        <button id="themeToggle" class="icon-btn" title="Toggle Theme">🌓</button>
+        <button id="themeToggle" class="icon-btn" title="Switch dark / light mode" aria-label="Switch dark or light mode">🌓</button>
         <a href="../08-scalability-and-performance/index.html" class="nav-prev-btn">← Week 8</a>
-        <a href="../10-full-system-integration/index.html" class="nav-next-btn">Next: Week 10 →</a>
+        <a href="../10-full-system-integration/index.html" class="nav-next-btn">
+          Next: Week 10
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
       </div>
     </div>
   </header>
 
+  <!-- Progress bar -->
+  <div class="read-progress"><div id="readProgress" class="read-progress-fill"></div></div>
+
+  <!-- Hero Section -->
   <section class="hero-section">
     <div class="hero-content">
       <div class="meta-pill-group">
-        <span class="meta-pill date-pill">📅 Jan 10 – 16, 2027</span>
-        <span class="meta-pill live-pill">🔴 Masterclass: Sat 7:00 PM WAT</span>
-        <span class="meta-pill review-pill">🎯 Project Review: Sun 6:00 PM WAT</span>
+        <span class="meta-pill">📅 Jan 11 – 17, 2027</span>
+        <span class="meta-pill live-pill">🔴 Class: Saturday 7:00 PM WAT</span>
+        <span class="meta-pill review-pill">🎯 Project Review: Sunday 6:00 PM WAT</span>
       </div>
-      <h1 class="hero-title">Security, OWASP & System Reliability (SRE)</h1>
+      <h1 class="hero-title">Security and Reliability</h1>
       <p class="hero-subtitle">
-        Protect user privacy and build rock-solid systems. Master the OWASP Top 10 vulnerabilities (BOLA, SQLi), navigate OAuth 2.0 and JWT authentication, calculate Service Level Objectives (SLOs) and error budgets, and examine security architectures from <strong>Apple</strong> and <strong>Cloudflare</strong>.
+        Customers trust you with their money, addresses and phone numbers. One security mistake can expose thousands of them, and an unreliable app
+        loses customers just as fast. This week you'll learn how attackers really break in, how teams stop them, and how to set honest reliability targets.
+        Then you'll <strong>defend ChopNow Wallet</strong> with a limited budget — and watch the attacks happen.
       </p>
-      <div class="hero-quick-stats">
-        <div class="stat-box">
-          <span class="stat-num">OWASP Top 10</span>
-          <span class="stat-label">BOLA, IDOR & Injection</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-num">SLAs, SLOs & SLIs</span>
-          <span class="stat-label">Nines of Availability</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-num">Apple & Cloudflare</span>
-          <span class="stat-label">Security & Zero Trust</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-num">10 Marks</span>
-          <span class="stat-label">Individual Deliverable #9</span>
-        </div>
+
+      <div class="goals-box">
+        <h2 class="goals-title">By the end of this week, you will be able to:</h2>
+        <ul class="goals-list">
+          <li><span class="goal-check">✓</span> Explain the difference between "who are you?" and "what are you allowed to do?"</li>
+          <li><span class="goal-check">✓</span> Describe the most common attacks in plain words — and the fix for each</li>
+          <li><span class="goal-check">✓</span> Prioritise security work by likelihood and impact</li>
+          <li><span class="goal-check">✓</span> Explain SLI, SLO, SLA and error budgets, and what "99.9%" really allows</li>
+          <li><span class="goal-check">✓</span> Write a security and reliability plan for your product</li>
+        </ul>
       </div>
     </div>
   </section>
 
-  <nav class="sub-nav">
+  <!-- Quick Topic Navigation -->
+  <nav class="sub-nav" aria-label="Lesson sections">
     <div class="sub-nav-container">
-      <a href="#auth-fundamentals" class="sub-link active">1. AuthN vs AuthZ</a>
-      <a href="#owasp-vulnerabilities" class="sub-link">2. OWASP Top 10 for PMs</a>
-      <a href="#sre-framework" class="sub-link">3. SLAs, SLOs & Error Budgets</a>
-      <a href="#case-studies" class="sub-link">4. Apple & Cloudflare Case Studies</a>
-      <a href="#availability-calc" class="sub-link">5. Downtime & Threat Calculator</a>
-      <a href="#deliverables" class="sub-link">6. Deliverables & Template</a>
+      <a href="#who-what" class="sub-link active">1. Who Are You?</a>
+      <a href="#attacks" class="sub-link">2. Common Attacks</a>
+      <a href="#reliability" class="sub-link">3. Reliability Targets</a>
+      <a href="#simulation" class="sub-link">4. ▶ Security Simulation</a>
+      <a href="#case-studies" class="sub-link">5. Apple &amp; Cloudflare</a>
+      <a href="#quiz" class="sub-link">6. Quick Quiz</a>
+      <a href="#assignment" class="sub-link">7. Assignment</a>
+      <a href="#word-bank" class="sub-link">8. Word Bank</a>
     </div>
   </nav>
 
   <main class="main-container">
 
     <!-- 1. AuthN vs AuthZ -->
-    <section id="auth-fundamentals" class="content-card">
+    <section id="who-what" class="content-card">
       <div class="card-header">
-        <span class="section-tag">Module 9.1</span>
-        <h2>Authentication (AuthN) vs. Authorization (AuthZ)</h2>
+        <span class="section-tag">Part 1</span>
+        <h2>"Who are you?" and "What are you allowed to do?"</h2>
       </div>
-      <p class="lead-text">
-        Confusing these two concepts leads to catastrophic data breaches. Here is the exact distinction every Technical PM must draw:
-      </p>
+
+      <div class="big-definition">
+        <p>Think of a <strong>hotel</strong>. At reception they check your ID and give you a key card — that's <strong>authentication</strong>: proving who you are.</p>
+        <p>Your key card only opens <em>your</em> room, not every room — that's <strong>authorization</strong>: what you're allowed to do. Many real data leaks happen because the second check was forgotten.</p>
+      </div>
 
       <div class="grid-2-col">
         <div class="info-callout primary">
-          <h3>Authentication (AuthN) — <em>"Who are you?"</em></h3>
-          <p>Verifying identity credentials before granting entry.</p>
+          <h3>🪪 Authentication — "Who are you?"</h3>
           <ul class="bullet-list">
-            <li>Passwords with bcrypt/Argon2 hashing and salting.</li>
-            <li>Multi-Factor Authentication (MFA / TOTP Authenticator apps).</li>
-            <li>OAuth 2.0 Social Login ("Sign in with Google / Apple").</li>
-            <li>Returns an identity token (JWT) verifying the user's ID.</li>
+            <li><strong>Passwords</strong> — never stored as plain text. They're <span class="term">hashed</span>: scrambled one way, so even the company can't read them.</li>
+            <li><strong>MFA</strong> (multi-factor) — something you <em>know</em> (password) plus something you <em>have</em> (a code sent to your phone) or <em>are</em> (fingerprint).</li>
+            <li><strong>"Sign in with Google / Apple"</strong> — another company checks who you are, so you don't need a new password.</li>
+            <li>After login, the app gets a <strong>token</strong> — like the key card. It expires, so a stolen one doesn't work forever.</li>
           </ul>
         </div>
         <div class="info-callout secondary">
-          <h3>Authorization (AuthZ) — <em>"What can you do?"</em></h3>
-          <p>Enforcing permissions and access boundaries once authenticated.</p>
+          <h3>🔑 Authorization — "What can you do?"</h3>
           <ul class="bullet-list">
-            <li><strong>Role-Based Access Control (RBAC):</strong> Admin, Editor, Viewer roles.</li>
-            <li><strong>Object-Level Access:</strong> Can User #402 view the medical records belonging to User #905?</li>
-            <li>Enforced by backend middleware on every single API request.</li>
+            <li><strong>Roles</strong> — a customer, a restaurant owner, a support agent and an admin can each do different things.</li>
+            <li><strong>Ownership</strong> — you can see <em>your</em> orders, not other customers'. This must be checked on <strong>every</strong> request.</li>
+            <li><strong>Least privilege</strong> — give each person only the access they need. A support agent doesn't need to export every customer's data.</li>
           </ul>
+          <p class="note-text">🎓 A TPM writes these rules into the PRD: "Who can see this? Who can change it?"</p>
         </div>
       </div>
     </section>
 
-    <!-- 2. OWASP Top 10 -->
-    <section id="owasp-vulnerabilities" class="content-card">
+    <!-- 2. Attacks -->
+    <section id="attacks" class="content-card">
       <div class="card-header">
-        <span class="section-tag">Module 9.2</span>
-        <h2>The OWASP Top 10 Vulnerabilities Every TPM Must Guard Against</h2>
+        <span class="section-tag">Part 2</span>
+        <h2>The most common attacks — in plain words</h2>
+      </div>
+      <p>Security experts at <strong>OWASP</strong> (a global non-profit) publish lists of the most common ways apps get attacked. You don't need to know how to hack — you need to know what to ask for.</p>
+
+      <div class="attack-grid">
+        <div class="attack-card"><span class="ac-icon">🔢</span><h3>Changing the number (BOLA / IDOR)</h3><p>Ada views <code>/orders/1043</code>, changes it to <code>/orders/1044</code> — and sees a stranger's address and phone number. It's the #1 risk on OWASP's list for APIs.</p><p class="ac-fix"><strong>Fix:</strong> on every request, check "does this order belong to the person asking?"</p></div>
+        <div class="attack-card"><span class="ac-icon">🔁</span><h3>Trying stolen passwords</h3><p>Passwords leaked from other websites are tried on your app by bots, millions of times. People reuse passwords, so some work. This is called <strong>credential stuffing</strong>.</p><p class="ac-fix"><strong>Fix:</strong> limit login attempts, and ask for an OTP code on new devices.</p></div>
+        <div class="attack-card"><span class="ac-icon">💉</span><h3>Sneaking in commands (injection)</h3><p>Someone types database commands into a search box. If the app pastes the text straight into a database query, the attacker can read or delete data.</p><p class="ac-fix"><strong>Fix:</strong> always treat user input as data, never as commands ("parameterised queries").</p></div>
+        <div class="attack-card"><span class="ac-icon">🎣</span><h3>Tricking staff (phishing)</h3><p>A fake "IT support" email asks a support agent to "confirm your password". Now the attacker can log in as staff — often with more power than any customer.</p><p class="ac-fix"><strong>Fix:</strong> MFA for every staff account, and staff get only the access they need.</p></div>
+        <div class="attack-card"><span class="ac-icon">🗝️</span><h3>Leaked secrets</h3><p>A secret API key (Week 3) is left inside the phone app or a public code repository. Anyone who finds it can act as your company.</p><p class="ac-fix"><strong>Fix:</strong> secrets stay on the server, and are changed ("rotated") regularly.</p></div>
+        <div class="attack-card"><span class="ac-icon">🌊</span><h3>Flooding (DDoS)</h3><p>Thousands of hacked devices send fake traffic at once, so real customers can't get in. No data is stolen — but the app is down.</p><p class="ac-fix"><strong>Fix:</strong> protection at the edge (like a CDN with DDoS protection) and rate limits.</p></div>
       </div>
 
-      <div class="table-responsive">
-        <table class="tpm-table">
-          <thead>
-            <tr>
-              <th>Vulnerability</th>
-              <th>How It Happens</th>
-              <th>Real-World Example</th>
-              <th>TPM Mitigation Spec</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>BOLA / IDOR (#1 API Threat)</strong></td>
-              <td>API takes an object ID directly from the URL without checking if the requester owns it.</td>
-              <td>Attacker changes <code>GET /api/invoices/100</code> to <code>/api/invoices/101</code> and reads someone else's invoice!</td>
-              <td>Require middleware to verify <code>invoice.user_id === current_user.id</code>; use non-sequential UUIDs.</td>
-            </tr>
-            <tr>
-              <td><strong>SQL Injection (SQLi)</strong></td>
-              <td>User input is concatenated directly into a database SQL query string.</td>
-              <td>User enters <code>' OR 1=1; --</code> into login email field, bypassing authentication.</td>
-              <td>Mandate parameterized queries and Object-Relational Mappers (ORMs).</td>
-            </tr>
-            <tr>
-              <td><strong>Lack of Rate Limiting</strong></td>
-              <td>API allows infinite requests with no throttling, enabling brute-force password attacks.</td>
-              <td>Bot tests 100,000 passwords in 2 minutes against <code>/api/login</code>.</td>
-              <td>Specify Redis sliding-window rate limit (e.g. max 5 login attempts per 15 minutes per IP).</td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="game-card" id="spotGame">
+        <div class="game-head">
+          <h3>🎮 Mini-game: Safe, or a security hole?</h3>
+          <span class="game-score" id="spotScore">Score: 0 / 0</span>
+        </div>
+        <p class="game-instructions">Read how each part of ChopNow works. Is it safe, or is there a hole an attacker could use?</p>
+        <div class="game-task" id="spotTask">Loading…</div>
+        <div class="game-choices two-choices">
+          <button class="choice-btn" data-pick="safe">🛡️ Safe</button>
+          <button class="choice-btn" data-pick="hole">🕳️ Security hole</button>
+        </div>
+        <div class="game-feedback" id="spotFeedback" aria-live="polite"></div>
+        <div class="game-foot">
+          <span id="spotProgress" class="game-progress"></span>
+          <button class="ghost-btn" id="spotNext" disabled>Next →</button>
+        </div>
       </div>
     </section>
 
-    <!-- 3. SRE Framework -->
-    <section id="sre-framework" class="content-card">
+    <!-- 3. Reliability -->
+    <section id="reliability" class="content-card">
       <div class="card-header">
-        <span class="section-tag">Module 9.3</span>
-        <h2>Reliability Engineering: SLAs, SLOs, SLIs & Error Budgets</h2>
+        <span class="section-tag">Part 3</span>
+        <h2>Reliability targets: SLI, SLO, SLA and error budgets</h2>
       </div>
+      <p>No app works 100% of the time. Good teams agree <strong>how reliable is reliable enough</strong> — and measure it honestly. This practice is often called SRE (Site Reliability Engineering), made popular by Google.</p>
 
       <div class="grid-3-col">
         <div class="concept-card">
-          <div class="concept-icon">📊</div>
-          <h3>SLI (Indicator)</h3>
-          <p>The metric actually measured in real time. (e.g. <em>"Percentage of API requests returning HTTP 200 in &lt; 200ms over the last 30 days"</em>).</p>
+          <div class="concept-icon">🌡️</div>
+          <h3>SLI — what we measure</h3>
+          <p>Service Level <strong>Indicator</strong>: the actual number, like a thermometer reading. <em>"% of payments that succeed in under 2 seconds."</em></p>
         </div>
         <div class="concept-card">
           <div class="concept-icon">🎯</div>
-          <h3>SLO (Objective)</h3>
-          <p>The internal engineering target agreed upon between TPM and EM. (e.g. <em>"99.9% of requests succeed"</em>).</p>
+          <h3>SLO — our target</h3>
+          <p>Service Level <strong>Objective</strong>: the goal the team agrees on. <em>"99.9% of payments succeed, measured over 30 days."</em></p>
         </div>
         <div class="concept-card">
           <div class="concept-icon">📜</div>
-          <h3>SLA (Agreement)</h3>
-          <p>The external legal contract with customers with financial penalties if breached (e.g. refunding 25% of AWS bill if uptime drops below 99.5%).</p>
+          <h3>SLA — our promise</h3>
+          <p>Service Level <strong>Agreement</strong>: a promise in a contract, often with money back if it's broken. Usually a bit lower than the SLO, to leave a safety margin.</p>
+        </div>
+      </div>
+
+      <div class="budget">
+        <div class="game-head">
+          <h3>⏳ Try it: what does each target allow?</h3>
+          <span class="game-progress">The "error budget" is the downtime your target allows</span>
+        </div>
+        <div class="slo-buttons" id="sloButtons">
+          <button class="slo-btn" data-slo="99">99%</button>
+          <button class="slo-btn" data-slo="99.5">99.5%</button>
+          <button class="slo-btn active" data-slo="99.9">99.9%</button>
+          <button class="slo-btn" data-slo="99.95">99.95%</button>
+          <button class="slo-btn" data-slo="99.99">99.99%</button>
+        </div>
+        <div class="slo-figures" id="sloFigures"></div>
+        <h4 class="month-title">📅 January at ChopNow — four incidents happened:</h4>
+        <div class="month" id="monthIncidents"></div>
+        <div class="budget-bar"><div class="budget-fill" id="budgetFill"></div><span id="budgetText"></span></div>
+        <div class="budget-verdict" id="budgetVerdict"></div>
+      </div>
+    </section>
+
+    <!-- 4. Simulation -->
+    <section id="simulation" class="content-card demo-section">
+      <div class="card-header">
+        <span class="section-tag tag-live">▶ Simulation</span>
+        <h2>Defend ChopNow Wallet</h2>
+      </div>
+      <p class="lead-text">
+        ChopNow is launching <strong>Wallet</strong>: customers keep money in the app and pay in one tap. Wallets attract attackers.
+        Your engineers have <strong>2 sprints of security work — 10 points</strong> — before launch. Everything on the list costs 16. You can't do it all. Choose wisely, then watch the next 6 months.
+      </p>
+
+      <div class="sim-steps">
+        <div class="sim-step active" data-stage="plan"><span>1</span> 🛡️ Choose defences</div>
+        <div class="sim-step" data-stage="attack"><span>2</span> 🏴‍☠️ 6 months of attacks</div>
+        <div class="sim-step" data-stage="report"><span>3</span> 📋 Security report</div>
+      </div>
+
+      <!-- Stage 1 -->
+      <div class="stage" id="stagePlan">
+        <div class="plan-grid">
+          <div>
+            <h3>⚠️ Threats from the security team</h3>
+            <p class="muted small">How likely is each attack, and how bad would it be?</p>
+            <div class="threat-list" id="threatList"></div>
+          </div>
+          <div>
+            <h3>🛠️ Defences you can build</h3>
+            <div class="budget-meter"><span>Points used: <strong id="pointsUsed">0</strong> / 10</span><div class="pm-bar"><div id="pointsFill"></div></div></div>
+            <div class="defence-list" id="defenceList"></div>
+            <button class="primary-btn full" id="launchWallet">🚀 Launch Wallet</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 2 -->
+      <div class="stage" id="stageAttack" hidden>
+        <div class="attack-top">
+          <div class="month-badge" id="monthBadge">Month 1</div>
+          <div class="sec-stat"><span>🛡️ Blocked</span><strong id="aBlocked">0</strong></div>
+          <div class="sec-stat"><span>⚠️ Limited</span><strong id="aLimited">0</strong></div>
+          <div class="sec-stat"><span>💥 Breached</span><strong id="aBreached">0</strong></div>
+          <div class="sec-stat"><span>👤 Records exposed</span><strong id="aRecords">0</strong></div>
+          <div class="sec-stat"><span>💸 Money lost</span><strong id="aMoney">₦0</strong></div>
+        </div>
+        <div class="attack-feed" id="attackFeed"></div>
+        <div class="stage-actions">
+          <span class="muted small" id="attackNote">Attacks are arriving…</span>
+          <button class="primary-btn" id="toReport" disabled>📋 See the security report →</button>
+        </div>
+      </div>
+
+      <!-- Stage 3 -->
+      <div class="stage" id="stageReport" hidden>
+        <div class="end-banner" id="reportBanner"></div>
+        <div class="end-stats" id="reportStats"></div>
+        <div class="grid-2-col">
+          <div class="retro-col"><h3>👍 Good decisions</h3><ul id="reportGood"></ul></div>
+          <div class="retro-col"><h3>🔧 What it cost you</h3><ul id="reportBad"></ul></div>
+        </div>
+        <div class="law-box" id="lawBox" hidden></div>
+        <div class="tpm-takeaway mt"><strong>🎓 The TPM lesson:</strong> you will never have budget for every defence. Do the ones that are <strong>likely and harmful</strong> first, make sure you'll <strong>notice</strong> an attack quickly, and remember that fixing things <em>after</em> a breach costs far more than before.</div>
+        <div class="stage-actions">
+          <button class="primary-btn" id="replan">🔁 Choose different defences</button>
         </div>
       </div>
     </section>
 
-    <!-- 4. Public Product Case Studies -->
+    <!-- 5. Case studies -->
     <section id="case-studies" class="content-card">
       <div class="card-header">
-        <span class="section-tag">Module 9.4: Real-World Public Product Case Studies</span>
-        <h2>Case Studies: Apple & Cloudflare</h2>
+        <span class="section-tag">Part 5</span>
+        <h2>Real examples: Apple and Cloudflare</h2>
       </div>
+      <p>One company protects data on your phone. The other protects millions of websites from floods of attack traffic.</p>
 
       <div class="tab-control">
-        <button class="tab-btn active" data-tab="apple-case">🍏 Case Study 1: Apple Secure Enclave & Private Relay</button>
-        <button class="tab-btn" data-tab="cloudflare-case">☁️ Case Study 2: Cloudflare Zero Trust & DDoS Shield</button>
+        <button class="tab-btn active" data-tab="apple-case">🍏 Apple</button>
+        <button class="tab-btn" data-tab="cloud-case">☁️ Cloudflare</button>
       </div>
 
       <div id="apple-case" class="tab-pane active">
-        <div class="case-header">
-          <div class="case-badge">Apple Inc.</div>
-          <h3>Hardware-Isolated Security: The Secure Enclave</h3>
-          <p>How Apple protects FaceID, Apple Pay, and biometric master keys from even root-level iOS exploits.</p>
-        </div>
-
+        <p class="case-intro"><strong>The story:</strong> iPhones hold very sensitive things: your face or fingerprint data, cards for Apple Pay, passwords. Apple designs privacy and security in from the start, so even Apple can't see some of it.</p>
         <div class="breakdown-grid">
-          <div class="breakdown-card">
-            <div class="card-tag backend">Secure Enclave Processor (SEP)</div>
-            <h4>Separate Hardware Chip</h4>
-            <p>Biometric FaceID mathematical models are stored on a physically isolated coprocessor with its own encrypted memory. The main iOS operating system never touches raw biometric data.</p>
+          <div class="breakdown-card bc-back">
+            <h4>🔐 A separate safe inside the phone</h4>
+            <ul class="clean-list">
+              <li>iPhones have a <strong>Secure Enclave</strong>: a separate, locked-off part of the chip.</li>
+              <li>Face ID and fingerprint data are protected there and don't leave the device — even the rest of the phone's software can't read them.</li>
+            </ul>
           </div>
-          <div class="breakdown-card">
-            <div class="card-tag apis">iCloud Private Relay</div>
-            <h4>Dual-Hop Privacy Architecture</h4>
-            <p>Uses dual-hop encryption: Apple knows your IP but not what site you visit; Cloudflare knows what site you visit but not your IP. No single entity has complete information.</p>
+          <div class="breakdown-card bc-front">
+            <h4>💳 Apple Pay doesn't share your card number</h4>
+            <ul class="clean-list">
+              <li>Shops receive a special one-off code instead of your real card number.</li>
+              <li>So a shop that gets hacked can't leak your actual card (the same "token" idea as Week 3).</li>
+            </ul>
           </div>
+          <div class="breakdown-card bc-ext">
+            <h4>🕵🏽 Private Relay: nobody sees everything</h4>
+            <ul class="clean-list">
+              <li>iCloud Private Relay sends Safari traffic through two separate relays.</li>
+              <li>The first (Apple's) sees who you are but not where you're going; the second (run by partners like Cloudflare) sees where you're going but not who you are.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-data">
+            <h4>🧾 Keep less data</h4>
+            <ul class="clean-list">
+              <li>The safest data is data you never collect.</li>
+              <li>Doing work on the device, instead of sending everything to servers, means less to lose.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tpm-takeaway">
+          <strong>🎓 TPM lesson from Apple:</strong> privacy is a product feature. In every PRD, ask: <strong>do we need to collect this at all?</strong> And if we do, who can see it?
         </div>
       </div>
 
-      <div id="cloudflare-case" class="tab-pane">
-        <div class="case-header">
-          <div class="case-badge">Cloudflare, Inc.</div>
-          <h3>Absorbing 71 Million Requests/Sec DDoS Attacks</h3>
-          <p>Cloudflare uses Anycast routing and automated BGP routing to diffuse global volumetric cyberattacks across 300+ data centers.</p>
-        </div>
-
+      <div id="cloud-case" class="tab-pane">
+        <p class="case-intro"><strong>The story:</strong> Cloudflare sits in front of millions of websites as a CDN (Week 8) and a shield. In February 2023 it reported stopping a flood of over <strong>71 million requests per second</strong> — a record at the time.</p>
         <div class="breakdown-grid">
-          <div class="breakdown-card">
-            <div class="card-tag frontend">Anycast Network</div>
-            <h4>Distributed Blast Diffusion</h4>
-            <p>Instead of 10 million bot requests hitting your origin server in New York, Anycast distributes the attack traffic to local edge nodes in Paris, Sydney, and Singapore where it is scrubbed.</p>
+          <div class="breakdown-card bc-front">
+            <h4>🌍 Spread the flood out</h4>
+            <ul class="clean-list">
+              <li>Cloudflare has data centres in over 300 cities.</li>
+              <li>Attack traffic lands at the nearest one, so the flood is split up and absorbed in many places — never all at your server.</li>
+            </ul>
           </div>
+          <div class="breakdown-card bc-back">
+            <h4>🤖 Spot bots automatically</h4>
+            <ul class="clean-list">
+              <li>Systems look for patterns that real people don't make (thousands of identical requests a second).</li>
+              <li>Suspicious traffic is blocked or challenged before it reaches your app.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-data">
+            <h4>🚪 "Zero trust" for staff</h4>
+            <ul class="clean-list">
+              <li>Old idea: everyone inside the office network is trusted.</li>
+              <li>Zero trust: every person and device is checked on every request — wherever they are.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-ext">
+            <h4>🔑 Hardware security keys</h4>
+            <ul class="clean-list">
+              <li>Cloudflare has written about staff using physical security keys for MFA.</li>
+              <li>In 2022 a phishing campaign targeted its staff — and the keys stopped it, because a stolen password alone wasn't enough.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tpm-takeaway">
+          <strong>🎓 TPM lesson from Cloudflare:</strong> assume attacks <strong>will</strong> happen. Design so that one stolen password, or one flood of traffic, isn't enough to cause harm.
         </div>
       </div>
     </section>
 
-    <!-- 5. Interactive Availability & Downtime Calculator -->
-    <section id="availability-calc" class="content-card">
+    <!-- 6. Quiz -->
+    <section id="quiz" class="content-card">
       <div class="card-header">
-        <span class="section-tag">Interactive Teaching Tool</span>
-        <h2>Availability "Nines" & Downtime Calculator</h2>
+        <span class="section-tag">Part 6</span>
+        <h2>Quick quiz: check your understanding</h2>
       </div>
-      <p>Select an Availability Target to see allowed downtime minutes and calculate your team's monthly error budget:</p>
-
-      <div class="sla-calc-wrapper">
-        <div class="sla-select-row">
-          <label>Select Availability SLA Target:</label>
-          <select id="slaSelect" class="form-input" style="max-width: 320px;">
-            <option value="99.0">99.0% ("Two Nines" - Basic)</option>
-            <option value="99.9" selected>99.9% ("Three Nines" - Modern SaaS Standard)</option>
-            <option value="99.95">99.95% ("High Availability Standard")</option>
-            <option value="99.99">99.99% ("Four Nines" - Enterprise FinTech)</option>
-            <option value="99.999">99.999% ("Five Nines" - Telecom / AWS S3)</option>
-          </select>
-        </div>
-
-        <div class="sla-results-grid" id="slaResultsGrid">
-          <!-- Dynamically populated by script.js -->
-        </div>
-      </div>
+      <p>7 short questions. Tap an answer to see if you are right. No marks — this is just for practice.</p>
+      <div id="quizBox" class="quiz-box"></div>
+      <div class="quiz-result" id="quizResult" hidden></div>
     </section>
 
-    <!-- 6. Student Deliverables -->
-    <section id="deliverables" class="content-card">
+    <!-- 7. Assignment -->
+    <section id="assignment" class="content-card">
       <div class="card-header">
-        <span class="section-tag">Course Deliverables</span>
-        <h2>Week 09 Assignment & Capstone Milestone</h2>
+        <span class="section-tag">Part 7</span>
+        <h2>This week's work</h2>
       </div>
 
       <div class="grid-2-col">
         <div class="deliverable-box">
-          <div class="deliv-badge individual">Individual Assignment (10 Marks)</div>
-          <h3>Technical Risk Analysis: Security & Reliability</h3>
-          <p class="deliv-deadline">⏰ Due: Sunday, Jan 16, 2027 before 11:59 PM WAT</p>
-          <p>For your individual case study product, prepare a comprehensive Risk & Security Audit:</p>
+          <div class="deliv-badge individual">Individual Assignment • 10 Marks</div>
+          <h3>Security and reliability plan</h3>
+          <p class="deliv-deadline">⏰ Due: Sunday, Jan 17, 2027, before 11:59 PM WAT</p>
+          <p>For the app you've studied, write a short plan as its TPM:</p>
           <ol class="step-list">
-            <li><strong>Authentication & Token Lifecycle:</strong> JWT vs session tokens, refresh token flow, and storage security.</li>
-            <li><strong>OWASP Threat Assessment:</strong> Analyze vulnerability to BOLA (IDOR) and SQL Injection with prevention specs.</li>
-            <li><strong>Encryption Standards:</strong> Data at Rest (AES-256) vs Data in Transit (TLS 1.3).</li>
-            <li><strong>Reliability Targets:</strong> Define SLI, SLO, and SLA availability percentage with allowed downtime calculation.</li>
+            <li><strong>Login and access:</strong> how do users prove who they are (password, OTP, Google…)? Which roles exist, and what can each one do?</li>
+            <li><strong>Top 5 threats:</strong> for each, say how likely it is, how bad it would be, and the fix you'd ask for. Then put them in priority order.</li>
+            <li><strong>Protecting data:</strong> what sensitive data does the app hold? Is any of it unnecessary? How is it protected on the way (HTTPS) and when stored (encryption)?</li>
+            <li><strong>Reliability target:</strong> choose an SLO for the most important action (e.g. payments), say how much downtime it allows per month, and what the team does if the error budget runs out.</li>
           </ol>
+          <div class="hint-box">💡 <strong>Tip:</strong> Never test attacks on a real app you don't own — that's illegal. Think about how it <em>could</em> be attacked, the way the simulation does.</div>
+
           <div class="rubric-mini">
-            <h4>Marking Rubric (Total: 10 Marks)</h4>
+            <h4>How you will be marked (10 marks)</h4>
             <ul>
-              <li>Auth architecture & token lifecycle: <strong>2 Marks</strong></li>
-              <li>OWASP threat modeling & mitigation: <strong>3 Marks</strong></li>
-              <li>Data encryption & regulatory compliance: <strong>2 Marks</strong></li>
-              <li>SLA/SLO calculation & error budget policy: <strong>3 Marks</strong></li>
+              <li><span>Clear login and access rules</span><strong>2</strong></li>
+              <li><span>Sensible threats, fixes and priority order</span><strong>3</strong></li>
+              <li><span>Good thinking about data and privacy</span><strong>2</strong></li>
+              <li><span>Correct SLO, error budget and policy</span><strong>3</strong></li>
             </ul>
           </div>
         </div>
 
         <div class="deliverable-box">
-          <div class="deliv-badge team">Team Capstone (Phase 9 of 6)</div>
-          <h3>Capstone Security & Reliability Framework</h3>
-          <p class="deliv-deadline">👥 Collaborative Team Milestone</p>
-          <p>Teams compile the security and compliance chapter of their capstone system build:</p>
-
-          <div class="checklist-card">
-            <h4>Week 9 Team Goals:</h4>
-            <label class="check-item"><input type="checkbox"> Define RBAC permission matrix for all capstone roles</label>
-            <label class="check-item"><input type="checkbox"> Establish rate-limiting rules across public API endpoints</label>
-            <label class="check-item"><input type="checkbox"> Calculate system error budget and downtime recovery SLA</label>
-            <label class="check-item"><input type="checkbox"> Review security posture in Sunday review session</label>
+          <div class="deliv-badge team">Team Capstone • Phase 9</div>
+          <h3>Add security and reliability to your PRD</h3>
+          <p class="deliv-deadline">👥 Done together with your team</p>
+          <p>Make your team's product safe to trust. Tick each item as you finish it (your ticks are saved on this device):</p>
+          <div class="checklist-card" id="capstoneChecklist">
+            <label class="check-item"><input type="checkbox" data-key="c1"> Made a table of roles and what each one can see and do</label>
+            <label class="check-item"><input type="checkbox" data-key="c2"> Listed the personal data you collect — and removed anything you don't need</label>
+            <label class="check-item"><input type="checkbox" data-key="c3"> Listed your top 5 threats with likelihood, impact and fix</label>
+            <label class="check-item"><input type="checkbox" data-key="c4"> Chose SLOs for your 2 most important actions</label>
+            <label class="check-item"><input type="checkbox" data-key="c5"> Ready to present it at Sunday's Project Review</label>
           </div>
+          <div class="check-progress"><div class="check-progress-fill" id="checkFill"></div></div>
+          <p class="check-progress-text" id="checkText">0 of 5 done</p>
         </div>
       </div>
 
       <div class="template-box">
         <div class="template-info">
-          <h4>📄 Week 9 Security & Reliability Audit Template</h4>
-          <p>Copy this standardized markdown template for your submission:</p>
+          <h4>📄 Security and reliability plan template</h4>
+          <p>Copy this, paste it into Google Docs, and fill in the blanks.</p>
         </div>
-        <button id="copyTemplateBtn" class="primary-btn">📋 Copy Markdown Template</button>
+        <button id="copyTemplateBtn" class="primary-btn">📋 Copy template</button>
       </div>
       <textarea id="templateText" class="template-textarea" readonly>
-# Week 09 Security & Reliability Audit: [Product Name]
-**Student Name:** [Your Full Name]
-**PCIP Track:** Technical Product Management
-**Date:** [Submission Date]
+# Security and reliability plan: [Product name]
+Student name: [Your full name]
+Track: Technical Product Management (PCIP)
+Date: [Date]
 
-## 1. Authentication & Token Architecture
-- **Auth Protocol:** OAuth 2.0 with PKCE for mobile; JWT session tokens.
-- **Access Token Lifetime:** 15 Minutes (short-lived).
-- **Refresh Token Lifetime:** 30 Days with automated token rotation and revocation.
-- **Client Storage:** Secure Enclave / iOS Keychain / Encrypted HTTP-only Cookie.
+## 1. Login and access
+- How users log in: ______ (e.g. phone number + OTP, password, "Sign in with Google")
+- Extra check for risky actions: ______ (e.g. OTP before sending money)
+- Roles:
+| Role | Can see | Can change | Can NOT do |
+|------|---------|------------|------------|
+| Customer | ______ | ______ | ______ |
+| ______ | ______ | ______ | ______ |
+| Admin | ______ | ______ | ______ |
 
-## 2. OWASP Threat Modeling & Mitigation Matrix
-| Threat | Risk Level | Potential Impact | Technical Mitigation Spec |
-|--------|------------|------------------|---------------------------|
-| BOLA / IDOR | Critical | Unauthorized access to user records | Enforce `owner_id == jwt.sub` middleware on every API endpoint. |
-| SQL Injection | High | Database exfiltration | Use SQLAlchemy ORM with strictly parameterized inputs. |
-| Rate Limit Abuse | Medium | Denial of Service / Credential stuffing | Redis sliding window: max 5 login attempts per 15 min per IP. |
+## 2. Top 5 threats (in priority order)
+| # | Threat | How likely? (High/Med/Low) | How bad? (High/Med/Low) | Fix I'd ask for |
+|---|--------|----------------------------|-------------------------|-----------------|
+| 1 | ______ | ______ | ______ | ______ |
+| 2 | ______ | ______ | ______ | ______ |
+| 3 | ______ | ______ | ______ | ______ |
+| 4 | ______ | ______ | ______ | ______ |
+| 5 | ______ | ______ | ______ | ______ |
 
-## 3. Data Protection & Compliance
-- **Data in Transit:** Enforced HTTPS with TLS 1.3 and HSTS header.
-- **Data at Rest:** AWS RDS PostgreSQL encrypted with KMS (AES-256).
-- **Privacy Compliance:** GDPR "Right to be Forgotten" endpoint that cascades hard deletes across all replica databases.
+## 3. Protecting data
+- Sensitive data we hold: ______
+- Data we could stop collecting: ______
+- On the way (in transit): HTTPS everywhere — yes / no
+- When stored (at rest): encrypted — yes / no; passwords hashed — yes / no
+- If there's a breach: who we tell, and how fast: ______ (in Nigeria, the NDPC within 72 hours)
 
-## 4. System Reliability (SRE) Framework
-- **Service Level Indicator (SLI):** Percentage of `/api/v1/checkout` requests returning HTTP 200 in < 300ms.
-- **Service Level Objective (SLO):** 99.95% availability over any rolling 30-day window.
-- **Allowed Monthly Downtime (Error Budget):** 21.9 minutes.
-      </textarea>
+## 4. Reliability target
+- Most important action: ______
+- SLI (what we measure): ______
+- SLO (our target): ______% over 30 days
+- Downtime this allows per month: ______ minutes
+- If the error budget runs out, we will: ______
+</textarea>
+    </section>
+
+    <!-- Discussion -->
+    <section class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Saturday class</span>
+        <h2>Questions we will discuss together</h2>
+      </div>
+      <p>Think about your answer first, then tap to see one good answer.</p>
+      <div class="faq-accordion">
+        <details class="faq-item">
+          <summary class="faq-q">1. Security work slows down feature launches. How do you argue for it?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> Talk about risk in business terms: "If someone can read other people's orders, we may expose 50,000 customers, face regulators, and lose trust that took years to build." Then show it's targeted: "These 3 fixes cover our most likely, most harmful threats, for 2 sprints of work."</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">2. Why not aim for 100% reliability?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> Because each extra "nine" gets much more expensive, and customers can't tell the difference past a point — their own phone network fails more often. A realistic SLO leaves an error budget, so the team can keep shipping features. If the budget runs out, reliability work comes first.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">3. A support agent asks for access to export all customer data "just in case". What do you say?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> Politely no — least privilege. Ask what problem they're solving and give the smallest access that solves it (for example, searching one customer at a time). Every extra permission is something an attacker can use if that account is phished.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">4. ChopNow finds out customer data was exposed. What should happen in the first 72 hours?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> Close the hole first, then find out exactly what was exposed and for how many people. Under Nigeria's Data Protection Act 2023, the Nigeria Data Protection Commission must be told within 72 hours, and affected people told quickly if they're at high risk. Be honest and clear with customers — hiding it makes everything worse.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- 8. Word bank -->
+    <section id="word-bank" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 8</span>
+        <h2>Word bank: tech words in plain English</h2>
+      </div>
+      <p>You will hear these words in class and from engineers. Search for any word you're not sure about.</p>
+      <input type="search" id="glossarySearch" class="search-input" placeholder="Search a word, e.g. MFA" aria-label="Search the word bank">
+      <div class="glossary-grid" id="glossaryGrid"></div>
+      <p class="no-results" id="glossaryEmpty" hidden>No matching word. Ask about it on Slack!</p>
     </section>
 
   </main>
@@ -339,7 +511,7 @@
   <footer class="footer">
     <div class="footer-container">
       <p>Product Bosslady Academy (PBA) • Product Career Internship Program (PCIP) • Technical Product Management Track</p>
-      <p class="footer-sub">Week 09 Curriculum • November 2026 – February 2027 • Facilitated by Oyindamola Oye-Daniel</p>
+      <p class="footer-sub">November 2026 – February 2027 • Facilitated by Oyindamola Oye-Daniel</p>
     </div>
   </footer>
 

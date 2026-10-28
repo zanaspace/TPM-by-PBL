@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 10: Full System Integration | PCIP TPM Track</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand-group">
+        <a href="../index.html" class="back-portal-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Master Portal
+        </a>
+        <span class="divider">/</span>
+        <span class="badge-week">Week 10 of 12</span>
+      </div>
+      <div class="nav-title">Full System Integration</div>
+      <div class="nav-actions">
+        <button id="themeToggle" class="icon-btn" title="Toggle Theme">🌓</button>
+        <a href="../09-security-and-system-reliability/index.html" class="nav-prev-btn">← Week 9</a>
+        <a href="../11-portfolio-and-career-in-tpm/index.html" class="nav-next-btn">Next: Week 11 →</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="meta-pill-group">
+        <span class="meta-pill date-pill">📅 Jan 17 – 23, 2027</span>
+        <span class="meta-pill live-pill">🔴 Masterclass: Sat 7:00 PM WAT</span>
+        <span class="meta-pill review-pill">🎯 Project Review: Sun 6:00 PM WAT</span>
+      </div>
+      <h1 class="hero-title">Full System Integration & End-to-End Orchestration</h1>
+      <p class="hero-subtitle">
+        Bring all the puzzle pieces together. Learn how to stitch client UIs, API gateways, microservices, databases, Kafka event streams, and third-party webhooks into a unified system using sequence diagrams. Study end-to-end flows from <strong>Uber Eats</strong> and <strong>Amazon Checkout</strong>.
+      </p>
+      <div class="hero-quick-stats">
+        <div class="stat-box">
+          <span class="stat-num">UML Sequence</span>
+          <span class="stat-label">End-to-End Visual Flows</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">Uber Eats & Amazon</span>
+          <span class="stat-label">Orchestration Case Studies</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">Saga Pattern</span>
+          <span class="stat-label">Distributed Transactions</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">10 Marks</span>
+          <span class="stat-label">Individual Deliverable #10</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="sub-nav">
+    <div class="sub-nav-container">
+      <a href="#integration-overview" class="sub-link active">1. Integration Anatomy</a>
+      <a href="#sequence-diagrams" class="sub-link">2. Sequence Diagrams</a>
+      <a href="#saga-pattern" class="sub-link">3. Distributed Sagas</a>
+      <a href="#case-studies" class="sub-link">4. Uber Eats & Amazon Case Studies</a>
+      <a href="#flow-simulator" class="sub-link">5. Interactive Integration Stepper</a>
+      <a href="#deliverables" class="sub-link">6. Deliverables & Template</a>
+    </div>
+  </nav>
+
+  <main class="main-container">
+
+    <!-- 1. Integration Anatomy -->
+    <section id="integration-overview" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 10.1</span>
+        <h2>What Does "Full System Integration" Mean?</h2>
+      </div>
+      <p class="lead-text">
+        Up to this point, you have designed individual components: the ERD, the API endpoints, the PRD, and the caching layer. Integration is the art of synchronizing all components into an automated choreography that fulfills business transactions flawlessly.
+      </p>
+
+      <div class="grid-3-col">
+        <div class="concept-card">
+          <div class="concept-icon">🔀</div>
+          <h3>1. Synchronous vs Asynchronous Paths</h3>
+          <p>Payment authorization must be synchronous (user waits 400ms for green checkmark). Sending receipts and updating analytics must be asynchronous (pushed to Kafka in background).</p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-icon">🛡️</div>
+          <h3>2. The Circuit Breaker & Fallback</h3>
+          <p>If the delivery driver dispatch engine experiences a momentary spike, order confirmation must not crash. The system queues the order and retries in the background.</p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-icon">📦</div>
+          <h3>3. Dead-Letter Queues (DLQ)</h3>
+          <p>Failed messages that cannot be processed after 3 retries are sent to a DLQ for developer inspection rather than clogging active pipelines.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Sequence Diagrams -->
+    <section id="sequence-diagrams" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 10.2</span>
+        <h2>Mastering UML Sequence Diagrams for TPMs</h2>
+      </div>
+      <p class="lead-text">
+        The Sequence Diagram is the universal language between Technical PMs, Solutions Architects, and Staff Engineers. It maps interactions over time:
+      </p>
+
+      <div class="grid-2-col">
+        <div class="info-callout primary">
+          <h3>Core Sequence Diagram Elements</h3>
+          <ul class="bullet-list">
+            <li><strong>Lifelines (Vertical Dashed Lines):</strong> Represent distinct actors and systems (e.g. <code>Mobile App</code>, <code>API Gateway</code>, <code>Order Service</code>, <code>Stripe</code>).</li>
+            <li><strong>Synchronous Messages (Solid Arrow ➔):</strong> Caller waits for an immediate return response before proceeding.</li>
+            <li><strong>Asynchronous Messages (Open Arrow ➔):</strong> Event pushed to a queue (Kafka/SQS); caller does not wait.</li>
+            <li><strong>Reply Messages (Dashed Arrow ⇢):</strong> Returns the result (HTTP 200/201) back up the chain.</li>
+          </ul>
+        </div>
+        <div class="info-callout secondary">
+          <h3>The Saga Pattern: Distributed Transactions</h3>
+          <p>In microservices, there is no single SQL database transaction covering 5 services. If the Payment succeeds but Restaurant notification fails, a <strong>Compensating Transaction</strong> must automatically execute to refund the customer's card.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Public Product Case Studies -->
+    <section id="case-studies" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Module 10.3: Real-World Public Product Case Studies</span>
+        <h2>Case Studies: Uber Eats & Amazon Checkout</h2>
+      </div>
+
+      <div class="tab-control">
+        <button class="tab-btn active" data-tab="ubereats-case">🍕 Case Study 1: Uber Eats 3-Sided Marketplace</button>
+        <button class="tab-btn" data-tab="amazon-case">📦 Case Study 2: Amazon 1-Click Checkout Pipeline</button>
+      </div>
+
+      <div id="ubereats-case" class="tab-pane active">
+        <div class="case-header">
+          <div class="case-badge">Uber Technologies</div>
+          <h3>The 3-Sided Marketplace Integration</h3>
+          <p>Uber Eats coordinates three independent human actors simultaneously: the Hungry Eater, the Busy Restaurant Kitchen, and the Courier on a scooter.</p>
+        </div>
+
+        <div class="breakdown-grid">
+          <div class="breakdown-card">
+            <div class="card-tag frontend">Eater App</div>
+            <h4>Cart & Checkout Flow</h4>
+            <p>Submits order to API Gateway. Locks temporary pricing estimate for 10 minutes. Polls WebSocket channel for live updates.</p>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag backend">Restaurant Tablet</div>
+            <h4>Order Acceptance</h4>
+            <p>WebSocket push triggers tablet audio alarm. Kitchen staff taps "Accept (Ready in 18 mins)". This dynamically sets the dispatch countdown.</p>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag apis">Driver Dispatch</div>
+            <h4>Just-In-Time Routing</h4>
+            <p>The system does not send a driver immediately (food would get cold!). It dispatches the closest courier to arrive exactly when the kitchen timer hits 0 mins.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="amazon-case" class="tab-pane">
+        <div class="case-header">
+          <div class="case-badge">Amazon.com</div>
+          <h3>Amazon 1-Click Asynchronous Checkout</h3>
+          <p>When you click "Buy Now", Amazon doesn't process credit cards and warehouse packaging in the browser thread. It returns instant confirmation in 200ms and coordinates fulfillment asynchronously.</p>
+        </div>
+
+        <div class="breakdown-grid">
+          <div class="breakdown-card">
+            <div class="card-tag backend">Inventory Reservation</div>
+            <h4>Atomic Decrement</h4>
+            <p>Decrements warehouse stock counter atomically in Redis to prevent selling the same physical product to two simultaneous buyers.</p>
+          </div>
+          <div class="breakdown-card">
+            <div class="card-tag database">Fulfillment Orchestration</div>
+            <h4>Kiva Robotics Integration</h4>
+            <p>Dispatches automated robotics in the local fulfillment center to bring product bins directly to human packers.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Interactive Flow Simulator -->
+    <section id="flow-simulator" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Interactive Teaching Tool</span>
+        <h2>Interactive System Integration Stepper</h2>
+      </div>
+      <p>Step through an end-to-end transaction to see how data moves across clients, microservices, databases, and third-party APIs:</p>
+
+      <div class="stepper-wrapper">
+        <div class="stepper-controls">
+          <button id="stepPrevBtn" class="primary-btn" style="background: rgba(255,255,255,0.08);">◀ Previous Step</button>
+          <span id="stepIndicator" style="font-weight: 700; color: #38bdf8;">Step 1 of 5</span>
+          <button id="stepNextBtn" class="primary-btn">Next Step ▶</button>
+        </div>
+
+        <div class="stepper-stage" id="stepperStageCard">
+          <!-- Dynamically populated by script.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Student Deliverables -->
+    <section id="deliverables" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Course Deliverables</span>
+        <h2>Week 10 Assignment & Capstone Milestone</h2>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="deliverable-box">
+          <div class="deliv-badge individual">Individual Assignment (10 Marks)</div>
+          <h3>Compiled Technical Documentation Package</h3>
+          <p class="deliv-deadline">⏰ Due: Sunday, Jan 23, 2027 before 11:59 PM WAT</p>
+          <p>Consolidate and compile your complete Technical Product Documentation package for your case study:</p>
+          <ol class="step-list">
+            <li><strong>Executive System Architecture:</strong> Unified diagram connecting UI, Gateway, Microservices, DB, and 3rd-party APIs.</li>
+            <li><strong>End-to-End Sequence Diagram:</strong> Complete sequence walkthrough of the core user transaction.</li>
+            <li><strong>Compiled API Spec Contract:</strong> All endpoints, headers, requests, and error codes.</li>
+            <li><strong>Integration Failure & Resilience Plan:</strong> Circuit breakers, fallbacks, and retry policies.</li>
+          </ol>
+          <div class="rubric-mini">
+            <h4>Marking Rubric (Total: 10 Marks)</h4>
+            <ul>
+              <li>End-to-end architecture & diagram consistency: <strong>3 Marks</strong></li>
+              <li>Sequence flow accuracy & payload detail: <strong>3 Marks</strong></li>
+              <li>Resilience, fallbacks & edge-case planning: <strong>2 Marks</strong></li>
+              <li>Completeness & professional documentation format: <strong>2 Marks</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="deliverable-box">
+          <div class="deliv-badge team">Team Capstone (Phase 10 of 6)</div>
+          <h3>Capstone Master Integration Package</h3>
+          <p class="deliv-deadline">👥 Collaborative Team Milestone</p>
+          <p>Teams integrate all capstone documentation into the Master Deliverable Package:</p>
+
+          <div class="checklist-card">
+            <h4>Week 10 Team Goals:</h4>
+            <label class="check-item"><input type="checkbox"> Merge PRD, ERD, API specs, and Architecture into Master Doc</label>
+            <label class="check-item"><input type="checkbox"> Complete end-to-end UML sequence diagram</label>
+            <label class="check-item"><input type="checkbox"> Verify all team members understand technical decisions</label>
+            <label class="check-item"><input type="checkbox"> Rehearse integration walkthrough for Sunday review</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="template-box">
+        <div class="template-info">
+          <h4>📄 Week 10 Master Compiled Documentation Template</h4>
+          <p>Copy this standardized markdown template for your submission:</p>
+        </div>
+        <button id="copyTemplateBtn" class="primary-btn">📋 Copy Markdown Template</button>
+      </div>
+      <textarea id="templateText" class="template-textarea" readonly>
+# Master Technical System Documentation Package: [Product Name]
+**Author (Technical PM):** [Your Full Name]
+**PCIP Track:** Technical Product Management
+**Version:** 1.0 (Production Candidate)
+**Date:** [Submission Date]
+
+## 1. System Architecture Overview
+- **System Purpose:** 
+- **Core Microservices:**
+  - `auth-service`: JWT issuance & role validation
+  - `core-order-service`: Transaction orchestration
+  - `billing-service`: Stripe gateway integration
+  - `notification-worker`: Kafka consumer for emails/SMS
+
+## 2. End-to-End Sequence Flow
+*Sequence of Events for [Core Transaction]:*
+1. Client ➔ API Gateway: `POST /api/v1/orders` (Bearer token)
+2. Gateway ➔ Auth Service: Verify token validity (sub-10ms)
+3. Gateway ➔ Order Service: Forward order request
+4. Order Service ➔ Redis: Acquire distributed lock on inventory
+5. Order Service ➔ Billing Service: Submit payment intent to Stripe
+6. Billing Service ➔ Stripe API: Synchronous charge authorization
+7. Order Service ➔ Kafka: Publish `order.created` event
+8. Order Service ➔ Client: Return HTTP 201 Created with tracking ID
+9. Notification Worker ➔ Twilio: Send SMS receipt asynchronously
+
+## 3. Resilience, Circuit Breakers & Fallback Protocols
+- **Circuit Breaker:** Netflix Hystrix pattern on Stripe billing service (5 consecutive timeouts trips circuit).
+- **Compensating Transaction (Saga):** If inventory fails after card charge, automated Stripe refund triggered immediately.
+- **Dead-Letter Queue:** Failed notification events routed to AWS SQS DLQ with 14-day retention.
+      </textarea>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>Product Bosslady Academy (PBA) • Product Career Internship Program (PCIP) • Technical Product Management Track</p>
+      <p class="footer-sub">Week 10 Curriculum • November 2026 – February 2027 • Facilitated by Oyindamola Oye-Daniel</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

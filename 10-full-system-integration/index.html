@@ -6,296 +6,519 @@
   <title>Week 10: Full System Integration | PCIP TPM Track</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Navigation Header -->
   <header class="navbar">
     <div class="nav-container">
       <div class="brand-group">
         <a href="../index.html" class="back-portal-btn">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-          Master Portal
+          All Weeks
         </a>
         <span class="divider">/</span>
         <span class="badge-week">Week 10 of 12</span>
       </div>
-      <div class="nav-title">Full System Integration</div>
+      <div class="nav-title">Technical Product Management Track</div>
       <div class="nav-actions">
-        <button id="themeToggle" class="icon-btn" title="Toggle Theme">🌓</button>
+        <button id="themeToggle" class="icon-btn" title="Switch dark / light mode" aria-label="Switch dark or light mode">🌓</button>
         <a href="../09-security-and-system-reliability/index.html" class="nav-prev-btn">← Week 9</a>
-        <a href="../11-portfolio-and-career-in-tpm/index.html" class="nav-next-btn">Next: Week 11 →</a>
+        <a href="../11-portfolio-and-career-in-tpm/index.html" class="nav-next-btn">
+          Next: Week 11
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
       </div>
     </div>
   </header>
 
+  <!-- Progress bar -->
+  <div class="read-progress"><div id="readProgress" class="read-progress-fill"></div></div>
+
+  <!-- Hero Section -->
   <section class="hero-section">
     <div class="hero-content">
       <div class="meta-pill-group">
-        <span class="meta-pill date-pill">📅 Jan 17 – 23, 2027</span>
-        <span class="meta-pill live-pill">🔴 Masterclass: Sat 7:00 PM WAT</span>
+        <span class="meta-pill">📅 Jan 18 – 24, 2027</span>
+        <span class="meta-pill live-pill">🔴 Class: Saturday 7:00 PM WAT</span>
         <span class="meta-pill review-pill">🎯 Project Review: Sun 6:00 PM WAT</span>
       </div>
-      <h1 class="hero-title">Full System Integration & End-to-End Orchestration</h1>
+      <h1 class="hero-title">Putting It All Together</h1>
       <p class="hero-subtitle">
-        Bring all the puzzle pieces together. Learn how to stitch client UIs, API gateways, microservices, databases, Kafka event streams, and third-party webhooks into a unified system using sequence diagrams. Study end-to-end flows from <strong>Uber Eats</strong> and <strong>Amazon Checkout</strong>.
+        For nine weeks you've studied the pieces: the parts of an app, APIs, PRDs, sprints, bugs, scaling and security.
+        This week you join them up. You'll follow <strong>one order through every system</strong>, learn to draw it as a
+        <strong>sequence diagram</strong>, and decide what happens when one piece fails halfway through. Then you'll design and run the whole order journey yourself.
       </p>
-      <div class="hero-quick-stats">
-        <div class="stat-box">
-          <span class="stat-num">UML Sequence</span>
-          <span class="stat-label">End-to-End Visual Flows</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-num">Uber Eats & Amazon</span>
-          <span class="stat-label">Orchestration Case Studies</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-num">Saga Pattern</span>
-          <span class="stat-label">Distributed Transactions</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-num">10 Marks</span>
-          <span class="stat-label">Individual Deliverable #10</span>
-        </div>
+
+      <div class="goals-box">
+        <h2 class="goals-title">By the end of this week, you will be able to:</h2>
+        <ul class="goals-list">
+          <li><span class="goal-check">✓</span> Explain how all the parts of a product work together for one customer action</li>
+          <li><span class="goal-check">✓</span> Decide which steps the customer should wait for, and which can happen in the background</li>
+          <li><span class="goal-check">✓</span> Read and draw a simple sequence diagram</li>
+          <li><span class="goal-check">✓</span> Plan "undo steps" when something fails halfway (like an automatic refund)</li>
+          <li><span class="goal-check">✓</span> Put together a complete technical document for your product</li>
+        </ul>
       </div>
     </div>
   </section>
 
-  <nav class="sub-nav">
+  <!-- Quick Topic Navigation -->
+  <nav class="sub-nav" aria-label="Lesson sections">
     <div class="sub-nav-container">
-      <a href="#integration-overview" class="sub-link active">1. Integration Anatomy</a>
-      <a href="#sequence-diagrams" class="sub-link">2. Sequence Diagrams</a>
-      <a href="#saga-pattern" class="sub-link">3. Distributed Sagas</a>
-      <a href="#case-studies" class="sub-link">4. Uber Eats & Amazon Case Studies</a>
-      <a href="#flow-simulator" class="sub-link">5. Interactive Integration Stepper</a>
-      <a href="#deliverables" class="sub-link">6. Deliverables & Template</a>
+      <a href="#big-picture" class="sub-link active">1. The Big Picture</a>
+      <a href="#wait-or-not" class="sub-link">2. Wait or Background?</a>
+      <a href="#diagrams" class="sub-link">3. Sequence Diagrams &amp; Undo Steps</a>
+      <a href="#simulation" class="sub-link">4. ▶ Order Journey Simulation</a>
+      <a href="#case-studies" class="sub-link">5. Uber Eats &amp; Amazon</a>
+      <a href="#quiz" class="sub-link">6. Quick Quiz</a>
+      <a href="#assignment" class="sub-link">7. Assignment</a>
+      <a href="#word-bank" class="sub-link">8. Word Bank</a>
     </div>
   </nav>
 
   <main class="main-container">
 
-    <!-- 1. Integration Anatomy -->
-    <section id="integration-overview" class="content-card">
+    <!-- 1. Big picture -->
+    <section id="big-picture" class="content-card">
       <div class="card-header">
-        <span class="section-tag">Module 10.1</span>
-        <h2>What Does "Full System Integration" Mean?</h2>
+        <span class="section-tag">Part 1</span>
+        <h2>The big picture: one order, every system</h2>
       </div>
-      <p class="lead-text">
-        Up to this point, you have designed individual components: the ERD, the API endpoints, the PRD, and the caching layer. Integration is the art of synchronizing all components into an automated choreography that fulfills business transactions flawlessly.
-      </p>
 
-      <div class="grid-3-col">
-        <div class="concept-card">
-          <div class="concept-icon">🔀</div>
-          <h3>1. Synchronous vs Asynchronous Paths</h3>
-          <p>Payment authorization must be synchronous (user waits 400ms for green checkmark). Sending receipts and updating analytics must be asynchronous (pushed to Kafka in background).</p>
-        </div>
-        <div class="concept-card">
-          <div class="concept-icon">🛡️</div>
-          <h3>2. The Circuit Breaker & Fallback</h3>
-          <p>If the delivery driver dispatch engine experiences a momentary spike, order confirmation must not crash. The system queues the order and retries in the background.</p>
-        </div>
-        <div class="concept-card">
-          <div class="concept-icon">📦</div>
-          <h3>3. Dead-Letter Queues (DLQ)</h3>
-          <p>Failed messages that cannot be processed after 3 retries are sent to a DLQ for developer inspection rather than clogging active pipelines.</p>
-        </div>
+      <div class="big-definition">
+        <p><strong>Integration</strong> means making separate parts work together as one smooth experience for the customer.</p>
+        <p>Think of a restaurant's <strong>opening night</strong>: the kitchen, waiters, cashier and delivery riders may each be great alone — but tonight is the first time they must work <em>together</em>, in the right order, without dropping anything.</p>
       </div>
+
+      <h3 class="sub-h">Every week of this course, in one order</h3>
+      <div class="map">
+        <div class="map-step"><span class="map-week">Wk 1</span><span class="map-icon">📱</span><strong>The app</strong><p>Amaka taps "Order jollof".</p></div>
+        <div class="map-step"><span class="map-week">Wk 3</span><span class="map-icon">🔌</span><strong>API request</strong><p>POST /v1/orders with her login token.</p></div>
+        <div class="map-step"><span class="map-week">Wk 9</span><span class="map-icon">🔐</span><strong>Security</strong><p>Is she who she says? Is this her basket?</p></div>
+        <div class="map-step"><span class="map-week">Wk 2</span><span class="map-icon">🗄️</span><strong>Database</strong><p>The order is saved in the orders table.</p></div>
+        <div class="map-step"><span class="map-week">Wk 3</span><span class="map-icon">💳</span><strong>Payment partner</strong><p>PayBridge charges the card (with an idempotency key).</p></div>
+        <div class="map-step"><span class="map-week">Wk 2</span><span class="map-icon">📬</span><strong>Queue</strong><p>Restaurant, rider and SMS jobs go into the background.</p></div>
+        <div class="map-step"><span class="map-week">Wk 8</span><span class="map-icon">⚡</span><strong>Scaling</strong><p>It must work for 60,000 people at lunchtime too.</p></div>
+        <div class="map-step"><span class="map-week">Wk 7</span><span class="map-icon">🚨</span><strong>Monitoring</strong><p>If anything fails, an alert fires.</p></div>
+      </div>
+      <p class="note-text">🎓 The PRD (Week 4) describes this whole journey, the sprints (Week 5) build it, and engineers and you review it (Week 6). <strong>Integration is where everything you've learned meets.</strong></p>
     </section>
 
-    <!-- 2. Sequence Diagrams -->
-    <section id="sequence-diagrams" class="content-card">
+    <!-- 2. Sync vs async -->
+    <section id="wait-or-not" class="content-card">
       <div class="card-header">
-        <span class="section-tag">Module 10.2</span>
-        <h2>Mastering UML Sequence Diagrams for TPMs</h2>
+        <span class="section-tag">Part 2</span>
+        <h2>Should the customer wait for it, or can it happen in the background?</h2>
       </div>
-      <p class="lead-text">
-        The Sequence Diagram is the universal language between Technical PMs, Solutions Architects, and Staff Engineers. It maps interactions over time:
-      </p>
+      <p>This is one of the most important design decisions in any flow — and it's a product decision, not just a technical one.</p>
 
       <div class="grid-2-col">
         <div class="info-callout primary">
-          <h3>Core Sequence Diagram Elements</h3>
+          <h3>⏳ Wait for it (synchronous)</h3>
+          <p>The customer can't continue until it's done. Like waiting at the counter while the cashier swipes your card.</p>
           <ul class="bullet-list">
-            <li><strong>Lifelines (Vertical Dashed Lines):</strong> Represent distinct actors and systems (e.g. <code>Mobile App</code>, <code>API Gateway</code>, <code>Order Service</code>, <code>Stripe</code>).</li>
-            <li><strong>Synchronous Messages (Solid Arrow ➔):</strong> Caller waits for an immediate return response before proceeding.</li>
-            <li><strong>Asynchronous Messages (Open Arrow ➔):</strong> Event pushed to a queue (Kafka/SQS); caller does not wait.</li>
-            <li><strong>Reply Messages (Dashed Arrow ⇢):</strong> Returns the result (HTTP 200/201) back up the chain.</li>
+            <li>Use it when the next step depends on the answer: <em>"Did the payment work?"</em></li>
+            <li>Keep these steps few and fast — every one adds waiting time.</li>
           </ul>
         </div>
         <div class="info-callout secondary">
-          <h3>The Saga Pattern: Distributed Transactions</h3>
-          <p>In microservices, there is no single SQL database transaction covering 5 services. If the Payment succeeds but Restaurant notification fails, a <strong>Compensating Transaction</strong> must automatically execute to refund the customer's card.</p>
+          <h3>📬 In the background (asynchronous)</h3>
+          <p>The job is dropped in a queue (Week 2) and done a moment later. Like the waiter pinning your order on the kitchen rail and walking away.</p>
+          <ul class="bullet-list">
+            <li>Use it when the customer doesn't need to wait: receipts, notifications, analytics.</li>
+            <li>Show progress instead: <em>"Restaurant is preparing your food 🍳"</em>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="retry-box">
+        <h3>🔁 When a background job fails: retry, then the "problem box"</h3>
+        <p>Background jobs fail sometimes (the SMS company is slow, a server restarts). Good systems <strong>retry</strong> a few times, waiting a little longer each time (remember backoff from Week 7). If a job still fails, it goes into a special <strong>"problem box"</strong> — engineers call it a <span class="term">dead-letter queue</span> — where someone can look at it, instead of it being lost or blocking everything else.</p>
+      </div>
+
+      <div class="game-card" id="waitGame">
+        <div class="game-head">
+          <h3>🎮 Mini-game: Wait, or background?</h3>
+          <span class="game-score" id="waitScore">Score: 0 / 0</span>
+        </div>
+        <p class="game-instructions">For each step, should the person wait for it to finish before carrying on?</p>
+        <div class="game-task" id="waitTask">Loading…</div>
+        <div class="game-choices two-choices">
+          <button class="choice-btn" data-pick="wait">⏳ Wait for it</button>
+          <button class="choice-btn" data-pick="bg">📬 Background</button>
+        </div>
+        <div class="game-feedback" id="waitFeedback" aria-live="polite"></div>
+        <div class="game-foot">
+          <span id="waitProgress" class="game-progress"></span>
+          <button class="ghost-btn" id="waitNext" disabled>Next →</button>
         </div>
       </div>
     </section>
 
-    <!-- 3. Public Product Case Studies -->
-    <section id="case-studies" class="content-card">
+    <!-- 3. Sequence diagrams + saga -->
+    <section id="diagrams" class="content-card">
       <div class="card-header">
-        <span class="section-tag">Module 10.3: Real-World Public Product Case Studies</span>
-        <h2>Case Studies: Uber Eats & Amazon Checkout</h2>
+        <span class="section-tag">Part 3</span>
+        <h2>Sequence diagrams and "undo steps"</h2>
+      </div>
+      <p>A <strong>sequence diagram</strong> shows who talks to whom, in what order. It's the drawing TPMs and engineers use most to agree on a flow. You read it from <strong>top to bottom</strong>, like a comic strip.</p>
+
+      <div class="seq-legend">
+        <div class="sl-item"><span class="sl-demo sl-life"></span><div><strong>Lifeline</strong><p>Each system gets a column with a line going down.</p></div></div>
+        <div class="sl-item"><span class="sl-demo sl-sync"></span><div><strong>Solid arrow — a request</strong><p>"Please do this." Often the sender waits.</p></div></div>
+        <div class="sl-item"><span class="sl-demo sl-reply"></span><div><strong>Dashed arrow — the answer</strong><p>"Done" (or "failed"), sent back.</p></div></div>
+        <div class="sl-item"><span class="sl-demo sl-async"></span><div><strong>Arrow with 📬 — background</strong><p>Dropped in a queue; nobody waits.</p></div></div>
       </div>
 
+      <div class="mini-seq" aria-label="Example sequence diagram">
+        <div class="ms-heads"><span>📱 App</span><span>⚙️ ChopNow</span><span>💳 PayBridge</span></div>
+        <div class="ms-body">
+          <div class="ms-row"><div class="ms-arrow sync" style="left:16.6%; width:33.4%"><span>1. Place order</span></div></div>
+          <div class="ms-row"><div class="ms-arrow sync" style="left:50%; width:33.4%"><span>2. Charge ₦6,500</span></div></div>
+          <div class="ms-row"><div class="ms-arrow reply rev" style="left:50%; width:33.4%"><span>3. Paid ✅</span></div></div>
+          <div class="ms-row"><div class="ms-arrow reply rev" style="left:16.6%; width:33.4%"><span>4. Order confirmed</span></div></div>
+        </div>
+      </div>
+
+      <div class="saga">
+        <h3>↩️ Undo steps: when something fails halfway</h3>
+        <p>In Week 2 you learned big apps are made of separate services. There's no single "undo button" across all of them. So if a later step fails, the system must run an <strong>undo step</strong> for each earlier step that already happened. Engineers call this the <span class="term">saga pattern</span>, and the undo steps <span class="term">compensating actions</span>.</p>
+        <div class="saga-row">
+          <div class="saga-step ok">✅ Order saved</div><span>→</span>
+          <div class="saga-step ok">✅ Card charged ₦6,500</div><span>→</span>
+          <div class="saga-step fail">❌ Restaurant: "Sorry, sold out"</div>
+        </div>
+        <div class="saga-row undo">
+          <div class="saga-step undo-step">↩️ Mark order cancelled</div><span>←</span>
+          <div class="saga-step undo-step">↩️ Refund ₦6,500 automatically</div><span>←</span>
+          <div class="saga-step undo-step">💬 Tell Amaka, suggest another restaurant</div>
+        </div>
+        <p class="note-text">🎓 Without the undo steps, Amaka pays for food that never comes — and has to fight support for a refund. A TPM lists these "what if it fails here?" cases in the PRD.</p>
+      </div>
+    </section>
+
+    <!-- 4. Simulation -->
+    <section id="simulation" class="content-card demo-section">
+      <div class="card-header">
+        <span class="section-tag tag-live">▶ Simulation</span>
+        <h2>The order journey: design it, then run 5 real orders</h2>
+      </div>
+      <p class="lead-text">
+        You're the TPM for ChopNow's checkout. First decide which steps customers wait for. Then plan what happens when things fail.
+        Then run <strong>5 real orders</strong> — including the messy ones — and watch each one drawn as a live sequence diagram.
+      </p>
+
+      <div class="sim-steps">
+        <div class="sim-step active" data-stage="design"><span>1</span> 🧩 Design the flow</div>
+        <div class="sim-step" data-stage="fail"><span>2</span> 🧯 Plan for failures</div>
+        <div class="sim-step" data-stage="run"><span>3</span> ▶ Run 5 orders</div>
+      </div>
+
+      <!-- Stage 1 -->
+      <div class="stage" id="stageDesign">
+        <p class="muted">For each step after Amaka taps <strong>"Place order"</strong>, should her screen wait for it, or should it happen in the background?</p>
+        <div class="design-list" id="designList"></div>
+        <div class="wait-meter">
+          <span>⏱️ Amaka waits about <strong id="waitTotal">0s</strong> before seeing "Order confirmed"</span>
+          <div class="wm-bar"><div id="waitFill"></div></div>
+        </div>
+        <div class="stage-actions">
+          <span class="muted small" id="designNote"></span>
+          <button class="primary-btn" id="toFail" disabled>Next: plan for failures →</button>
+        </div>
+      </div>
+
+      <!-- Stage 2 -->
+      <div class="stage" id="stageFail" hidden>
+        <p class="muted">Things will go wrong. For each one, choose what ChopNow does automatically.</p>
+        <div class="fail-list" id="failList"></div>
+        <div class="stage-actions">
+          <button class="ghost-btn" id="backDesign">← Back to the design</button>
+          <button class="primary-btn" id="toRun" disabled>▶ Run 5 orders</button>
+        </div>
+      </div>
+
+      <!-- Stage 3 -->
+      <div class="stage" id="stageRun" hidden>
+        <div class="order-tabs" id="orderTabs"></div>
+        <div class="run-grid">
+          <div class="seq-wrap">
+            <div class="seq-title" id="seqTitle"></div>
+            <div class="seq" id="seq">
+              <div class="seq-heads" id="seqHeads"></div>
+              <div class="seq-body" id="seqBody"></div>
+            </div>
+            <div class="seq-controls">
+              <button class="ghost-btn small" id="seqReplay">↺ Replay this order</button>
+              <button class="primary-btn" id="seqNext">Next order →</button>
+            </div>
+          </div>
+          <div class="phone-col">
+            <div class="phone">
+              <div class="phone-notch"></div>
+              <div class="phone-screen" id="phoneScreen"></div>
+            </div>
+            <div class="order-outcome" id="orderOutcome"></div>
+          </div>
+        </div>
+        <div class="run-summary" id="runSummary" hidden></div>
+        <div class="stage-actions">
+          <button class="ghost-btn" id="redesign">🔁 Change my design and run again</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Case studies -->
+    <section id="case-studies" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 5</span>
+        <h2>Real examples: Uber Eats and Amazon</h2>
+      </div>
+      <p>Two companies famous for making complicated journeys feel simple to the customer.</p>
+
       <div class="tab-control">
-        <button class="tab-btn active" data-tab="ubereats-case">🍕 Case Study 1: Uber Eats 3-Sided Marketplace</button>
-        <button class="tab-btn" data-tab="amazon-case">📦 Case Study 2: Amazon 1-Click Checkout Pipeline</button>
+        <button class="tab-btn active" data-tab="ubereats-case">🍕 Uber Eats</button>
+        <button class="tab-btn" data-tab="amazon-case">📦 Amazon</button>
       </div>
 
       <div id="ubereats-case" class="tab-pane active">
-        <div class="case-header">
-          <div class="case-badge">Uber Technologies</div>
-          <h3>The 3-Sided Marketplace Integration</h3>
-          <p>Uber Eats coordinates three independent human actors simultaneously: the Hungry Eater, the Busy Restaurant Kitchen, and the Courier on a scooter.</p>
-        </div>
-
+        <p class="case-intro"><strong>The story:</strong> every Uber Eats order joins up <strong>three different people</strong>, each with their own app: the customer, the restaurant and the courier. Each one only sees their part — but the system must keep all three in step.</p>
         <div class="breakdown-grid">
-          <div class="breakdown-card">
-            <div class="card-tag frontend">Eater App</div>
-            <h4>Cart & Checkout Flow</h4>
-            <p>Submits order to API Gateway. Locks temporary pricing estimate for 10 minutes. Polls WebSocket channel for live updates.</p>
+          <div class="breakdown-card bc-front">
+            <h4>📱 Customer</h4>
+            <ul class="clean-list">
+              <li>Pays, then sees live status updates: accepted, cooking, on the way.</li>
+              <li>Most of what happens next is in the background — the customer just watches progress.</li>
+            </ul>
           </div>
-          <div class="breakdown-card">
-            <div class="card-tag backend">Restaurant Tablet</div>
-            <h4>Order Acceptance</h4>
-            <p>WebSocket push triggers tablet audio alarm. Kitchen staff taps "Accept (Ready in 18 mins)". This dynamically sets the dispatch countdown.</p>
+          <div class="breakdown-card bc-back">
+            <h4>🍳 Restaurant</h4>
+            <ul class="clean-list">
+              <li>A tablet alerts the kitchen and they accept the order.</li>
+              <li>How long the food takes to cook matters for every step after it.</li>
+            </ul>
           </div>
-          <div class="breakdown-card">
-            <div class="card-tag apis">Driver Dispatch</div>
-            <h4>Just-In-Time Routing</h4>
-            <p>The system does not send a driver immediately (food would get cold!). It dispatches the closest courier to arrive exactly when the kitchen timer hits 0 mins.</p>
+          <div class="breakdown-card bc-ext">
+            <h4>🛵 Courier timing</h4>
+            <ul class="clean-list">
+              <li>Uber has written about predicting how long food takes to prepare.</li>
+              <li>The goal: the courier arrives when the food is ready — not 15 minutes early (wasting their time) or late (cold food).</li>
+            </ul>
           </div>
+          <div class="breakdown-card bc-data">
+            <h4>🔄 When plans change</h4>
+            <ul class="clean-list">
+              <li>A courier cancels, an item is out of stock, traffic is bad.</li>
+              <li>Each case needs a planned response: find another courier, offer a swap or refund, update the arrival time.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tpm-takeaway">
+          <strong>🎓 TPM lesson from Uber Eats:</strong> when several people depend on one flow, map it <strong>for each of them</strong>. A step that's "done" for the customer might be just starting for the courier.
         </div>
       </div>
 
       <div id="amazon-case" class="tab-pane">
-        <div class="case-header">
-          <div class="case-badge">Amazon.com</div>
-          <h3>Amazon 1-Click Asynchronous Checkout</h3>
-          <p>When you click "Buy Now", Amazon doesn't process credit cards and warehouse packaging in the browser thread. It returns instant confirmation in 200ms and coordinates fulfillment asynchronously.</p>
-        </div>
-
+        <p class="case-intro"><strong>The story:</strong> in 1999 Amazon was granted a patent for <strong>1-Click</strong> ordering: buy with a single tap using saved details. Behind that one click is a long chain — payment, stock, warehouse picking, packing and delivery.</p>
         <div class="breakdown-grid">
-          <div class="breakdown-card">
-            <div class="card-tag backend">Inventory Reservation</div>
-            <h4>Atomic Decrement</h4>
-            <p>Decrements warehouse stock counter atomically in Redis to prevent selling the same physical product to two simultaneous buyers.</p>
+          <div class="breakdown-card bc-front">
+            <h4>⚡ Fast confirmation, slow work later</h4>
+            <ul class="clean-list">
+              <li>The customer gets "Order placed" quickly.</li>
+              <li>Picking, packing and shipping happen afterwards, in the background, with email updates along the way.</li>
+            </ul>
           </div>
-          <div class="breakdown-card">
-            <div class="card-tag database">Fulfillment Orchestration</div>
-            <h4>Kiva Robotics Integration</h4>
-            <p>Dispatches automated robotics in the local fulfillment center to bring product bins directly to human packers.</p>
+          <div class="breakdown-card bc-back">
+            <h4>🤖 Robots in the warehouse</h4>
+            <ul class="clean-list">
+              <li>In 2012 Amazon bought Kiva Systems, a company making warehouse robots (now Amazon Robotics).</li>
+              <li>Robots bring shelves of products to the people who pack them — another system that must join the flow.</li>
+            </ul>
           </div>
+          <div class="breakdown-card bc-data">
+            <h4>📦 Stock must be right</h4>
+            <ul class="clean-list">
+              <li>Two people shouldn't be able to buy the last item.</li>
+              <li>If it happens anyway, an undo step is needed: cancel, refund, and apologise.</li>
+            </ul>
+          </div>
+          <div class="breakdown-card bc-ext">
+            <h4>💬 Keep the customer informed</h4>
+            <ul class="clean-list">
+              <li>Each background step sends an update: shipped, out for delivery, delivered.</li>
+              <li>Progress updates make waiting feel shorter — and cut support calls.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tpm-takeaway">
+          <strong>🎓 TPM lesson from Amazon:</strong> make the customer's part <strong>short and certain</strong>, and move everything else into the background — with clear progress updates.
         </div>
       </div>
     </section>
 
-    <!-- 4. Interactive Flow Simulator -->
-    <section id="flow-simulator" class="content-card">
+    <!-- 6. Quiz -->
+    <section id="quiz" class="content-card">
       <div class="card-header">
-        <span class="section-tag">Interactive Teaching Tool</span>
-        <h2>Interactive System Integration Stepper</h2>
+        <span class="section-tag">Part 6</span>
+        <h2>Quick quiz: check your understanding</h2>
       </div>
-      <p>Step through an end-to-end transaction to see how data moves across clients, microservices, databases, and third-party APIs:</p>
-
-      <div class="stepper-wrapper">
-        <div class="stepper-controls">
-          <button id="stepPrevBtn" class="primary-btn" style="background: rgba(255,255,255,0.08);">◀ Previous Step</button>
-          <span id="stepIndicator" style="font-weight: 700; color: #38bdf8;">Step 1 of 5</span>
-          <button id="stepNextBtn" class="primary-btn">Next Step ▶</button>
-        </div>
-
-        <div class="stepper-stage" id="stepperStageCard">
-          <!-- Dynamically populated by script.js -->
-        </div>
-      </div>
+      <p>7 short questions. Tap an answer to see if you are right. No marks — this is just for practice.</p>
+      <div id="quizBox" class="quiz-box"></div>
+      <div class="quiz-result" id="quizResult" hidden></div>
     </section>
 
-    <!-- 5. Student Deliverables -->
-    <section id="deliverables" class="content-card">
+    <!-- 7. Assignment -->
+    <section id="assignment" class="content-card">
       <div class="card-header">
-        <span class="section-tag">Course Deliverables</span>
-        <h2>Week 10 Assignment & Capstone Milestone</h2>
+        <span class="section-tag">Part 7</span>
+        <h2>This week's work</h2>
       </div>
 
       <div class="grid-2-col">
         <div class="deliverable-box">
-          <div class="deliv-badge individual">Individual Assignment (10 Marks)</div>
-          <h3>Compiled Technical Documentation Package</h3>
-          <p class="deliv-deadline">⏰ Due: Sunday, Jan 23, 2027 before 11:59 PM WAT</p>
-          <p>Consolidate and compile your complete Technical Product Documentation package for your case study:</p>
+          <div class="deliv-badge individual">Individual Assignment • 10 Marks</div>
+          <h3>Your complete technical document</h3>
+          <p class="deliv-deadline">⏰ Due: Sunday, Jan 24, 2027, before 11:59 PM WAT</p>
+          <p>Bring together the work you've done since Week 1 on your chosen app into <strong>one clear document</strong>:</p>
           <ol class="step-list">
-            <li><strong>Executive System Architecture:</strong> Unified diagram connecting UI, Gateway, Microservices, DB, and 3rd-party APIs.</li>
-            <li><strong>End-to-End Sequence Diagram:</strong> Complete sequence walkthrough of the core user transaction.</li>
-            <li><strong>Compiled API Spec Contract:</strong> All endpoints, headers, requests, and error codes.</li>
-            <li><strong>Integration Failure & Resilience Plan:</strong> Circuit breakers, fallbacks, and retry policies.</li>
+            <li><strong>One big picture diagram:</strong> app, backend services, database, outside services, queues — all connected.</li>
+            <li><strong>One sequence diagram</strong> for the most important customer action, showing which steps the customer waits for and which are in the background.</li>
+            <li><strong>The API requests</strong> it uses (from Week 3), tidied up.</li>
+            <li><strong>Failure plan:</strong> at least 3 "what if this fails here?" cases, each with its retry, fallback or undo step.</li>
           </ol>
+          <div class="hint-box">💡 <strong>Tip:</strong> Free tools like draw.io, Excalidraw or <em>sequencediagram.org</em> make diagrams easy. A neat photo of a paper drawing is fine too.</div>
+
           <div class="rubric-mini">
-            <h4>Marking Rubric (Total: 10 Marks)</h4>
+            <h4>How you will be marked (10 marks)</h4>
             <ul>
-              <li>End-to-end architecture & diagram consistency: <strong>3 Marks</strong></li>
-              <li>Sequence flow accuracy & payload detail: <strong>3 Marks</strong></li>
-              <li>Resilience, fallbacks & edge-case planning: <strong>2 Marks</strong></li>
-              <li>Completeness & professional documentation format: <strong>2 Marks</strong></li>
+              <li><span>Big picture diagram is complete and consistent</span><strong>3</strong></li>
+              <li><span>Sequence diagram is clear and correct</span><strong>3</strong></li>
+              <li><span>Good failure plan with undo steps</span><strong>2</strong></li>
+              <li><span>Everything in one neat, readable document</span><strong>2</strong></li>
             </ul>
           </div>
         </div>
 
         <div class="deliverable-box">
-          <div class="deliv-badge team">Team Capstone (Phase 10 of 6)</div>
-          <h3>Capstone Master Integration Package</h3>
-          <p class="deliv-deadline">👥 Collaborative Team Milestone</p>
-          <p>Teams integrate all capstone documentation into the Master Deliverable Package:</p>
-
-          <div class="checklist-card">
-            <h4>Week 10 Team Goals:</h4>
-            <label class="check-item"><input type="checkbox"> Merge PRD, ERD, API specs, and Architecture into Master Doc</label>
-            <label class="check-item"><input type="checkbox"> Complete end-to-end UML sequence diagram</label>
-            <label class="check-item"><input type="checkbox"> Verify all team members understand technical decisions</label>
-            <label class="check-item"><input type="checkbox"> Rehearse integration walkthrough for Sunday review</label>
+          <div class="deliv-badge team">Team Capstone • Phase 10</div>
+          <h3>Your team's master document</h3>
+          <p class="deliv-deadline">👥 Done together with your team</p>
+          <p>Join all your capstone work into one master document, ready for Demo Day. Tick each item as you finish it (your ticks are saved on this device):</p>
+          <div class="checklist-card" id="capstoneChecklist">
+            <label class="check-item"><input type="checkbox" data-key="c1"> PRD, ERD, API plan and architecture combined in one document</label>
+            <label class="check-item"><input type="checkbox" data-key="c2"> One end-to-end sequence diagram for your main user action</label>
+            <label class="check-item"><input type="checkbox" data-key="c3"> Failure plan with retries, fallbacks and undo steps</label>
+            <label class="check-item"><input type="checkbox" data-key="c4"> Every team member can explain every major decision</label>
+            <label class="check-item"><input type="checkbox" data-key="c5"> Practised walking through it for Sunday's Project Review</label>
           </div>
+          <div class="check-progress"><div class="check-progress-fill" id="checkFill"></div></div>
+          <p class="check-progress-text" id="checkText">0 of 5 done</p>
         </div>
       </div>
 
       <div class="template-box">
         <div class="template-info">
-          <h4>📄 Week 10 Master Compiled Documentation Template</h4>
-          <p>Copy this standardized markdown template for your submission:</p>
+          <h4>📄 Master document template</h4>
+          <p>Copy this, paste it into Google Docs, and fill in the blanks.</p>
         </div>
-        <button id="copyTemplateBtn" class="primary-btn">📋 Copy Markdown Template</button>
+        <button id="copyTemplateBtn" class="primary-btn">📋 Copy template</button>
       </div>
       <textarea id="templateText" class="template-textarea" readonly>
-# Master Technical System Documentation Package: [Product Name]
-**Author (Technical PM):** [Your Full Name]
-**PCIP Track:** Technical Product Management
-**Version:** 1.0 (Production Candidate)
-**Date:** [Submission Date]
+# Technical document: [Product name]
+Written by: [Your full name] (TPM)
+Track: Technical Product Management (PCIP)
+Version: 1.0
+Date: [Date]
 
-## 1. System Architecture Overview
-- **System Purpose:** 
-- **Core Microservices:**
-  - `auth-service`: JWT issuance & role validation
-  - `core-order-service`: Transaction orchestration
-  - `billing-service`: Stripe gateway integration
-  - `notification-worker`: Kafka consumer for emails/SMS
+## 1. What the product does
+- In one sentence: ______
+- Main users: ______
 
-## 2. End-to-End Sequence Flow
-*Sequence of Events for [Core Transaction]:*
-1. Client ➔ API Gateway: `POST /api/v1/orders` (Bearer token)
-2. Gateway ➔ Auth Service: Verify token validity (sub-10ms)
-3. Gateway ➔ Order Service: Forward order request
-4. Order Service ➔ Redis: Acquire distributed lock on inventory
-5. Order Service ➔ Billing Service: Submit payment intent to Stripe
-6. Billing Service ➔ Stripe API: Synchronous charge authorization
-7. Order Service ➔ Kafka: Publish `order.created` event
-8. Order Service ➔ Client: Return HTTP 201 Created with tracking ID
-9. Notification Worker ➔ Twilio: Send SMS receipt asynchronously
+## 2. Big picture
+- Diagram: [paste or link]
+- Parts:
+  - App(s): ______
+  - Backend services: ______ (what each one does)
+  - Database: ______
+  - Outside services: ______ (payments, maps, SMS…)
+  - Queue / background jobs: ______
 
-## 3. Resilience, Circuit Breakers & Fallback Protocols
-- **Circuit Breaker:** Netflix Hystrix pattern on Stripe billing service (5 consecutive timeouts trips circuit).
-- **Compensating Transaction (Saga):** If inventory fails after card charge, automated Stripe refund triggered immediately.
-- **Dead-Letter Queue:** Failed notification events routed to AWS SQS DLQ with 14-day retention.
-      </textarea>
+## 3. The main customer action, step by step
+Action: "______"
+| # | From → To | What happens | Customer waits? |
+|---|-----------|--------------|-----------------|
+| 1 | App → Backend | ______ | Yes |
+| 2 | Backend → ______ | ______ | Yes / No |
+| 3 | ______ | ______ | Yes / No |
+| 4 | ______ | ______ | No (background) |
+- Sequence diagram: [paste or link]
+
+## 4. API requests used
+- ______ /v1/______ — ______
+- ______ /v1/______ — ______
+
+## 5. What if it fails here?
+| Fails at step | What the system does automatically | Undo steps (if any) | What the customer sees |
+|---------------|------------------------------------|---------------------|------------------------|
+| ______ | retry / fallback / stop | ______ | ______ |
+| ______ | ______ | ______ | ______ |
+| ______ | ______ | ______ | ______ |
+
+## 6. Links to earlier work
+- PRD (Week 4): ______
+- Data diagram / ERD (Week 2): ______
+- Scaling plan (Week 8): ______
+- Security and reliability plan (Week 9): ______
+</textarea>
+    </section>
+
+    <!-- Discussion -->
+    <section class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Saturday class</span>
+        <h2>Questions we will discuss together</h2>
+      </div>
+      <p>Think about your answer first, then tap to see one good answer.</p>
+      <div class="faq-accordion">
+        <details class="faq-item">
+          <summary class="faq-q">1. Why not make every step "wait for it", so we're sure everything worked before saying "confirmed"?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> Because the customer would stare at a spinner for minutes, and one slow partner (like the SMS company) would block every order. Only wait for what the customer truly needs to know now — usually "is it paid?". Everything else happens in the background, with live status updates.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">2. The card was charged, then the restaurant rejected the order. Whose job is it to fix this?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> The <em>system's</em> — automatically. If a person has to notice and refund manually, many customers will wait days (or never get their money). The TPM's job is to make sure this case is in the PRD, with an automatic refund and a clear message, before launch.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">3. How can a sequence diagram help in a meeting with engineers?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> It puts everyone's understanding on one page. People can point at an arrow and ask "what happens if this fails?" or "does the customer wait here?". Disagreements show up in minutes, instead of weeks later in code.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">4. What should happen to a background job that has failed 5 times?</summary>
+          <div class="faq-a">
+            <p><strong>A good answer:</strong> Stop retrying (so it doesn't overload anything), put it in the dead-letter queue (the "problem box"), and alert someone. Then decide: fix and re-send, or handle it another way (for example, show the receipt in the app if the SMS can't be sent).</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- 8. Word bank -->
+    <section id="word-bank" class="content-card">
+      <div class="card-header">
+        <span class="section-tag">Part 8</span>
+        <h2>Word bank: tech words in plain English</h2>
+      </div>
+      <p>You will hear these words in class and from engineers. Search for any word you're not sure about.</p>
+      <input type="search" id="glossarySearch" class="search-input" placeholder="Search a word, e.g. saga" aria-label="Search the word bank">
+      <div class="glossary-grid" id="glossaryGrid"></div>
+      <p class="no-results" id="glossaryEmpty" hidden>No matching word. Ask about it on Slack!</p>
     </section>
 
   </main>
@@ -303,7 +526,7 @@
   <footer class="footer">
     <div class="footer-container">
       <p>Product Bosslady Academy (PBA) • Product Career Internship Program (PCIP) • Technical Product Management Track</p>
-      <p class="footer-sub">Week 10 Curriculum • November 2026 – February 2027 • Facilitated by Oyindamola Oye-Daniel</p>
+      <p class="footer-sub">November 2026 – February 2027 • Facilitated by Oyindamola Oye-Daniel</p>
     </div>
   </footer>
 
