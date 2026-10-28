@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   initCourseFiltering();
   initGradeCalculator();
+  // Lock states on the week cards and the learner's progress panel (see access.js)
+  if (window.TPMAccess) TPMAccess.renderPortal();
 });
 
 // Theme Management

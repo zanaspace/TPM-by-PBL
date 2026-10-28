@@ -26,6 +26,15 @@
   --accent-amber: #f59e0b;
   --accent-rose: #f43f5e;
 
+  /* Text colours that need a darker version in light mode */
+  --bg-soft: rgba(255, 255, 255, 0.04);
+  --tag-text: #a5b4fc;
+  --tag-break: #6ee7b7;
+  --tag-finale: #fde047;
+  --pill-live: #fca5a5;
+  --pill-review: #86efac;
+  --pill-cert: #fde047;
+
   --gradient-hero: linear-gradient(135deg, rgba(99, 102, 241, 0.18) 0%, rgba(56, 189, 248, 0.1) 50%, rgba(16, 185, 129, 0.06) 100%);
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.25);
   --shadow-lg: 0 12px 30px -6px rgba(0, 0, 0, 0.45);
@@ -49,7 +58,16 @@
 
   --text-main: #0f172a;
   --text-muted: #475569;
-  --text-dim: #94a3b8;
+  --text-dim: #64748b;
+
+  --accent-secondary: #0369a1;
+  --bg-soft: #f1f5f9;
+  --tag-text: #4338ca;
+  --tag-break: #047857;
+  --tag-finale: #a16207;
+  --pill-live: #be123c;
+  --pill-review: #047857;
+  --pill-cert: #a16207;
 
   --gradient-hero: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(56, 189, 248, 0.06) 50%, rgba(16, 185, 129, 0.04) 100%);
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04);
@@ -205,18 +223,18 @@ a {
 }
 
 .live-pill {
-  color: #fca5a5;
-  border-color: rgba(252, 165, 165, 0.25);
+  color: var(--pill-live);
+  border-color: rgba(252, 165, 165, 0.35);
 }
 
 .review-pill {
-  color: #86efac;
-  border-color: rgba(134, 239, 172, 0.25);
+  color: var(--pill-review);
+  border-color: rgba(134, 239, 172, 0.35);
 }
 
 .cert-pill {
-  color: #fde047;
-  border-color: rgba(253, 224, 71, 0.25);
+  color: var(--pill-cert);
+  border-color: rgba(253, 224, 71, 0.4);
 }
 
 .portal-title {
@@ -401,7 +419,7 @@ a {
 
 .courses-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr));
   gap: 1.5rem;
 }
 
@@ -414,7 +432,23 @@ a {
   flex-direction: column;
   transition: all var(--transition-normal);
   position: relative;
+  overflow: hidden;
 }
+
+/* Thin coloured stripe along the top of every card */
+.course-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+  opacity: 0.85;
+}
+.course-card.break-card::before { background: var(--accent-emerald); }
+.course-card.finale-card::before { background: var(--accent-amber); }
+.course-card.tpm-is-locked::before { opacity: 0.35; }
 
 .course-card:hover {
   transform: translateY(-4px);
@@ -430,7 +464,7 @@ a {
 
 .course-card.finale-card {
   border-color: rgba(245, 158, 11, 0.4);
-  background: linear-gradient(180deg, rgba(245, 158, 11, 0.05) 0%, rgba(15, 23, 42, 0.8) 100%);
+  background: linear-gradient(180deg, rgba(245, 158, 11, 0.08) 0%, var(--bg-card) 60%);
 }
 
 .card-header {
@@ -442,23 +476,23 @@ a {
 
 .week-tag {
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.6px;
   background: rgba(99, 102, 241, 0.2);
-  color: #a5b4fc;
-  padding: 0.2rem 0.6rem;
+  color: var(--tag-text);
+  padding: 0.25rem 0.65rem;
   border-radius: var(--radius-pill);
 }
 
 .break-tag {
   background: rgba(16, 185, 129, 0.2);
-  color: #6ee7b7;
+  color: var(--tag-break);
 }
 
 .finale-tag {
   background: rgba(245, 158, 11, 0.2);
-  color: #fde047;
+  color: var(--tag-finale);
 }
 
 .date-tag {
@@ -491,27 +525,49 @@ a {
 }
 
 .product-badge {
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  padding: 0.15rem 0.55rem;
+  padding: 0.2rem 0.6rem;
   border-radius: var(--radius-pill);
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--bg-soft);
   border: 1px solid var(--border-color);
   color: var(--text-main);
 }
 
+.product-badge.finale-badge {
+  background: rgba(245, 158, 11, 0.18);
+  border-color: rgba(245, 158, 11, 0.4);
+  color: var(--tag-finale);
+}
+
 .card-deliverable-info {
-  background: rgba(0, 0, 0, 0.25);
+  background: var(--bg-soft);
   border: 1px solid var(--border-color);
+  border-left: 3px solid var(--accent-primary);
   padding: 0.75rem 1rem;
   border-radius: var(--radius-sm);
-  font-size: 0.82rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
   color: var(--text-muted);
   margin-bottom: 1.25rem;
 }
 
+/* "Expected Deliverable:" sits on its own line as a small label */
 .card-deliverable-info strong {
+  display: block;
+  margin-bottom: 0.15rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   color: var(--accent-secondary);
+}
+
+.break-note {
+  margin-top: auto;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--tag-break);
 }
 
 .course-launch-btn {
@@ -520,20 +576,34 @@ a {
   justify-content: center;
   gap: 0.5rem;
   width: 100%;
-  padding: 0.65rem 1rem;
+  margin-top: auto;
+  padding: 0.75rem 1rem;
   border-radius: var(--radius-sm);
-  background: rgba(99, 102, 241, 0.15);
-  color: #c7d2fe;
+  background: var(--accent-primary);
+  color: #fff;
   font-weight: 700;
-  font-size: 0.88rem;
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  font-size: 0.92rem;
+  border: 1px solid var(--accent-primary);
   transition: all var(--transition-fast);
 }
 
 .course-launch-btn:hover {
-  background: var(--accent-primary);
+  background: var(--accent-primary-hover);
+  border-color: var(--accent-primary-hover);
   color: #fff;
-  border-color: var(--accent-primary);
+  transform: translateY(-1px);
+}
+
+.course-launch-btn.finale-btn {
+  background: var(--accent-amber);
+  border-color: var(--accent-amber);
+  color: #1c1917;
+}
+
+.course-launch-btn.finale-btn:hover {
+  background: #d97706;
+  border-color: #d97706;
+  color: #1c1917;
 }
 
 /* 300-Mark Calculator Section */
@@ -709,6 +779,11 @@ a {
 .grade-badge.b { background: rgba(59, 130, 246, 0.2); color: #93c5fd; }
 .grade-badge.c { background: rgba(139, 92, 246, 0.2); color: #c4b5fd; }
 .grade-badge.f { background: rgba(244, 63, 94, 0.2); color: #fb7185; }
+[data-theme="light"] .grade-badge.a { color: #047857; }
+[data-theme="light"] .grade-badge.a-plus { color: #a16207; }
+[data-theme="light"] .grade-badge.b { color: #1d4ed8; }
+[data-theme="light"] .grade-badge.c { color: #6d28d9; }
+[data-theme="light"] .grade-badge.f { color: #be123c; }
 
 .status-summary {
   font-size: 0.85rem;

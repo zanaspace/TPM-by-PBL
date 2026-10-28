@@ -476,59 +476,8 @@ const QUIZ = [
 ];
 
 function initQuiz() {
-  const box = document.getElementById('quizBox');
-  const result = document.getElementById('quizResult');
-  let answered = 0, correct = 0;
-
-  QUIZ.forEach((item, qi) => {
-    const card = document.createElement('div');
-    card.className = 'quiz-card';
-    card.innerHTML = '<p class="quiz-q"><span class="quiz-num">' + (qi + 1) + '</span>' + item.q + '</p>';
-    const opts = document.createElement('div');
-    opts.className = 'quiz-options';
-    const fb = document.createElement('p');
-    fb.className = 'quiz-feedback';
-
-    item.options.forEach((opt, oi) => {
-      const b = document.createElement('button');
-      b.className = 'quiz-opt';
-      b.textContent = opt;
-      b.addEventListener('click', () => {
-        if (card.dataset.done) return;
-        card.dataset.done = '1';
-        answered++;
-        const ok = oi === item.answer;
-        if (ok) correct++;
-        opts.querySelectorAll('.quiz-opt').forEach((x, xi) => {
-          x.disabled = true;
-          if (xi === item.answer) x.classList.add('right');
-        });
-        if (!ok) b.classList.add('wrong');
-        fb.className = 'quiz-feedback show ' + (ok ? 'is-right' : 'is-wrong');
-        fb.textContent = (ok ? '✅ Correct! ' : '❌ Not quite. ') + item.why;
-        if (answered === QUIZ.length) showResult();
-      });
-      opts.appendChild(b);
-    });
-
-    card.appendChild(opts);
-    card.appendChild(fb);
-    box.appendChild(card);
-  });
-
-  function showResult() {
-    result.hidden = false;
-    const msg = correct === QUIZ.length ? 'Perfect score! You are ready for the assignment. 🎉'
-      : correct >= 5 ? 'Great job! Review the ones you missed, then start your assignment.'
-      : 'Good start. Play the PRD simulation again, then retry.';
-    result.innerHTML = '<strong>You scored ' + correct + ' / ' + QUIZ.length + '.</strong> ' + msg +
-      ' <button class="ghost-btn" id="quizRetry">↺ Try again</button>';
-    document.getElementById('quizRetry').addEventListener('click', () => {
-      box.innerHTML = '';
-      result.hidden = true;
-      initQuiz();
-    });
-  }
+  // Rendering, saved answers and scoring live in ../access.js
+  TPMQuiz.render(QUIZ, { low: "Good start. Play the PRD simulation again, then retry." });
 }
 
 /* ---------------- Capstone checklist ---------------- */
