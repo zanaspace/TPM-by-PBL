@@ -32,7 +32,7 @@
     { n: 12, start: '2027-02-01', title: 'Career Readiness and Demo Day', path: '12-career-readiness-and-demo-day', code: '6ed6bbd4' }
   ];
   const MASTER = '3e57a658';
-  const KEYS = { access: 'tpm_access', learner: 'tpm_learner', quiz: n => 'tpm_quiz_w' + n, outbox: 'tpm_outbox', sent: 'tpm_sent' };
+  const KEYS = { access: 'tpm_access', learner: 'tpm_learner', quiz: n => 'tpm_quiz_w' + n, sub: (n, type) => 'tpm_sub_w' + n + '_' + type, outbox: 'tpm_outbox', sent: 'tpm_sent' };
 
   /* ---------- storage (can throw in private windows) ---------- */
   const store = {
@@ -87,6 +87,7 @@
      Each quiz allows MAX_ATTEMPTS tries (the first try + 1 retry). The best try is kept.
      A quiz is passed when the best try reaches PASS_MARK %.
      Saved as { answers: {q: option}, right: {q: bool}, total, attempts, best: {correct, total}, updatedAt } */
+  const SUB_TYPES = ['individual', 'team'];
   const PASS_MARK = 90;
   const MAX_ATTEMPTS = 2;
   const pctOf = (correct, total) => total ? Math.round(correct / total * 100) : 0;
@@ -140,7 +141,7 @@
     store.remove(KEYS.access);
     store.remove(KEYS.learner);
     store.remove(KEYS.sent);
-    WEEKS.forEach(w => store.remove(KEYS.quiz(w.n)));
+    WEEKS.forEach(w => { store.remove(KEYS.quiz(w.n)); SUB_TYPES.forEach(t => store.remove(KEYS.sub(w.n, t))); });
     return true;
   }
 
@@ -154,22 +155,38 @@
     return true;
   }
 
-  /* ---------- sending results to PBA (Google Form → Google Sheet) ----------
-     Every finished try is posted to the PBA Quiz Results form. Results wait in
-     an outbox until they go through, so a learner who is offline is sent later. */
+  // Lets the learner submit again (the draft is kept so they can edit it)
+  function reopenSubmissions(code, n) {
+    if (!isFacilitatorCode(code) || !weekInfo(n)) return false;
+    SUB_TYPES.forEach(t => { const d = store.get(KEYS.sub(n, t), null); if (d) { delete d.submitted; store.set(KEYS.sub(n, t), d); } });
+    return true;
+  }
+
+  /* ---------- sending to PBA (Google Forms → the PBA Google Sheet) ----------
+     Every finished quiz try goes to the PBA Quiz Results form; assignment and team
+     work go to the PBA Submissions form. Both wait in one outbox until they go
+     through, so a learner who is offline is sent later. */
   const RESULTS_FORM = 'https://docs.google.com/forms/d/e/1FAIpQLScuXaqPPAoHYEi329X2CemMi4BQ30_AWxUc2ZrOAebTnsPi1g/formResponse';
   const RESULTS_FIELDS = {
     name: 'entry.2066575960', week: 'entry.367445470', score: 'entry.679432702', total: 'entry.9064557',
     percent: 'entry.858985425', attempt: 'entry.705600062', passed: 'entry.426362219'
   };
+  const SUBMIT_FORM = 'https://docs.google.com/forms/d/e/1FAIpQLSe5FJySy6PJxUeU721VacC7grjazHSJsLdeulzB7-VumwpeRg/formResponse';
+  const SUBMIT_FIELDS = {
+    name: 'entry.773405714', week: 'entry.1463970334', type: 'entry.1911843393', answer: 'entry.1350752898',
+    link: 'entry.218159076', checklist: 'entry.1300865703', late: 'entry.1254398841'
+  };
+  // Outbox items without a kind were saved before submissions existed: they are quiz results
+  const TARGETS = { quiz: { url: RESULTS_FORM, fields: RESULTS_FIELDS }, sub: { url: SUBMIT_FORM, fields: SUBMIT_FIELDS } };
   let sending = false, sentHandler = null;
 
-  function queueResult(r) {
+  function queueOutbox(item) {
     const box = store.get(KEYS.outbox, []);
-    box.push(Object.assign({ id: r.week + '-' + r.attempt + '-' + Date.now() }, r));
+    box.push(item);
     store.set(KEYS.outbox, box);
     return sendResults();
   }
+  const queueResult = r => queueOutbox(Object.assign({ kind: 'quiz', id: r.week + '-' + r.attempt + '-' + Date.now() }, r));
 
   // Google doesn't let the page read its reply (no-cors), so "sent" means the request
   // left the device. It only fails when there is no connection.
@@ -178,15 +195,18 @@
     sending = true;
     try {
       for (const r of store.get(KEYS.outbox, [])) {
+        const t = TARGETS[r.kind || 'quiz'];
         const body = new URLSearchParams();
-        Object.keys(RESULTS_FIELDS).forEach(k => body.append(RESULTS_FIELDS[k], String(r[k])));
+        Object.keys(t.fields).forEach(k => body.append(t.fields[k], String(r[k] === undefined ? '' : r[k])));
         try {
-          await fetch(RESULTS_FORM, { method: 'POST', mode: 'no-cors', body });
+          await fetch(t.url, { method: 'POST', mode: 'no-cors', body });
         } catch (e) { break; }
         store.set(KEYS.outbox, store.get(KEYS.outbox, []).filter(x => x.id !== r.id));
-        const sent = store.get(KEYS.sent, {});
-        sent[r.week] = (sent[r.week] || []).concat(r.attempt);
-        store.set(KEYS.sent, sent);
+        if (t === TARGETS.quiz) {
+          const sent = store.get(KEYS.sent, {});
+          sent[r.week] = (sent[r.week] || []).concat(r.attempt);
+          store.set(KEYS.sent, sent);
+        }
       }
     } finally {
       sending = false;
@@ -196,7 +216,7 @@
 
   // 'sent' | 'pending' | null for one try of one week
   function resultStatus(n, attempt) {
-    if (store.get(KEYS.outbox, []).some(r => r.week === n && r.attempt === attempt)) return 'pending';
+    if (store.get(KEYS.outbox, []).some(r => (r.kind || 'quiz') === 'quiz' && r.week === n && r.attempt === attempt)) return 'pending';
     return (store.get(KEYS.sent, {})[n] || []).includes(attempt) ? 'sent' : null;
   }
 
@@ -244,6 +264,19 @@ html.tpm-locked body > *:not(#tpmLock) { display: none !important; }
 .tpm-sent.pending { color: var(--accent-amber, #f59e0b); }
 [data-theme="light"] .tpm-sent.sent { color: #047857; }
 [data-theme="light"] .tpm-sent.pending { color: #b45309; }
+.tpm-submit { margin-top: 1.2rem; padding: 1rem; border-radius: 12px; border: 1px solid rgba(99,102,241,.3); background: rgba(99,102,241,.06); display: grid; gap: .6rem; }
+.tpm-submit h4 { margin: 0; font-size: 1.02rem; }
+.tpm-submit .tpm-sent { margin: 0; }
+.tpm-sub-note { margin: 0; font-size: .86rem; color: var(--text-muted, #a3acb9); line-height: 1.5; }
+.tpm-sub-form { display: grid; gap: .65rem; }
+.tpm-sub-form label { display: grid; gap: .3rem; font-size: .85rem; font-weight: 600; }
+.tpm-area { min-height: 9rem; resize: vertical; line-height: 1.5; }
+.tpm-sub-form .tpm-btn { justify-self: start; }
+.tpm-submit details { font-size: .86rem; }
+.tpm-submit summary { cursor: pointer; color: var(--accent-secondary, #38bdf8); font-weight: 600; }
+.tpm-sub-preview { white-space: pre-wrap; word-break: break-word; margin-top: .5rem; padding: .7rem .8rem; border-radius: 8px; background: var(--bg-secondary, #0f172a); border: 1px solid var(--border-color, rgba(255,255,255,.08)); max-height: 16rem; overflow: auto; }
+[data-theme="light"] .tpm-submit summary { color: #0369a1; }
+@media (max-width: 600px) { .tpm-sub-form .tpm-btn { justify-self: stretch; } }
 .tpm-saved { font-size: .82rem; color: var(--text-muted, #a3acb9); }
 .tpm-progress { background: var(--bg-card, #111827); border: 1px solid var(--border-color, rgba(255,255,255,.1)); border-radius: 20px; padding: 1.4rem 1.5rem; margin-bottom: 2rem; display: grid; gap: 1rem; }
 .tpm-progress-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .6rem 1rem; }
@@ -324,6 +357,101 @@ html.tpm-locked body > *:not(#tpmLock) { display: none !important; }
       lock.querySelector('.tpm-slot').appendChild(codeForm(n, () => location.reload()));
       document.body.prepend(lock);
     });
+  }
+
+  /* ---------- assignment + team capstone submissions ----------
+     Added under the two boxes in "This week's work". One submission each; a
+     facilitator can reopen it. Saved as { draft: {answer, link}, submitted: {at, by, late, id} } */
+  if (pageWeek && pageWeek !== 'portal' && weekInfo(pageWeek) && isUnlocked(pageWeek)) {
+    document.addEventListener('DOMContentLoaded', () => renderSubmissions(Number(pageWeek)));
+  }
+
+  // "⏰ Due: Sunday, Nov 22, 2026, before 11:59 PM WAT" → 23:59 WAT (22:59 UTC) that day
+  function dueFrom(box) {
+    const el = box && box.querySelector('.deliv-deadline');
+    const m = el && el.textContent.match(/Due:\s*\w+,\s*([A-Za-z]{3})\w*\s+(\d{1,2}),\s*(\d{4})/);
+    if (!m) return null;
+    const month = 'JanFebMarAprMayJunJulAugSepOctNovDec'.indexOf(m[1]) / 3;
+    return month >= 0 ? new Date(Date.UTC(Number(m[3]), month, Number(m[2]), 22, 59, 59)) : null;
+  }
+  const subStatus = id => store.get(KEYS.outbox, []).some(r => r.id === id) ? 'pending' : 'sent';
+  const isSubmitted = (n, type) => !!(store.get(KEYS.sub(n, type), {}) || {}).submitted;
+
+  function renderSubmissions(n) {
+    const indBox = (document.querySelector('.deliv-badge.individual') || {}).closest?.('.deliverable-box');
+    const teamBox = (document.querySelector('.deliv-badge.team') || {}).closest?.('.deliverable-box');
+    const due = dueFrom(indBox);
+    injectCss();
+    if (indBox) submitPanel(n, 'individual', indBox, due);
+    if (teamBox) submitPanel(n, 'team', teamBox, due);
+  }
+
+  function submitPanel(n, type, host, due) {
+    const key = KEYS.sub(n, type);
+    const team = type === 'team';
+    let panel = host.querySelector('.tpm-submit');
+    if (!panel) { panel = document.createElement('div'); panel.className = 'tpm-submit'; host.appendChild(panel); }
+
+    function checklist() {
+      const boxes = document.querySelectorAll('#capstoneChecklist input[type="checkbox"]');
+      return boxes.length ? [...boxes].filter(b => b.checked).length + '/' + boxes.length : '';
+    }
+    const dueText = due ? 'Due ' + due.toLocaleString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', timeZone: 'Africa/Lagos' }) + ' WAT. ' : '';
+
+    function draw() {
+      const d = store.get(key, {}) || {};
+      const draft = d.draft || {};
+      if (d.submitted) {
+        const s = d.submitted, st = subStatus(s.id);
+        panel.innerHTML = '<h4>' + (team ? '👥 Team work submitted' : '📤 Assignment submitted') + '</h4>' +
+          '<p class="tpm-sub-note">✅ Submitted by <strong>' + esc(s.by) + '</strong> on ' + esc(new Date(s.at).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' })) +
+          (s.late ? ' — <strong>after the deadline</strong>' : '') + '. Only one submission is allowed; ask your facilitator if you need to change it.</p>' +
+          '<p class="tpm-sent ' + st + '">' + (st === 'sent' ? '✅ Sent to PBA.' : '⏳ Saved — it will be sent to PBA when you are back online.') + '</p>' +
+          '<details><summary>See what was sent</summary><div class="tpm-sub-preview"></div></details>';
+        panel.querySelector('.tpm-sub-preview').textContent = (draft.answer || '') + (draft.link ? '\n\n🔗 ' + draft.link : '');
+        return;
+      }
+      panel.innerHTML = '<h4>' + (team ? '📤 Submit for your team' : '📤 Submit your assignment') + '</h4>' +
+        '<p class="tpm-sub-note">' + dueText + (team
+          ? '👥 <strong>Only one person submits for the whole team</strong> — agree who before you submit. Your checklist ticks are sent too.'
+          : 'Type or paste your answer below. You can also add a link to your Google Doc.') +
+        ' <strong>You can only submit once.</strong> Your draft is saved on this device as you type.</p>' +
+        '<form class="tpm-sub-form" autocomplete="off" novalidate>' +
+          '<label>' + (team ? 'Your full name (the person submitting)' : 'Your full name') + '<input class="tpm-input name" data-f="name" maxlength="40" required></label>' +
+          '<label>' + (team ? 'What your team did this week' : 'Your answer') + '<textarea class="tpm-input name tpm-area" data-f="answer" rows="8" maxlength="20000" placeholder="' +
+            (team ? 'Summarise what your team agreed or built for this phase…' : 'Paste your answer here — e.g. copy it from your Google Doc…') + '"></textarea></label>' +
+          '<label>Link (optional) — set sharing to "Anyone with the link"<input class="tpm-input name" data-f="link" type="url" maxlength="500" placeholder="https://docs.google.com/…"></label>' +
+          '<button class="tpm-btn" type="submit">' + (team ? 'Submit team work' : 'Submit assignment') + '</button>' +
+        '</form><div class="tpm-msg" aria-live="polite"></div>';
+      const form = panel.querySelector('form'), msg = panel.querySelector('.tpm-msg');
+      const field = f => form.querySelector('[data-f="' + f + '"]');
+      field('name').value = learner();
+      field('answer').value = draft.answer || '';
+      field('link').value = draft.link || '';
+      form.addEventListener('input', () => {
+        const cur = store.get(key, {}) || {};
+        cur.draft = { answer: field('answer').value, link: field('link').value.trim() };
+        store.set(key, cur);
+      });
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        const name = field('name').value.trim(), answer = field('answer').value.trim(), link = field('link').value.trim();
+        const bad = text => { msg.textContent = text; msg.className = 'tpm-msg bad'; };
+        if (!name) { field('name').focus(); return bad('Please type your full name.'); }
+        if (answer.length < 20) { field('answer').focus(); return bad('Please write your answer (at least a few sentences).'); }
+        if (link && !/^https?:\/\/\S+\.\S+/.test(link)) { field('link').focus(); return bad('The link should start with https:// — or leave it empty.'); }
+        if (!confirm('Submit your ' + (team ? 'team work' : 'assignment') + ' for Week ' + n + '?\n\nYou can only submit once — you cannot change it afterwards.')) return;
+        setLearner(name);
+        const now = new Date(), late = !!(due && now > due);
+        const id = 'sub-' + n + '-' + type + '-' + now.getTime();
+        store.set(key, { draft: { answer, link }, submitted: { at: now.toISOString(), by: name, late, id } });
+        queueOutbox({ kind: 'sub', id, name, week: n, type: team ? 'Team' : 'Individual', answer, link, checklist: team ? checklist() : '', late: late ? 'yes' : 'no' });
+        draw();
+      });
+    }
+    draw();
+    // Redraw when the outbox empties, so "Saved…" turns into "Sent"
+    document.addEventListener('tpm-results-sent', () => { if (isSubmitted(n, type)) draw(); });
   }
 
   /* ---------- quiz with saved answers and score ---------- */
@@ -503,7 +631,9 @@ html.tpm-locked body > *:not(#tpmLock) { display: none !important; }
         const quizChip = s.passed ? '<span class="tpm-chip">🏅 Quiz passed: ' + s.best.correct + '/' + s.best.total + ' (' + s.best.pct + '%)</span>'
           : s.best ? '<span class="tpm-chip ' + (s.finished ? 'fail' : 'quiz') + '">📝 Best: ' + s.best.correct + '/' + s.best.total + ' (' + s.best.pct + '%)' + (s.finished ? ' — no retries left' : ' — 1 retry left') + '</span>'
           : s.answered ? '<span class="tpm-chip quiz">📝 Quiz in progress: ' + s.answered + '/' + s.total + '</span>' : '';
-        chips.innerHTML = '<span class="tpm-chip">✅ Unlocked</span>' + quizChip;
+        chips.innerHTML = '<span class="tpm-chip">✅ Unlocked</span>' + quizChip +
+          (isSubmitted(n, 'individual') ? '<span class="tpm-chip">📤 Assignment submitted</span>' : '') +
+          (isSubmitted(n, 'team') ? '<span class="tpm-chip">👥 Team work submitted</span>' : '');
         card.querySelector('.card-header').after(chips);
         return;
       }
@@ -539,7 +669,8 @@ html.tpm-locked body > *:not(#tpmLock) { display: none !important; }
         '<p><strong>Facilitator tools</strong> — for PBA facilitators only. The facilitator code is needed every time.</p>' +
         '<form class="tpm-tools-form" autocomplete="off">' +
           '<select class="tpm-input name" aria-label="What to reset"><option value="device">Reset the whole device (unlocks, name, all quizzes)</option>' +
-          WEEKS.map(w => '<option value="' + w.n + '">Reset Week ' + w.n + ' quiz only (fresh tries)</option>').join('') + '</select>' +
+          WEEKS.map(w => '<option value="' + w.n + '">Reset Week ' + w.n + ' quiz only (fresh tries)</option>').join('') +
+          WEEKS.map(w => '<option value="sub-' + w.n + '">Reopen Week ' + w.n + ' submissions (assignment + team)</option>').join('') + '</select>' +
           '<input class="tpm-input" type="password" aria-label="Facilitator code" placeholder="Facilitator code">' +
           '<button class="tpm-btn" type="submit">Reset</button>' +
         '</form><div class="tpm-msg" aria-live="polite"></div>' +
@@ -564,15 +695,17 @@ html.tpm-locked body > *:not(#tpmLock) { display: none !important; }
         codeInput.value = '';
         return;
       }
-      const label = what === 'device' ? 'everything on this device' : 'the Week ' + what + ' quiz';
-      if (!confirm('Reset ' + label + '? This cannot be undone.')) return;
-      const ok = what === 'device' ? resetDevice(codeInput.value) : resetQuiz(codeInput.value, Number(what));
+      const sub = what.startsWith('sub-');
+      const label = what === 'device' ? 'everything on this device' : sub ? 'the Week ' + what.slice(4) + ' submissions' : 'the Week ' + what + ' quiz';
+      if (!confirm((sub ? 'Reopen ' : 'Reset ') + label + '?' + (sub ? ' The learner will be able to submit again.' : ' This cannot be undone.'))) return;
+      const ok = what === 'device' ? resetDevice(codeInput.value)
+        : sub ? reopenSubmissions(codeInput.value, Number(what.slice(4))) : resetQuiz(codeInput.value, Number(what));
       codeInput.value = '';
       if (ok) {
         renderPortal();
         const fresh = document.getElementById('tpmTools');
         fresh.hidden = false;
-        fresh.querySelector('.tpm-msg').textContent = '✅ Reset done: ' + label + '.';
+        fresh.querySelector('.tpm-msg').textContent = '✅ ' + (sub ? 'Reopened: ' : 'Reset done: ') + label + '.';
         fresh.querySelector('.tpm-msg').className = 'tpm-msg good';
       }
     });
